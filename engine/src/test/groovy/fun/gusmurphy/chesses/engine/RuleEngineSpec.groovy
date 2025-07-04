@@ -16,8 +16,7 @@ class RuleEngineSpec extends Specification {
 
     def "with just one move evaluation rule, a move is illegal if that one deems it"() {
         given:
-        MoveEvaluationRule rule = new AlwaysIllegalEvaluationRule()
-        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(rule)
+        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(new AlwaysIllegalEvaluationRule())
         ForSubmittingMoves engine = new RulesEngine(ruleSuite)
 
         when:
@@ -29,8 +28,7 @@ class RuleEngineSpec extends Specification {
 
     def "with just one move evaluation rule, a move is legal if that one deems it"() {
         given:
-        MoveEvaluationRule rule = new AlwaysLegalEvaluationRule()
-        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(rule)
+        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(new AlwaysLegalEvaluationRule())
         ForSubmittingMoves engine = new RulesEngine(ruleSuite)
 
         when:
