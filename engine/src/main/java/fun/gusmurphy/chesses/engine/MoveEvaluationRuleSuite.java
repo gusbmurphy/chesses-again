@@ -14,7 +14,13 @@ class MoveEvaluationRuleSuite implements MoveEvaluationRule {
             return MoveLegality.LEGAL;
         }
 
-        return rules[0].evaluate();
+        for (MoveEvaluationRule rule : rules) {
+            if (rule.evaluate() == MoveLegality.ILLEGAL) {
+                return MoveLegality.ILLEGAL;
+            }
+        }
+
+        return MoveLegality.LEGAL;
     }
 
 }
