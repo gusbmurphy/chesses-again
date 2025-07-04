@@ -31,4 +31,13 @@ class RuleEngineSpec extends Specification {
         result == LEGAL
     }
 
+    def "with no evaluation rules, a move is legal"() {
+        given:
+        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite()
+        ForSubmittingMoves engine = new RulesEngine(ruleSuite)
+
+        expect:
+        engine.submit(new Move()) == LEGAL
+    }
+
 }
