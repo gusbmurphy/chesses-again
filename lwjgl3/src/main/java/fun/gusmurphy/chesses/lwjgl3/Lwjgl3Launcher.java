@@ -1,8 +1,8 @@
-package com.gusmurphy.chesses.lwjgl3;
+package fun.gusmurphy.chesses.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.gusmurphy.chesses.Main;
+import fun.gusmurphy.chesses.Main;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {

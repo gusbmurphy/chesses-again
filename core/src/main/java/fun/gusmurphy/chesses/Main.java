@@ -1,4 +1,4 @@
-package com.gusmurphy.chesses;
+package fun.gusmurphy.chesses;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
