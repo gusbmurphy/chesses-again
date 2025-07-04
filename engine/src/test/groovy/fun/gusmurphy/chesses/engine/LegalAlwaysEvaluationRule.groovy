@@ -1,6 +1,6 @@
 package fun.gusmurphy.chesses.engine
 
-class AlwaysLegalEvaluationRule implements MoveEvaluationRule {
+class LegalAlwaysEvaluationRule implements MoveEvaluationRule {
 
     @Override
     MoveLegality evaluate() {

@@ -16,7 +16,7 @@ class RuleEngineSpec extends Specification {
 
     def "with just one move evaluation rule, a move is illegal if that one deems it"() {
         given:
-        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(new AlwaysIllegalEvaluationRule())
+        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(new IllegalAlwaysEvaluationRule())
         ForSubmittingMoves engine = new RulesEngine(ruleSuite)
 
         when:
@@ -28,7 +28,7 @@ class RuleEngineSpec extends Specification {
 
     def "with just one move evaluation rule, a move is legal if that one deems it"() {
         given:
-        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(new AlwaysLegalEvaluationRule())
+        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(new LegalAlwaysEvaluationRule())
         ForSubmittingMoves engine = new RulesEngine(ruleSuite)
 
         when:
@@ -40,8 +40,8 @@ class RuleEngineSpec extends Specification {
 
     def "with two move evaluation rules, a move is legal if both allow it"() {
         given:
-        MoveEvaluationRule ruleOne = new AlwaysLegalEvaluationRule()
-        MoveEvaluationRule ruleTwo = new AlwaysLegalEvaluationRule()
+        MoveEvaluationRule ruleOne = new LegalAlwaysEvaluationRule()
+        MoveEvaluationRule ruleTwo = new LegalAlwaysEvaluationRule()
         MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(ruleOne, ruleTwo)
         ForSubmittingMoves engine = new RulesEngine(ruleSuite)
 
@@ -54,9 +54,9 @@ class RuleEngineSpec extends Specification {
 
     def "with two move evaluation rules, a move is illegal if one does not allow it"() {
         given:
-        MoveEvaluationRule alwaysLegal = new AlwaysLegalEvaluationRule()
-        MoveEvaluationRule alwaysIllegal = new AlwaysIllegalEvaluationRule()
-        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(alwaysLegal, alwaysIllegal)
+        MoveEvaluationRule legal = new LegalAlwaysEvaluationRule()
+        MoveEvaluationRule illegal = new IllegalAlwaysEvaluationRule()
+        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(legal, illegal)
         ForSubmittingMoves engine = new RulesEngine(ruleSuite)
 
         when:
