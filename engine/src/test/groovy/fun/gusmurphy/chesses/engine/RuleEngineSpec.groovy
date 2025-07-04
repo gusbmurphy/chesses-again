@@ -5,6 +5,15 @@ import static fun.gusmurphy.chesses.engine.MoveLegality.*
 
 class RuleEngineSpec extends Specification {
 
+    def "with no evaluation rules, a move is legal"() {
+        given:
+        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite()
+        ForSubmittingMoves engine = new RulesEngine(ruleSuite)
+
+        expect:
+        engine.submit(new Move()) == LEGAL
+    }
+
     def "with just one move evaluation rule, a move is illegal if that one deems it"() {
         given:
         MoveEvaluationRule rule = new AlwaysIllegalEvaluationRule()
@@ -29,15 +38,6 @@ class RuleEngineSpec extends Specification {
 
         then:
         result == LEGAL
-    }
-
-    def "with no evaluation rules, a move is legal"() {
-        given:
-        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite()
-        ForSubmittingMoves engine = new RulesEngine(ruleSuite)
-
-        expect:
-        engine.submit(new Move()) == LEGAL
     }
 
 }
