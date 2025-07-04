@@ -1,13 +1,16 @@
 package fun.gusmurphy.chesses.engine;
 
-import static fun.gusmurphy.chesses.engine.MoveLegality.*;
-
 class RulesEngine implements ForSubmittingMoves {
+
+    private final MoveEvaluationRuleSuite evaluationRules;
+
     RulesEngine(MoveEvaluationRuleSuite moveEvaluationRuleSuite) {
+        this.evaluationRules = moveEvaluationRuleSuite;
     }
 
     @Override
     public MoveLegality submit(Move move) {
-        return ILLEGAL;
+        return evaluationRules.evaluate();
     }
+
 }

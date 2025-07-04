@@ -18,4 +18,17 @@ class RuleEngineSpec extends Specification {
         result == ILLEGAL
     }
 
+    def "with just one move evaluation rule, a move is legal if that one deems it"() {
+        given:
+        MoveEvaluationRule rule = new AlwaysLegalEvaluationRule()
+        MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(rule)
+        ForSubmittingMoves engine = new RulesEngine(ruleSuite)
+
+        when:
+        def result = engine.submit(new Move())
+
+        then:
+        result == LEGAL
+    }
+
 }
