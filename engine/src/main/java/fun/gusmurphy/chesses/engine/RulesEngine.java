@@ -2,15 +2,15 @@ package fun.gusmurphy.chesses.engine;
 
 class RulesEngine implements ForSubmittingMoves {
 
-    private final MoveEvaluationRuleSuite evaluationRules;
+    private final MoveEvaluationRule moveEvaluationRule;
 
-    RulesEngine(MoveEvaluationRuleSuite moveEvaluationRuleSuite) {
-        this.evaluationRules = moveEvaluationRuleSuite;
+    RulesEngine(MoveEvaluationRule moveEvaluationRule) {
+        this.moveEvaluationRule = moveEvaluationRule;
     }
 
     @Override
     public MoveLegality submit(Move move) {
-        return evaluationRules.evaluate();
+        return moveEvaluationRule.evaluate();
     }
 
 }
