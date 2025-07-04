@@ -1,6 +1,6 @@
 package fun.gusmurphy.chesses.engine;
 
-interface MoveEvaluationRule {
+public interface MoveEvaluationRule {
 
     MoveLegality evaluate();
 

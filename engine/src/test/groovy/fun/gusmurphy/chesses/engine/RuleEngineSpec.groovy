@@ -1,5 +1,7 @@
 package fun.gusmurphy.chesses.engine
 
+import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysEvaluationRule
+import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysEvaluationRule
 import spock.lang.Specification
 import static fun.gusmurphy.chesses.engine.MoveLegality.*
 
