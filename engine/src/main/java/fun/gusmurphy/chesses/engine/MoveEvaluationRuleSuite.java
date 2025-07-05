@@ -9,13 +9,13 @@ class MoveEvaluationRuleSuite implements MoveEvaluationRule {
     }
 
     @Override
-    public MoveLegality evaluate() {
+    public MoveLegality evaluate(BoardState boardState, Move move) {
         if (rules.length < 1) {
             return MoveLegality.LEGAL;
         }
 
         for (MoveEvaluationRule rule : rules) {
-            if (rule.evaluate() == MoveLegality.ILLEGAL) {
+            if (rule.evaluate(boardState, move) == MoveLegality.ILLEGAL) {
                 return MoveLegality.ILLEGAL;
             }
         }

@@ -9,12 +9,15 @@ import static fun.gusmurphy.chesses.engine.MoveLegality.LEGAL
 
 class MoveEvaluationRuleSuiteSpec extends Specification {
 
+    private static final DUMMY_BOARD = new BoardStateBuilder().build()
+    private static final DUMMY_MOVE = new Move(new PieceId())
+
     def "with no rules, a move is legal"() {
         given:
         MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite()
 
         expect:
-        ruleSuite.evaluate() == LEGAL
+        ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE) == LEGAL
     }
 
     def "with just one move evaluation rule, a move is legal or illegal based on just that one"() {
@@ -22,7 +25,7 @@ class MoveEvaluationRuleSuiteSpec extends Specification {
         MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(rule)
 
         when:
-        def result = ruleSuite.evaluate()
+        def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
 
         then:
         result == expected
@@ -40,7 +43,7 @@ class MoveEvaluationRuleSuiteSpec extends Specification {
         MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(ruleOne, ruleTwo)
 
         when:
-        def result = ruleSuite.evaluate()
+        def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
 
         then:
         result == LEGAL
@@ -53,7 +56,7 @@ class MoveEvaluationRuleSuiteSpec extends Specification {
         MoveEvaluationRuleSuite ruleSuite = new MoveEvaluationRuleSuite(legal, illegal)
 
         when:
-        def result = ruleSuite.evaluate()
+        def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
 
         then:
         result == ILLEGAL
