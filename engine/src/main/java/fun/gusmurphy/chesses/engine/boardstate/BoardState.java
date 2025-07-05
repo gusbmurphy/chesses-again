@@ -9,8 +9,8 @@ import java.util.Set;
 
 public class BoardState {
 
-    private PlayerColor currentTurnColor;
-    private Set<Piece> pieces;
+    private final PlayerColor currentTurnColor;
+    private final Set<Piece> pieces;
 
     protected BoardState(PlayerColor currentTurnColor, Set<Piece> pieces) {
         this.currentTurnColor = currentTurnColor;
