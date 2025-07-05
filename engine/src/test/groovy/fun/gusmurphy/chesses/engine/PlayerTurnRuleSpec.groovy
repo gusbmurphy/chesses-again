@@ -28,4 +28,22 @@ class PlayerTurnRuleSpec extends Specification {
         color << [PlayerColor.WHITE, PlayerColor.BLACK]
     }
 
+    def "a move for a piece without same color as the current turn is illegal"() {
+        given:
+        Piece piece = new Piece(pieceColor)
+        BoardState board = new BoardStateBuilder()
+            .currentTurnColor(pieceColor.opposite())
+            .addPiece(piece)
+            .build()
+
+        MoveEvaluationRule rule = new PlayerTurnRule()
+        Move move = new Move(piece.id())
+
+        expect:
+        rule.evaluate(board, move) == MoveLegality.ILLEGAL
+
+        where:
+        pieceColor << [PlayerColor.WHITE, PlayerColor.BLACK]
+    }
+
 }
