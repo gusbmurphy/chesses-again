@@ -12,9 +12,9 @@ class PlayerTurnRuleSpec extends Specification {
 
     def "the player for the current turn is able to make a move for a piece of their color"() {
         given:
-        Piece piece = new Piece(PlayerColor.WHITE)
+        Piece piece = new Piece(color)
         BoardState board = new BoardStateBuilder()
-            .currentTurnColor(PlayerColor.WHITE)
+            .currentTurnColor(color)
             .addPiece(piece)
             .build()
 
@@ -23,6 +23,9 @@ class PlayerTurnRuleSpec extends Specification {
 
         expect:
         rule.evaluate(board, move) == MoveLegality.LEGAL
+
+        where:
+        color << [PlayerColor.WHITE, PlayerColor.BLACK]
     }
 
 }
