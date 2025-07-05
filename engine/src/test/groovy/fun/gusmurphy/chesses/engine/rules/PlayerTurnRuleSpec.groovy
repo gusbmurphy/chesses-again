@@ -1,11 +1,10 @@
-package fun.gusmurphy.chesses.engine
+package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import fun.gusmurphy.chesses.engine.rules.MoveEvaluationRule
-import fun.gusmurphy.chesses.engine.rules.MoveLegality
-import fun.gusmurphy.chesses.engine.rules.PlayerTurnRule
 import spock.lang.Specification
 
 class PlayerTurnRuleSpec extends Specification {

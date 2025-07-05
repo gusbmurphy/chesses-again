@@ -1,11 +1,10 @@
-package fun.gusmurphy.chesses.engine
+package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysEvaluationRule
 import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysEvaluationRule
 import fun.gusmurphy.chesses.engine.piece.PieceId
-import fun.gusmurphy.chesses.engine.rules.MoveEvaluationRule
-import fun.gusmurphy.chesses.engine.rules.MoveEvaluationRuleSuite
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.rules.MoveLegality.ILLEGAL
