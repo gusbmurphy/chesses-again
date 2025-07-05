@@ -10,7 +10,7 @@ import spock.lang.Specification
 
 class PlayerTurnRuleSpec extends Specification {
 
-    def "the player for the current turn is able to make a move for a piece of their color"() {
+    def "a move for a piece of the same color as the current turn is legal"() {
         given:
         Piece piece = new Piece(color)
         BoardState board = new BoardStateBuilder()
