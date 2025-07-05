@@ -21,8 +21,14 @@ public class BoardState {
         return currentTurnColor;
     }
 
-    public Optional<Piece> pieceForId(PieceId id) {
-        return pieces.stream().filter(piece -> piece.id() == id).findFirst();
+    public Piece pieceForId(PieceId id) throws UnknownPieceException {
+        Optional<Piece> piece = pieces.stream().filter(p -> p.id() == id).findFirst();
+
+        if (piece.isPresent()) {
+            return piece.get();
+        }
+
+        throw new UnknownPieceException("Piece does not exist in board state");
     }
 
 }
