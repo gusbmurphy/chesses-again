@@ -1,4 +1,7 @@
-package fun.gusmurphy.chesses.engine;
+package fun.gusmurphy.chesses.engine.boardstate;
+
+import fun.gusmurphy.chesses.engine.piece.Piece;
+import fun.gusmurphy.chesses.engine.PlayerColor;
 
 import java.util.Set;
 

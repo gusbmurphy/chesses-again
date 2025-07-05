@@ -1,9 +1,9 @@
 package fun.gusmurphy.chesses.engine.doubles
 
-import fun.gusmurphy.chesses.engine.BoardState
+import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.Move
-import fun.gusmurphy.chesses.engine.MoveEvaluationRule
-import fun.gusmurphy.chesses.engine.MoveLegality
+import fun.gusmurphy.chesses.engine.rules.MoveEvaluationRule
+import fun.gusmurphy.chesses.engine.rules.MoveLegality
 
 class IllegalAlwaysEvaluationRule implements MoveEvaluationRule {
 

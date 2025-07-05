@@ -1,6 +1,9 @@
-package fun.gusmurphy.chesses.engine;
+package fun.gusmurphy.chesses.engine.rules;
 
-class MoveEvaluationRuleSuite implements MoveEvaluationRule {
+import fun.gusmurphy.chesses.engine.Move;
+import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+
+public class MoveEvaluationRuleSuite implements MoveEvaluationRule {
 
     private final MoveEvaluationRule[] rules;
 
