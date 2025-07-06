@@ -3,11 +3,11 @@ package fun.gusmurphy.chesses.engine.rules;
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 
-public class MoveEvaluationRuleSuite implements MoveEvaluationRule {
+public class MoveLegalityRuleSuite implements MoveLegalityRule {
 
-    private final MoveEvaluationRule[] rules;
+    private final MoveLegalityRule[] rules;
 
-    public MoveEvaluationRuleSuite(MoveEvaluationRule... rules) {
+    public MoveLegalityRuleSuite(MoveLegalityRule... rules) {
         this.rules = rules;
     }
 
@@ -17,7 +17,7 @@ public class MoveEvaluationRuleSuite implements MoveEvaluationRule {
             return MoveLegality.LEGAL;
         }
 
-        for (MoveEvaluationRule rule : rules) {
+        for (MoveLegalityRule rule : rules) {
             if (rule.evaluate(boardState, move) == MoveLegality.ILLEGAL) {
                 return MoveLegality.ILLEGAL;
             }

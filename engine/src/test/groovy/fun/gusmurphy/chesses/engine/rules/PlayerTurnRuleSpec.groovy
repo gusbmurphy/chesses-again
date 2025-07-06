@@ -17,7 +17,7 @@ class PlayerTurnRuleSpec extends Specification {
             .addPiece(piece)
             .build()
 
-        MoveEvaluationRule rule = new PlayerTurnRule()
+        MoveLegalityRule rule = new PlayerTurnRule()
         Move move = new Move(piece.id())
 
         expect:
@@ -35,7 +35,7 @@ class PlayerTurnRuleSpec extends Specification {
             .addPiece(piece)
             .build()
 
-        MoveEvaluationRule rule = new PlayerTurnRule()
+        MoveLegalityRule rule = new PlayerTurnRule()
         Move move = new Move(piece.id())
 
         expect:
