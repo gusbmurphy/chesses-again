@@ -26,7 +26,7 @@ public class BoardStateBuilder {
         return this;
     }
 
-    public BoardStateBuilder  addPiece(Piece piece) {
+    public BoardStateBuilder addPiece(Piece piece) {
         pieces.add(piece);
         return this;
     }
