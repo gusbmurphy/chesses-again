@@ -29,6 +29,7 @@ public class BoardState {
         return currentTurnColor;
     }
 
+    // TODO: Seems odd that we are asking for a `Piece` and the `Coordinates` separately...
     public Piece pieceForId(PieceId id) throws UnknownPieceException {
         Optional<Piece> piece = pieces.stream().filter(p -> p.id() == id).findFirst();
 
