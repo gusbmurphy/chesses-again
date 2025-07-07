@@ -27,4 +27,17 @@ class PieceRemovedEventSpec extends Specification {
         thrown UnknownPieceException
     }
 
+    def "removing a piece that is not on the board throws an exception"() {
+        given:
+        BoardState board = new BoardStateBuilder().build()
+        Piece piece = new Piece(PlayerColor.WHITE)
+        BoardStateEvent event = new PieceRemovedEvent(piece.id())
+
+        when:
+        board.apply(event)
+
+        then:
+        thrown UnknownPieceException
+    }
+
 }
