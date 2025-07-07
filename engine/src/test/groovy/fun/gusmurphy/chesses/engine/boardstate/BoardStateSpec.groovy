@@ -37,4 +37,17 @@ class BoardStateSpec extends Specification {
         board.positionForPieceId(piece.id()) == B6
     }
 
+    def "a piece moved event for a piece not on the board throws an UnknownPieceException"() {
+        given:
+        BoardState board = new BoardStateBuilder().build()
+        Piece piece = new Piece(PlayerColor.WHITE)
+        BoardStateEvent event = new PieceMovedEvent(piece.id(), B6)
+
+        when:
+        board.apply(event)
+
+        then:
+        thrown UnknownPieceException
+    }
+
 }
