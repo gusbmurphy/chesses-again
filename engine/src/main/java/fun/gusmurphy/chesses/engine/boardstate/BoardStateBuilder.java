@@ -5,14 +5,11 @@ import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 public class BoardStateBuilder {
 
     private PlayerColor currentTurnColor;
-    private Set<Piece> pieces = new HashSet<>();
-    private HashMap<Coordinates, Piece> piecesByCoordinates = new HashMap<>();
+    private final HashMap<Coordinates, Piece> piecesByCoordinates = new HashMap<>();
 
     public BoardStateBuilder() {
     }
