@@ -10,7 +10,7 @@ class BoardStateSpec extends Specification {
         BoardState boardState = new BoardStateBuilder().build()
 
         when:
-        boardState.pieceForId(new PieceId())
+        boardState.pieceOnBoardForId(new PieceId())
 
         then:
         thrown UnknownPieceException

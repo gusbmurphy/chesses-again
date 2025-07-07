@@ -23,7 +23,7 @@ class PieceMovedEventSpec extends Specification {
         board.apply(event)
 
         then:
-        board.positionForPieceId(piece.id()) == B6
+        board.pieceOnBoardForId(piece.id()).coordinates() == B6
     }
 
     def "a piece moved event for a piece not on the board throws an UnknownPieceException"() {

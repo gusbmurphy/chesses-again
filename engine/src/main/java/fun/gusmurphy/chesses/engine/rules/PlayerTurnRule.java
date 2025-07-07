@@ -8,7 +8,7 @@ public class PlayerTurnRule implements MoveLegalityRule {
 
     @Override
     public MoveLegality evaluate(BoardState boardState, Move move) {
-        Piece piece = boardState.pieceForId(move.pieceId());
+        Piece piece = boardState.pieceOnBoardForId(move.pieceId());
 
         if (piece.color() == boardState.currentTurnColor()) {
             return MoveLegality.LEGAL;

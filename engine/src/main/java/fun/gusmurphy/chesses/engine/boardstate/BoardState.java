@@ -7,6 +7,7 @@ import fun.gusmurphy.chesses.engine.boardstate.events.PieceRemovedEvent;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
+import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 
 import java.util.*;
 
@@ -30,19 +31,15 @@ public class BoardState {
         return currentTurnColor;
     }
 
-    // TODO: Seems odd that we are asking for a `Piece` and the `Coordinates` separately...
-    public Piece pieceForId(PieceId id) throws UnknownPieceException {
+    public PieceOnBoard pieceOnBoardForId(PieceId id) throws UnknownPieceException {
         Optional<Piece> piece = pieces.stream().filter(p -> p.id() == id).findFirst();
 
         if (piece.isPresent()) {
-            return piece.get();
+            Coordinates coordinates = coordinatesForPieces.get(piece.get().id());
+            return new PieceOnBoard(piece.get(), coordinates);
         }
 
         throw new UnknownPieceException("Piece does not exist in board state");
-    }
-
-    public Coordinates positionForPieceId(PieceId id) {
-        return coordinatesForPieces.get(id);
     }
 
     public void apply(BoardStateEvent event) {
@@ -58,8 +55,13 @@ public class BoardState {
         } else if (event instanceof PieceRemovedEvent) {
             PieceRemovedEvent pieceRemovedEvent = (PieceRemovedEvent) event;
             PieceId pieceId = pieceRemovedEvent.pieceId();
-            Piece pieceToRemove = pieceForId(pieceId);
-            pieces.remove(pieceToRemove);
+            Optional<Piece> pieceToRemove = pieces.stream().filter(p -> p.id() == pieceId).findFirst();
+
+            if (pieceToRemove.isPresent()) {
+                pieces.remove(pieceToRemove.get());
+            } else {
+                throw new UnknownPieceException("Piece does not exist in board state");
+            }
         }
     }
 

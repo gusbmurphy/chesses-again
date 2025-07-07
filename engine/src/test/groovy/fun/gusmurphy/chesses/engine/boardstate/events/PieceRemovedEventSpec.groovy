@@ -21,7 +21,7 @@ class PieceRemovedEventSpec extends Specification {
 
         when:
         board.apply(event)
-        board.pieceForId(piece.id())
+        board.pieceOnBoardForId(piece.id())
 
         then:
         thrown UnknownPieceException
