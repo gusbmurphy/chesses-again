@@ -1,5 +1,6 @@
 package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.Coordinates
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
@@ -14,7 +15,7 @@ class PlayerTurnRuleSpec extends Specification {
         Piece piece = new Piece(color)
         BoardState board = new BoardStateBuilder()
             .currentTurnColor(color)
-            .addPiece(piece)
+            .addPieceAt(piece, Coordinates.A1)
             .build()
 
         MoveLegalityRule rule = new PlayerTurnRule()
@@ -32,7 +33,7 @@ class PlayerTurnRuleSpec extends Specification {
         Piece piece = new Piece(pieceColor)
         BoardState board = new BoardStateBuilder()
             .currentTurnColor(pieceColor.opposite())
-            .addPiece(piece)
+            .addPieceAt(piece, Coordinates.A1)
             .build()
 
         MoveLegalityRule rule = new PlayerTurnRule()
