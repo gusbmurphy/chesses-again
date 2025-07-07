@@ -3,6 +3,7 @@ package fun.gusmurphy.chesses.engine.boardstate;
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.boardstate.events.BoardStateEvent;
 import fun.gusmurphy.chesses.engine.boardstate.events.PieceMovedEvent;
+import fun.gusmurphy.chesses.engine.boardstate.events.PieceRemovedEvent;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
@@ -54,6 +55,11 @@ public class BoardState {
             }
 
             coordinatesForPieces.put(pieceId, pieceMovedEvent.newCoordinates());
+        } else if (event instanceof PieceRemovedEvent) {
+            PieceRemovedEvent pieceRemovedEvent = (PieceRemovedEvent) event;
+            PieceId pieceId = pieceRemovedEvent.pieceId();
+            Piece pieceToRemove = pieceForId(pieceId);
+            pieces.remove(pieceToRemove);
         }
     }
 
