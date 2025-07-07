@@ -7,17 +7,22 @@ import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 
 public class BoardState {
 
     private final PlayerColor currentTurnColor;
-    private final HashMap<Coordinates, Piece> piecesByCoordinates;
+    private final Set<Piece> pieces = new HashSet<>();
+    private final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
 
-    protected BoardState(PlayerColor currentTurnColor, HashMap<Coordinates, Piece> piecesByCoordinates) {
+    protected BoardState(PlayerColor currentTurnColor, HashMap<Coordinates, Piece> piecesAtCoordinates) {
         this.currentTurnColor = currentTurnColor;
-        this.piecesByCoordinates = piecesByCoordinates;
+
+        for (Map.Entry<Coordinates, Piece> pieceAtCoordinates : piecesAtCoordinates.entrySet()) {
+            Piece piece = pieceAtCoordinates.getValue();
+            pieces.add(piece);
+            coordinatesForPieces.put(piece.id(), pieceAtCoordinates.getKey());
+        }
     }
 
     public PlayerColor currentTurnColor() {
@@ -25,7 +30,7 @@ public class BoardState {
     }
 
     public Piece pieceForId(PieceId id) throws UnknownPieceException {
-        Optional<Piece> piece = piecesByCoordinates.values().stream().filter(p -> p.id() == id).findFirst();
+        Optional<Piece> piece = pieces.stream().filter(p -> p.id() == id).findFirst();
 
         if (piece.isPresent()) {
             return piece.get();
@@ -35,19 +40,19 @@ public class BoardState {
     }
 
     public Coordinates positionForPieceId(PieceId id) {
-        return piecesByCoordinates.entrySet().stream()
-            .filter(entry -> entry.getValue().id() == id)
-            .findFirst()
-            .get()
-            .getKey();
+        return coordinatesForPieces.get(id);
     }
 
     public void apply(BoardStateEvent event) {
         if (event instanceof PieceMovedEvent) {
             PieceMovedEvent pieceMovedEvent = (PieceMovedEvent) event;
             PieceId pieceId = pieceMovedEvent.pieceId();
-            Piece piece = pieceForId(pieceId);
-            piecesByCoordinates.put(pieceMovedEvent.newCoordinates(), piece);
+
+            if (pieces.stream().noneMatch(p -> p.id() == pieceId)) {
+                throw new UnknownPieceException("Piece does not exist in board state");
+            }
+
+            coordinatesForPieces.put(pieceId, pieceMovedEvent.newCoordinates());
         }
     }
 
