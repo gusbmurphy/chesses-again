@@ -1,5 +1,6 @@
 package fun.gusmurphy.chesses.engine.boardstate
 
+import fun.gusmurphy.chesses.engine.Coordinates
 import fun.gusmurphy.chesses.engine.piece.PieceId
 import spock.lang.Specification
 
@@ -25,6 +26,9 @@ class BoardStateSpec extends Specification {
 
         then:
         boardCoordinateStates.size() == 64
+        Coordinates.values().each { c ->
+            assert boardCoordinateStates.get(c).isPresent()
+        }
     }
 
 }
