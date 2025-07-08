@@ -31,6 +31,11 @@ public class BoardState {
         return currentTurnColor;
     }
 
+    /**
+     * @deprecated
+     * Seems like we should be using {@link BoardCoordinateStates}
+     */
+    @Deprecated
     public PieceOnBoard pieceOnBoardForId(PieceId id) throws UnknownPieceException {
         Optional<Piece> piece = pieces.stream().filter(p -> p.id() == id).findFirst();
 
@@ -40,6 +45,10 @@ public class BoardState {
         }
 
         throw new UnknownPieceException("Piece does not exist in board state");
+    }
+
+    public BoardCoordinateStates allCoordinateStates() {
+        return new BoardCoordinateStates();
     }
 
     public void apply(BoardStateEvent event) {

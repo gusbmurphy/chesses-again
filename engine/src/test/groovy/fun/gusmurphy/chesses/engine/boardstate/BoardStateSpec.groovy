@@ -16,4 +16,15 @@ class BoardStateSpec extends Specification {
         thrown UnknownPieceException
     }
 
+    def "by default, the board has the normal 8 by 8 dimensions"() {
+        given:
+        BoardState boardState = new BoardStateBuilder().build()
+
+        when:
+        BoardCoordinateStates boardCoordinateStates = boardState.allCoordinateStates()
+
+        then:
+        boardCoordinateStates.size() == 64
+    }
+
 }
