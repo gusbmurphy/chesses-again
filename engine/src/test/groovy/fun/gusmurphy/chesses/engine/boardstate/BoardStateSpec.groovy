@@ -33,21 +33,27 @@ class BoardStateSpec extends Specification {
         }
     }
 
-    def "a board can be 2 by 2"() {
+    def "a board can be a number of odd dimensions"() {
         given:
         BoardState boardState = new BoardStateBuilder()
-            .width(2)
-            .height(2)
+            .width(width)
+            .height(height)
             .build()
 
         when:
         BoardCoordinateStates boardCoordinateStates = boardState.allCoordinateStates()
 
         then:
-        boardCoordinateStates.size() == 4
-        [A1, A2, B1, B2].each { c ->
+        boardCoordinateStates.size() == expectedSize
+        expectedPresentCoordinates.each { c ->
             assert boardCoordinateStates.get(c).isPresent()
         }
+
+        where:
+        width | height || expectedSize | expectedPresentCoordinates
+        2     | 2      || 4            | [A1, A2, B1, B2]
+        1     | 2      || 2            | [A1, A2]
+        2     | 1      || 2            | [A1, B1]
     }
 
 }
