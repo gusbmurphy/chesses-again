@@ -4,6 +4,8 @@ import fun.gusmurphy.chesses.engine.Coordinates
 import fun.gusmurphy.chesses.engine.piece.PieceId
 import spock.lang.Specification
 
+import static fun.gusmurphy.chesses.engine.Coordinates.*
+
 class BoardStateSpec extends Specification {
 
     def "asking for an unknown piece ID throws an UnknownPieceException"() {
@@ -27,6 +29,23 @@ class BoardStateSpec extends Specification {
         then:
         boardCoordinateStates.size() == 64
         Coordinates.values().each { c ->
+            assert boardCoordinateStates.get(c).isPresent()
+        }
+    }
+
+    def "a board can be 2 by 2"() {
+        given:
+        BoardState boardState = new BoardStateBuilder()
+            .width(2)
+            .height(2)
+            .build()
+
+        when:
+        BoardCoordinateStates boardCoordinateStates = boardState.allCoordinateStates()
+
+        then:
+        boardCoordinateStates.size() == 4
+        [A1, A2, B1, B2].each { c ->
             assert boardCoordinateStates.get(c).isPresent()
         }
     }

@@ -1,6 +1,8 @@
 package fun.gusmurphy.chesses.engine.boardstate;
 
 import fun.gusmurphy.chesses.engine.Coordinates;
+import fun.gusmurphy.chesses.engine.File;
+import fun.gusmurphy.chesses.engine.Rank;
 import fun.gusmurphy.chesses.engine.boardstate.events.BoardStateEvent;
 import fun.gusmurphy.chesses.engine.boardstate.events.PieceMovedEvent;
 import fun.gusmurphy.chesses.engine.boardstate.events.PieceRemovedEvent;
@@ -16,9 +18,18 @@ public class BoardState {
     private final PlayerColor currentTurnColor;
     private final Set<Piece> pieces = new HashSet<>();
     private final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
+    private final Set<Rank> ranks;
+    private final Set<File> files;
 
-    protected BoardState(PlayerColor currentTurnColor, HashMap<Coordinates, Piece> piecesAtCoordinates) {
+    protected BoardState(
+        PlayerColor currentTurnColor,
+        HashMap<Coordinates, Piece> piecesAtCoordinates,
+        Set<Rank> ranks,
+        Set<File> files
+    ) {
         this.currentTurnColor = currentTurnColor;
+        this.ranks = ranks;
+        this.files = files;
 
         for (Map.Entry<Coordinates, Piece> pieceAtCoordinates : piecesAtCoordinates.entrySet()) {
             Piece piece = pieceAtCoordinates.getValue();
@@ -48,7 +59,15 @@ public class BoardState {
     }
 
     public BoardCoordinateStates allCoordinateStates() {
-        return new BoardCoordinateStates();
+        List<BoardCoordinateState> statesList = new ArrayList<>();
+
+        for (Rank rank : ranks) {
+            for (File file : files) {
+                statesList.add(new BoardCoordinateState());
+            }
+        }
+
+        return new BoardCoordinateStates(statesList);
     }
 
     public void apply(BoardStateEvent event) {
