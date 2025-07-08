@@ -23,7 +23,9 @@ public class BoardCoordinateStates {
     }
 
     public Optional<BoardCoordinateState> forPieceId(PieceId pieceId) {
-        return Optional.empty();
+        return coordinateStateList.stream()
+            .filter(cs -> cs.piece().isPresent() && cs.piece().get().id() == pieceId)
+            .findFirst();
     }
 
 }

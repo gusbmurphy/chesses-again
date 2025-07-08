@@ -43,8 +43,7 @@ public class BoardState {
     }
 
     /**
-     * @deprecated
-     * Seems like we should be using {@link BoardCoordinateStates}
+     * @deprecated Seems like we should be using {@link BoardCoordinateStates}
      */
     @Deprecated
     public PieceOnBoard pieceOnBoardForId(PieceId id) throws UnknownPieceException {
@@ -63,7 +62,21 @@ public class BoardState {
 
         for (Rank rank : ranks) {
             for (File file : files) {
-                statesList.add(new BoardCoordinateState());
+                Optional<Map.Entry<PieceId, Coordinates>> coordinatesForPieceId =
+                    coordinatesForPieces.entrySet().stream()
+                        .filter(e -> e.getValue().rank() == rank && e.getValue().file() == file)
+                        .findFirst();
+
+                if (coordinatesForPieceId.isPresent()) {
+                    Piece piece = pieces.stream()
+                        .filter(p -> p.id() == coordinatesForPieceId.get().getKey())
+                        .findFirst()
+                        .get();
+
+                    statesList.add(new OccupiedCoordinateState(piece));
+                } else {
+                    statesList.add(new UnoccupiedCoordinateState());
+                }
             }
         }
 
