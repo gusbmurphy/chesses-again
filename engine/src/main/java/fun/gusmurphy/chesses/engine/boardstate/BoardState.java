@@ -44,24 +44,30 @@ public class BoardState {
 
     public void apply(BoardStateEvent event) {
         if (event instanceof PieceMovedEvent) {
-            PieceMovedEvent pieceMovedEvent = (PieceMovedEvent) event;
-            PieceId pieceId = pieceMovedEvent.pieceId();
-
-            if (pieces.stream().noneMatch(p -> p.id() == pieceId)) {
-                throw new UnknownPieceException("Piece does not exist in board state");
-            }
-
-            coordinatesForPieces.put(pieceId, pieceMovedEvent.newCoordinates());
+            handlePieceMoved((PieceMovedEvent) event);
         } else if (event instanceof PieceRemovedEvent) {
-            PieceRemovedEvent pieceRemovedEvent = (PieceRemovedEvent) event;
-            PieceId pieceId = pieceRemovedEvent.pieceId();
-            Optional<Piece> pieceToRemove = pieces.stream().filter(p -> p.id() == pieceId).findFirst();
+            handlePieceRemoved((PieceRemovedEvent) event);
+        }
+    }
 
-            if (pieceToRemove.isPresent()) {
-                pieces.remove(pieceToRemove.get());
-            } else {
-                throw new UnknownPieceException("Piece does not exist in board state");
-            }
+    private void handlePieceMoved(PieceMovedEvent event) {
+        PieceId pieceId = event.pieceId();
+
+        if (pieces.stream().noneMatch(p -> p.id() == pieceId)) {
+            throw new UnknownPieceException("Piece does not exist in board state");
+        }
+
+        coordinatesForPieces.put(pieceId, event.newCoordinates());
+    }
+
+    private void handlePieceRemoved(PieceRemovedEvent event) {
+        PieceId pieceId = event.pieceId();
+        Optional<Piece> pieceToRemove = pieces.stream().filter(p -> p.id() == pieceId).findFirst();
+
+        if (pieceToRemove.isPresent()) {
+            pieces.remove(pieceToRemove.get());
+        } else {
+            throw new UnknownPieceException("Piece does not exist in board state");
         }
     }
 
