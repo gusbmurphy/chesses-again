@@ -21,18 +21,6 @@ public class BoardStateBuilder {
     public BoardStateBuilder() {
     }
 
-    public BoardState build() {
-        Set<Rank> ranks = new HashSet<>(Arrays.asList(Rank.values()).subList(0, height));
-        Set<File> files = new HashSet<>(Arrays.asList(File.values()).subList(0, width));
-
-        return new BoardState(
-            currentTurnColor,
-            piecesByCoordinates,
-            ranks,
-            files
-        );
-    }
-
     public BoardStateBuilder currentTurnColor(PlayerColor color) {
         currentTurnColor = color;
         return this;
@@ -51,6 +39,26 @@ public class BoardStateBuilder {
     public BoardStateBuilder height(int height) {
         this.height = height;
         return this;
+    }
+
+    public BoardState build() {
+        validateBoardSize();
+
+        Set<Rank> ranks = new HashSet<>(Arrays.asList(Rank.values()).subList(0, height));
+        Set<File> files = new HashSet<>(Arrays.asList(File.values()).subList(0, width));
+
+        return new BoardState(
+            currentTurnColor,
+            piecesByCoordinates,
+            ranks,
+            files
+        );
+    }
+
+    private void validateBoardSize() {
+        if (width * height < 2) {
+            throw new IllegalArgumentException("Board must have at least two coordinates");
+        }
     }
 
 }

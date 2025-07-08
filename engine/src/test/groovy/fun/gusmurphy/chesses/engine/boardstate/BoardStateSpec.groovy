@@ -56,4 +56,18 @@ class BoardStateSpec extends Specification {
         2     | 1      || 2            | [A1, B1]
     }
 
+    def "a board cannot be 1 by 1"() {
+        given:
+        def builder = new BoardStateBuilder()
+            .width(1)
+            .height(1)
+
+        when:
+        builder.build()
+
+        then:
+        def exception = thrown IllegalArgumentException
+        exception.message == "Board must have at least two coordinates"
+    }
+
 }
