@@ -2,7 +2,6 @@ package fun.gusmurphy.chesses.engine.boardstate;
 
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +22,11 @@ public class BoardCoordinateStates {
     }
 
     public Optional<BoardCoordinateState> forPieceId(PieceId pieceId) {
-        return coordinateStateList.stream()
-            .filter(cs -> cs.piece().isPresent() && cs.piece().get().id() == pieceId)
+        return coordinateStateList
+            .stream()
+            .filter(
+                cs -> cs.piece().isPresent() && cs.piece().get().id() == pieceId
+            )
             .findFirst();
     }
-
 }

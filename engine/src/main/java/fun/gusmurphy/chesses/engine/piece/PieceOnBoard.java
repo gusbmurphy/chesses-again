@@ -14,5 +14,4 @@ public class PieceOnBoard extends Piece {
     public Coordinates coordinates() {
         return coordinates;
     }
-
 }

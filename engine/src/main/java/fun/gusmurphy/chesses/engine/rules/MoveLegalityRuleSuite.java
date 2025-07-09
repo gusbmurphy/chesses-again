@@ -25,5 +25,4 @@ public class MoveLegalityRuleSuite implements MoveLegalityRule {
 
         return MoveLegality.LEGAL;
     }
-
 }

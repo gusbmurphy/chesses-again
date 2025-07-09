@@ -20,5 +20,4 @@ public class PieceMovedEvent implements BoardStateEvent {
     public Coordinates newCoordinates() {
         return newCoordinates;
     }
-
 }

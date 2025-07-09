@@ -5,5 +5,4 @@ public class UnknownPieceException extends RuntimeException {
     public UnknownPieceException(String message) {
         super(message);
     }
-
 }

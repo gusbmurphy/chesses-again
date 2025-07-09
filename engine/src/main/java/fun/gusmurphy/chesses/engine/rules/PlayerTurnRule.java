@@ -16,5 +16,4 @@ public class PlayerTurnRule implements MoveLegalityRule {
 
         return MoveLegality.ILLEGAL;
     }
-
 }

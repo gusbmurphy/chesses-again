@@ -1,7 +1,8 @@
 package fun.gusmurphy.chesses.engine;
 
 public enum PlayerColor {
-    WHITE, BLACK;
+    WHITE,
+    BLACK;
 
     public PlayerColor opposite() {
         if (this == PlayerColor.BLACK) {

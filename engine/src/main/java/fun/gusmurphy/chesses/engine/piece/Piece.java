@@ -17,5 +17,4 @@ public class Piece {
     public PlayerColor color() {
         return color;
     }
-
 }
