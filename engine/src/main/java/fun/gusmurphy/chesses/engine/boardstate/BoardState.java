@@ -18,8 +18,7 @@ public class BoardState {
     private final PlayerColor currentTurnColor;
     private final Set<Piece> pieces = new HashSet<>();
     private final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
-    private final Set<Rank> ranks;
-    private final Set<File> files;
+    private final Set<Coordinates> coordinatesOnBoard;
 
     protected BoardState(
         PlayerColor currentTurnColor,
@@ -28,8 +27,14 @@ public class BoardState {
         Set<File> files
     ) {
         this.currentTurnColor = currentTurnColor;
-        this.ranks = ranks;
-        this.files = files;
+
+        Set<Coordinates> coordinatesOnBoard = new HashSet<>();
+        for (Rank rank : ranks) {
+            for (File file : files) {
+                coordinatesOnBoard.add(Coordinates.with(file, rank));
+            }
+        }
+        this.coordinatesOnBoard = coordinatesOnBoard;
 
         for (Map.Entry<Coordinates, Piece> pieceAtCoordinates : piecesAtCoordinates.entrySet()) {
             Piece piece = pieceAtCoordinates.getValue();
@@ -60,23 +65,21 @@ public class BoardState {
     public BoardCoordinateStates allCoordinateStates() {
         List<BoardCoordinateState> statesList = new ArrayList<>();
 
-        for (Rank rank : ranks) {
-            for (File file : files) {
-                Optional<Map.Entry<PieceId, Coordinates>> coordinatesForPieceId =
-                    coordinatesForPieces.entrySet().stream()
-                        .filter(e -> e.getValue().rank() == rank && e.getValue().file() == file)
-                        .findFirst();
+        for (Coordinates coordinates : coordinatesOnBoard) {
+            Optional<Map.Entry<PieceId, Coordinates>> coordinatesForPieceId =
+                coordinatesForPieces.entrySet().stream()
+                    .filter(e -> e.getValue() == coordinates)
+                    .findFirst();
 
-                if (coordinatesForPieceId.isPresent()) {
-                    Piece piece = pieces.stream()
-                        .filter(p -> p.id() == coordinatesForPieceId.get().getKey())
-                        .findFirst()
-                        .get();
+            if (coordinatesForPieceId.isPresent()) {
+                Piece piece = pieces.stream()
+                    .filter(p -> p.id() == coordinatesForPieceId.get().getKey())
+                    .findFirst()
+                    .get();
 
-                    statesList.add(new OccupiedCoordinateState(Coordinates.with(file, rank), piece));
-                } else {
-                    statesList.add(new UnoccupiedCoordinateState(Coordinates.with(file, rank)));
-                }
+                statesList.add(new OccupiedCoordinateState(coordinates, piece));
+            } else {
+                statesList.add(new UnoccupiedCoordinateState(coordinates));
             }
         }
 
