@@ -5,9 +5,11 @@ import fun.gusmurphy.chesses.engine.piece.PieceId;
 public class Move {
 
     private final PieceId pieceId;
+    private final Coordinates coordinates;
 
-    public Move(PieceId pieceId) {
+    public Move(PieceId pieceId, Coordinates coordinates) {
         this.pieceId = pieceId;
+        this.coordinates = coordinates;
     }
 
     public PieceId pieceId() {

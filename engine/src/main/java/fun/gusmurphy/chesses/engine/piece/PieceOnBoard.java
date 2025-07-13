@@ -7,7 +7,7 @@ public class PieceOnBoard extends Piece {
     private final Coordinates coordinates;
 
     public PieceOnBoard(Piece piece, Coordinates coordinates) {
-        super(piece.color());
+        super(piece.color(), PieceType.BISHOP);
         this.coordinates = coordinates;
     }
 
