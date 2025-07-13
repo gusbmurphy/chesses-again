@@ -36,6 +36,14 @@ public enum Coordinates {
         return rank;
     }
 
+    public boolean sameFileAs(Coordinates other) {
+        return this.file == other.file;
+    }
+
+    public boolean sameRankAs(Coordinates other) {
+        return this.rank == other.rank;
+    }
+
     @Override
     public String toString() {
         return file.toString().substring(0, 1).toLowerCase() + (rank.ordinal() + 1);

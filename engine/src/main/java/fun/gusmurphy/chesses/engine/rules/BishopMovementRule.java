@@ -16,11 +16,11 @@ public class BishopMovementRule implements MoveLegalityRule {
 
         Coordinates moveCoordinates = move.coordinates();
 
-        if (moveCoordinates.rank() == currentPieceCoordinates.rank()) {
+        if (moveCoordinates.sameRankAs(currentPieceCoordinates)) {
             return ILLEGAL;
         }
 
-        if (moveCoordinates.file() == currentPieceCoordinates.file()) {
+        if (moveCoordinates.sameFileAs(currentPieceCoordinates)) {
             return ILLEGAL;
         }
 
