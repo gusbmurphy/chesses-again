@@ -31,6 +31,8 @@ class BoardCoordinateStatesSpec extends Specification {
 
         then:
         result.isPresent()
+        result.get().piece().get() == piece
+        result.get().coordinates() == Coordinates.B6
     }
 
 }

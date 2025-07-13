@@ -73,9 +73,9 @@ public class BoardState {
                         .findFirst()
                         .get();
 
-                    statesList.add(new OccupiedCoordinateState(piece));
+                    statesList.add(new OccupiedCoordinateState(Coordinates.with(file, rank), piece));
                 } else {
-                    statesList.add(new UnoccupiedCoordinateState());
+                    statesList.add(new UnoccupiedCoordinateState(Coordinates.with(file, rank)));
                 }
             }
         }

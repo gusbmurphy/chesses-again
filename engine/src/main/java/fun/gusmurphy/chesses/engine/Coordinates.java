@@ -1,5 +1,7 @@
 package fun.gusmurphy.chesses.engine;
 
+import java.util.Arrays;
+
 import static fun.gusmurphy.chesses.engine.Rank.*;
 import static fun.gusmurphy.chesses.engine.File.*;
 
@@ -20,6 +22,10 @@ public enum Coordinates {
     Coordinates(File file, Rank rank) {
         this.file = file;
         this.rank = rank;
+    }
+
+    public static Coordinates with(File file, Rank rank) {
+        return Arrays.stream(values()).filter(coordinates -> coordinates.file == file && coordinates.rank == rank).findFirst().get();
     }
 
     public File file() {
