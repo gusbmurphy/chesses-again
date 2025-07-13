@@ -66,24 +66,28 @@ public class BoardState {
         List<BoardCoordinateState> statesList = new ArrayList<>();
 
         for (Coordinates coordinates : coordinatesOnBoard) {
-            Optional<Map.Entry<PieceId, Coordinates>> coordinatesForPieceId =
-                coordinatesForPieces.entrySet().stream()
-                    .filter(e -> e.getValue() == coordinates)
-                    .findFirst();
-
-            if (coordinatesForPieceId.isPresent()) {
-                Piece piece = pieces.stream()
-                    .filter(p -> p.id() == coordinatesForPieceId.get().getKey())
-                    .findFirst()
-                    .get();
-
-                statesList.add(new OccupiedCoordinateState(coordinates, piece));
-            } else {
-                statesList.add(new UnoccupiedCoordinateState(coordinates));
-            }
+            statesList.add(getStateFor(coordinates));
         }
 
         return new BoardCoordinateStates(statesList);
+    }
+
+    private BoardCoordinateState getStateFor(Coordinates coordinates) {
+        Optional<Map.Entry<PieceId, Coordinates>> coordinatesForPieceId =
+            coordinatesForPieces.entrySet().stream()
+                .filter(e -> e.getValue() == coordinates)
+                .findFirst();
+
+        if (coordinatesForPieceId.isPresent()) {
+            Piece piece = pieces.stream()
+                .filter(p -> p.id() == coordinatesForPieceId.get().getKey())
+                .findFirst()
+                .get();
+
+            return new OccupiedCoordinateState(coordinates, piece);
+        }
+
+        return new UnoccupiedCoordinateState(coordinates);
     }
 
     public void apply(BoardStateEvent event) {
