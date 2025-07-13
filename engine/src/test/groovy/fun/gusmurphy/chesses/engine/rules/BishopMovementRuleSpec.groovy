@@ -27,4 +27,21 @@ class BishopMovementRuleSpec extends Specification {
         moveCoordinates << [E5, C5, C3, E3]
     }
 
+    def "a bishop cannot move straight up or down"() {
+        given:
+        def bishop = new Piece(WHITE, PieceType.BISHOP)
+        def board = new BoardStateBuilder().addPieceAt(bishop, D4).build()
+        def move = new Move(bishop.id(), moveCoordinates)
+        MoveLegalityRule rule = new BishopMovementRule()
+
+        when:
+        def result = rule.evaluate(board, move)
+
+        then:
+        result == MoveLegality.ILLEGAL
+
+        where:
+        moveCoordinates << [D5, C4, D3, E4]
+    }
+
 }

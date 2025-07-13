@@ -16,4 +16,8 @@ public class Move {
         return pieceId;
     }
 
+    public Coordinates coordinates() {
+        return coordinates;
+    }
+
 }
