@@ -6,6 +6,7 @@ import fun.gusmurphy.chesses.engine.Rank;
 import fun.gusmurphy.chesses.engine.boardstate.events.BoardStateEvent;
 import fun.gusmurphy.chesses.engine.boardstate.events.PieceMovedEvent;
 import fun.gusmurphy.chesses.engine.boardstate.events.PieceRemovedEvent;
+import fun.gusmurphy.chesses.engine.boardstate.events.TurnChangeEvent;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
@@ -15,7 +16,7 @@ import java.util.*;
 
 public class BoardState {
 
-    private final PlayerColor currentTurnColor;
+    private PlayerColor currentTurnColor;
     private final Set<Piece> pieces = new HashSet<>();
     private final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
     private final Set<Coordinates> coordinatesOnBoard;
@@ -95,6 +96,8 @@ public class BoardState {
             handlePieceMoved((PieceMovedEvent) event);
         } else if (event instanceof PieceRemovedEvent) {
             handlePieceRemoved((PieceRemovedEvent) event);
+        } else if (event instanceof TurnChangeEvent) {
+            handleTurnChange((TurnChangeEvent) event);
         }
     }
 
@@ -117,6 +120,10 @@ public class BoardState {
         } else {
             throw new UnknownPieceException("Piece does not exist in board state");
         }
+    }
+
+    private void handleTurnChange(TurnChangeEvent event) {
+        currentTurnColor = event.newTurnColor();
     }
 
 }
