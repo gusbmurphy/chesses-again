@@ -13,4 +13,5 @@ public class Move {
     public PieceId pieceId() {
         return pieceId;
     }
+
 }

@@ -13,4 +13,5 @@ public class PieceRemovedEvent implements BoardStateEvent {
     public PieceId pieceId() {
         return pieceId;
     }
+
 }
