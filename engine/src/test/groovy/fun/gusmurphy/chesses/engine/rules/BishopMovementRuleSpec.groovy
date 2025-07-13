@@ -24,7 +24,7 @@ class BishopMovementRuleSpec extends Specification {
         result == MoveLegality.LEGAL
 
         where:
-        moveCoordinates << [E5, C5, C3, E3]
+        moveCoordinates << [E5, C5, C3, E3, B2, B6, F6, E2]
     }
 
     def "a bishop cannot move straight up or down"() {
