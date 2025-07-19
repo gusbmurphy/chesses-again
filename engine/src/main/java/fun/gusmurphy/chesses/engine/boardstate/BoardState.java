@@ -59,6 +59,7 @@ public class BoardState {
         throw new UnknownPieceException("Piece does not exist in board state");
     }
 
+    // TODO: Or we could just get the whole `PieceOnBoard`...
     public Coordinates coordinatesForPieceId(PieceId id) throws UnknownPieceException {
         Coordinates coordinates = coordinatesForPieces.get(id);
 
