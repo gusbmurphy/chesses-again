@@ -24,7 +24,7 @@ public class BishopMovementRule implements MoveLegalityRule {
             return ILLEGAL;
         }
 
-        if (Math.abs(moveCoordinates.fileDifferenceTo(currentPieceCoordinates)) != Math.abs(currentPieceCoordinates.fileDifferenceTo(currentPieceCoordinates))) {
+        if (!moveCoordinates.isDiagonalFrom(currentPieceCoordinates)) {
             return ILLEGAL;
         }
 
