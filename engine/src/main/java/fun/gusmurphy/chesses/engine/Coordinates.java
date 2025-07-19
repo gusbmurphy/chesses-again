@@ -36,16 +36,16 @@ public enum Coordinates {
         return this.rank == other.rank;
     }
 
-    public int rankDifferenceTo(Coordinates other) {
+    public boolean isDiagonalFrom(Coordinates other) {
+        return Math.abs(rankDifferenceTo(other)) - Math.abs(fileDifferenceTo(other)) == 0;
+    }
+
+    private int rankDifferenceTo(Coordinates other) {
         return this.rank.ordinal() - other.rank.ordinal();
     }
 
-    public int fileDifferenceTo(Coordinates other) {
+    private int fileDifferenceTo(Coordinates other) {
         return this.file.ordinal() - other.file.ordinal();
-    }
-
-    public boolean isDiagonalFrom(Coordinates other) {
-        return Math.abs(rankDifferenceTo(other)) - Math.abs(fileDifferenceTo(other)) == 0;
     }
 
     @Override
