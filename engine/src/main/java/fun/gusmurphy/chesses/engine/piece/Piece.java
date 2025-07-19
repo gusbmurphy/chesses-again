@@ -6,6 +6,11 @@ public class Piece {
 
     private final PlayerColor color;
 
+    @Deprecated
+    public Piece(PlayerColor color) {
+        this.color = color;
+    }
+
     public Piece(PlayerColor color, PieceType type) {
         this.color = color;
     }

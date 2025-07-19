@@ -1,5 +1,6 @@
 package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.Coordinates
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysRule
@@ -13,7 +14,7 @@ import static fun.gusmurphy.chesses.engine.rules.MoveLegality.LEGAL
 class MoveLegalityRuleSuiteSpec extends Specification {
 
     private static final DUMMY_BOARD = new BoardStateBuilder().build()
-    private static final DUMMY_MOVE = new Move(new PieceId())
+    private static final DUMMY_MOVE = new Move(new PieceId(), Coordinates.A1)
 
     def "with no rules, a move is legal"() {
         given:

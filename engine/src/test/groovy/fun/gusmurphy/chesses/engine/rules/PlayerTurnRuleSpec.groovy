@@ -19,7 +19,7 @@ class PlayerTurnRuleSpec extends Specification {
             .build()
 
         MoveLegalityRule rule = new PlayerTurnRule()
-        Move move = new Move(piece.id())
+        Move move = new Move(piece.id(), Coordinates.A1)
 
         expect:
         rule.evaluate(board, move) == MoveLegality.LEGAL
@@ -37,7 +37,7 @@ class PlayerTurnRuleSpec extends Specification {
             .build()
 
         MoveLegalityRule rule = new PlayerTurnRule()
-        Move move = new Move(piece.id())
+        Move move = new Move(piece.id(), Coordinates.A1)
 
         expect:
         rule.evaluate(board, move) == MoveLegality.ILLEGAL
