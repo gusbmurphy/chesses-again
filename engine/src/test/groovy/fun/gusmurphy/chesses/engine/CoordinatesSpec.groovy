@@ -6,7 +6,7 @@ import static fun.gusmurphy.chesses.engine.Coordinates.*
 
 class CoordinatesSpec extends Specification {
 
-    def "we can check if two coordinates are diagonal to eachother"() {
+    def "we can check if two coordinates are diagonal to each other"() {
         expect:
         c1.isDiagonalFrom(c2) == expected
 
