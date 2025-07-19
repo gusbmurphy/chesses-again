@@ -44,6 +44,14 @@ public enum Coordinates {
         return this.rank == other.rank;
     }
 
+    public int rankDifferenceTo(Coordinates other) {
+        return this.rank.ordinal() - other.rank.ordinal();
+    }
+
+    public int fileDifferenceTo(Coordinates other) {
+        return this.file.ordinal() - other.file.ordinal();
+    }
+
     @Override
     public String toString() {
         return file.toString().substring(0, 1).toLowerCase() + (rank.ordinal() + 1);

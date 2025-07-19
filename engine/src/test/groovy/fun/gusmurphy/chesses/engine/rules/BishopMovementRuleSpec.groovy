@@ -44,4 +44,21 @@ class BishopMovementRuleSpec extends Specification {
         moveCoordinates << [D5, C4, D3, E4]
     }
 
+    def "bishops can't move outside those diagonal paths"() {
+        given:
+        def bishop = new Piece(WHITE, PieceType.BISHOP)
+        def board = new BoardStateBuilder().addPieceAt(bishop, D4).build()
+        def move = new Move(bishop.id(), moveCoordinates)
+        MoveLegalityRule rule = new BishopMovementRule()
+
+        when:
+        def result = rule.evaluate(board, move)
+
+        then:
+        result == MoveLegality.ILLEGAL
+
+        where:
+        moveCoordinates << [C2, E2, F3, F5, E6, C6, B5, B3]
+    }
+
 }
