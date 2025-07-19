@@ -52,6 +52,10 @@ public enum Coordinates {
         return this.file.ordinal() - other.file.ordinal();
     }
 
+    public boolean isDiagonalFrom(Coordinates other) {
+        return Math.abs(rankDifferenceTo(other)) - Math.abs(fileDifferenceTo(other)) == 0;
+    }
+
     @Override
     public String toString() {
         return file.toString().substring(0, 1).toLowerCase() + (rank.ordinal() + 1);
