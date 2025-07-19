@@ -9,11 +9,7 @@ import static fun.gusmurphy.chesses.engine.rules.MoveLegality.*;
 public class BishopMovementRule implements MoveLegalityRule {
     @Override
     public MoveLegality evaluate(BoardState boardState, Move move) {
-        Coordinates currentPieceCoordinates = boardState
-            .allCoordinateStates()
-            .forPieceId(move.pieceId())
-            .get().coordinates();
-
+        Coordinates currentPieceCoordinates = boardState.coordinatesForPieceId(move.pieceId());
         Coordinates moveCoordinates = move.coordinates();
 
         if (moveCoordinates.sameRankAs(currentPieceCoordinates)) {
