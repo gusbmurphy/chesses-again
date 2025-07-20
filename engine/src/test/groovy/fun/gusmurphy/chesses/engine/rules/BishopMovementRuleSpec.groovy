@@ -11,11 +11,12 @@ import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
 class BishopMovementRuleSpec extends Specification {
 
+    private final Piece TEST_BISHOP = new Piece(WHITE, BISHOP)
+
     def "a bishop can move diagonally"() {
         given:
-        def bishop = new Piece(WHITE, BISHOP)
-        def board = new BoardStateBuilder().addPieceAt(bishop, D4).build()
-        def move = new Move(bishop.id(), moveCoordinates)
+        def board = new BoardStateBuilder().addPieceAt(TEST_BISHOP, D4).build()
+        def move = new Move(TEST_BISHOP.id(), moveCoordinates)
         MoveLegalityRule rule = new BishopMovementRule()
 
         when:
@@ -30,9 +31,8 @@ class BishopMovementRuleSpec extends Specification {
 
     def "a bishop cannot move straight up or down"() {
         given:
-        def bishop = new Piece(WHITE, BISHOP)
-        def board = new BoardStateBuilder().addPieceAt(bishop, D4).build()
-        def move = new Move(bishop.id(), moveCoordinates)
+        def board = new BoardStateBuilder().addPieceAt(TEST_BISHOP, D4).build()
+        def move = new Move(TEST_BISHOP.id(), moveCoordinates)
         MoveLegalityRule rule = new BishopMovementRule()
 
         when:
@@ -47,9 +47,8 @@ class BishopMovementRuleSpec extends Specification {
 
     def "bishops can't move outside those diagonal paths"() {
         given:
-        def bishop = new Piece(WHITE, BISHOP)
-        def board = new BoardStateBuilder().addPieceAt(bishop, D4).build()
-        def move = new Move(bishop.id(), moveCoordinates)
+        def board = new BoardStateBuilder().addPieceAt(TEST_BISHOP, D4).build()
+        def move = new Move(TEST_BISHOP.id(), moveCoordinates)
         MoveLegalityRule rule = new BishopMovementRule()
 
         when:
