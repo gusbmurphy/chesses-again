@@ -59,6 +59,20 @@ class RookMovementRuleSpec extends Specification {
         moveCoordinates << [E5, C3, E3, C5]
     }
 
+    def "a rook cannot to other odd spots"() {
+        given:
+        def move = rookMoveTo(moveCoordinates)
+
+        when:
+        def result = ROOK_RULE.evaluate(TEST_BOARD, move)
+
+        then:
+        result == MoveLegality.ILLEGAL
+
+        where:
+        moveCoordinates << [F5, G5, C6, E2]
+    }
+
     private static Move rookMoveTo(Coordinates coordinates) {
         return new Move(TEST_ROOK.id(), coordinates)
     }

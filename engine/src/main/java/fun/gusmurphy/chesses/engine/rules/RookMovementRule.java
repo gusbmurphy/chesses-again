@@ -11,12 +11,17 @@ public class RookMovementRule implements MoveLegalityRule {
     @Override
     public MoveLegality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
+        Coordinates pieceCoordinates = pieceOnBoard.coordinates();
         Coordinates moveCoordinates = move.coordinates();
 
-        if (moveCoordinates.isDiagonalFrom(pieceOnBoard.coordinates())) {
-            return ILLEGAL;
+        if (moveCoordinates.sameRankAs(pieceCoordinates)) {
+            return LEGAL;
         }
 
-        return LEGAL;
+        if (moveCoordinates.sameFileAs(pieceCoordinates)) {
+            return LEGAL;
+        }
+
+        return ILLEGAL;
     }
 }
