@@ -1,6 +1,8 @@
 package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.Coordinates
 import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
 import spock.lang.Specification
@@ -11,21 +13,26 @@ import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
 class RookMovementRuleSpec extends Specification {
 
+    private static final Piece TEST_ROOK = new Piece(WHITE, ROOK)
+    private static final BoardState TEST_BOARD = new BoardStateBuilder().addPieceAt(TEST_ROOK, D4).build()
+    private static final MoveLegalityRule ROOK_RULE = new RookMovementRule()
+
     def "a rook can move to a spot in the same column"() {
         given:
-        def rook = new Piece(WHITE, ROOK)
-        def board = new BoardStateBuilder().addPieceAt(rook, D4).build()
-        def move = new Move(rook.id(), moveCoordinates)
-        MoveLegalityRule rule = new RookMovementRule()
+        def move = rookMoveTo(moveCoordinates)
 
         when:
-        def result = rule.evaluate(board, move)
+        def result = ROOK_RULE.evaluate(TEST_BOARD, move)
 
         then:
         result == MoveLegality.LEGAL
 
         where:
         moveCoordinates << [E5, C5, C3, E3, B2, B6, F6]
+    }
+
+    private static Move rookMoveTo(Coordinates coordinates) {
+        return new Move(TEST_ROOK.id(), coordinates)
     }
 
 }

@@ -1,6 +1,8 @@
 package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.Coordinates
 import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
@@ -11,16 +13,16 @@ import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
 class BishopMovementRuleSpec extends Specification {
 
-    private final Piece TEST_BISHOP = new Piece(WHITE, BISHOP)
+    private static final Piece TEST_BISHOP = new Piece(WHITE, BISHOP)
+    private static final BoardState TEST_BOARD = new BoardStateBuilder().addPieceAt(TEST_BISHOP, D4).build()
+    private static final MoveLegalityRule BISHOP_RULE = new BishopMovementRule()
 
     def "a bishop can move diagonally"() {
         given:
-        def board = new BoardStateBuilder().addPieceAt(TEST_BISHOP, D4).build()
-        def move = new Move(TEST_BISHOP.id(), moveCoordinates)
-        MoveLegalityRule rule = new BishopMovementRule()
+        def move = bishopMoveTo(moveCoordinates)
 
         when:
-        def result = rule.evaluate(board, move)
+        def result = BISHOP_RULE.evaluate(TEST_BOARD, move)
 
         then:
         result == MoveLegality.LEGAL
@@ -31,12 +33,10 @@ class BishopMovementRuleSpec extends Specification {
 
     def "a bishop cannot move straight up or down"() {
         given:
-        def board = new BoardStateBuilder().addPieceAt(TEST_BISHOP, D4).build()
-        def move = new Move(TEST_BISHOP.id(), moveCoordinates)
-        MoveLegalityRule rule = new BishopMovementRule()
+        def move = bishopMoveTo(moveCoordinates)
 
         when:
-        def result = rule.evaluate(board, move)
+        def result = BISHOP_RULE.evaluate(TEST_BOARD, move)
 
         then:
         result == MoveLegality.ILLEGAL
@@ -47,12 +47,10 @@ class BishopMovementRuleSpec extends Specification {
 
     def "bishops can't move outside those diagonal paths"() {
         given:
-        def board = new BoardStateBuilder().addPieceAt(TEST_BISHOP, D4).build()
-        def move = new Move(TEST_BISHOP.id(), moveCoordinates)
-        MoveLegalityRule rule = new BishopMovementRule()
+        def move = bishopMoveTo(moveCoordinates)
 
         when:
-        def result = rule.evaluate(board, move)
+        def result = BISHOP_RULE.evaluate(TEST_BOARD, move)
 
         then:
         result == MoveLegality.ILLEGAL
@@ -66,16 +64,19 @@ class BishopMovementRuleSpec extends Specification {
         def nonBishop = new Piece(WHITE, pieceType as PieceType)
         def board = new BoardStateBuilder().addPieceAt(nonBishop, D4).build()
         def move = new Move(nonBishop.id(), C2)
-        MoveLegalityRule rule = new BishopMovementRule()
 
         when:
-        def result = rule.evaluate(board, move)
+        def result = BISHOP_RULE.evaluate(board, move)
 
         then:
         result == MoveLegality.UNCONCERNED
 
         where:
         pieceType << [ROOK, PAWN, KING, QUEEN, KNIGHT]
+    }
+
+    private static Move bishopMoveTo(Coordinates coordinates) {
+        return new Move(TEST_BISHOP.id(), coordinates)
     }
 
 }
