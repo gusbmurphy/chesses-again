@@ -17,7 +17,7 @@ class RookMovementRuleSpec extends Specification {
     private static final BoardState TEST_BOARD = new BoardStateBuilder().addPieceAt(TEST_ROOK, D4).build()
     private static final MoveLegalityRule ROOK_RULE = new RookMovementRule()
 
-    def "a rook can move to a spot in the same column"() {
+    def "a rook can move to a spot in the same file"() {
         given:
         def move = rookMoveTo(moveCoordinates)
 
@@ -28,7 +28,7 @@ class RookMovementRuleSpec extends Specification {
         result == MoveLegality.LEGAL
 
         where:
-        moveCoordinates << [E5, C5, C3, E3, B2, B6, F6]
+        moveCoordinates << [D1, D2, D3, D5, D6, D7, D8]
     }
 
     private static Move rookMoveTo(Coordinates coordinates) {
