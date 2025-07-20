@@ -31,6 +31,20 @@ class RookMovementRuleSpec extends Specification {
         moveCoordinates << [D1, D2, D3, D5, D6, D7, D8]
     }
 
+    def "a rook can move to a spot in the same rank"() {
+        given:
+        def move = rookMoveTo(moveCoordinates)
+
+        when:
+        def result = ROOK_RULE.evaluate(TEST_BOARD, move)
+
+        then:
+        result == MoveLegality.LEGAL
+
+        where:
+        moveCoordinates << [A4, B4, C4, E4, F4, G4, H4]
+    }
+
     def "a rook cannot move diagonally"() {
         given:
         def move = rookMoveTo(moveCoordinates)
