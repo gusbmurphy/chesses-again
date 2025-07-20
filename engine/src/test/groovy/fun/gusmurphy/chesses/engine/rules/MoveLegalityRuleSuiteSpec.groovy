@@ -5,6 +5,7 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysRule
 import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysRule
+import fun.gusmurphy.chesses.engine.doubles.UnconcernedAlwaysRule
 import fun.gusmurphy.chesses.engine.piece.PieceId
 import spock.lang.Specification
 
@@ -64,6 +65,23 @@ class MoveLegalityRuleSuiteSpec extends Specification {
 
         then:
         result == ILLEGAL
+    }
+
+    def "with two move evaluation rules, where one is unconcerned, the other rule decides the legality"() {
+        given:
+        MoveLegalityRule unconcerned = new UnconcernedAlwaysRule()
+        def suite = new MoveLegalityRuleSuite(unconcerned, otherRule)
+
+        when:
+        def result = suite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
+
+        then:
+        result == expected
+
+        where:
+        otherRule           | expected
+        ALWAYS_ILLEGAL_RULE | ILLEGAL
+        ALWAYS_LEGAL_RULE   | LEGAL
     }
 
 }
