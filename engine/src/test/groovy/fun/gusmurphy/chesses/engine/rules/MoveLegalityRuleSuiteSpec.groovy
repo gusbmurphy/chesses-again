@@ -35,9 +35,9 @@ class MoveLegalityRuleSuiteSpec extends Specification {
         result == expected
 
         where:
-        rule                              | expected
-        new IllegalAlwaysRule()       | ILLEGAL
-        new LegalAlwaysRule() | LEGAL
+        rule                    | expected
+        new IllegalAlwaysRule() | ILLEGAL
+        new LegalAlwaysRule()   | LEGAL
     }
 
     def "with two move evaluation rules, a move is legal if both allow it"() {
