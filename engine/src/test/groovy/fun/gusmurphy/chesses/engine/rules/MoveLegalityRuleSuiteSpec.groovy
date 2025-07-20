@@ -15,6 +15,8 @@ class MoveLegalityRuleSuiteSpec extends Specification {
 
     private static final DUMMY_BOARD = new BoardStateBuilder().build()
     private static final DUMMY_MOVE = new Move(new PieceId(), Coordinates.A1)
+    private static final MoveLegalityRule ALWAYS_LEGAL_RULE = new LegalAlwaysRule()
+    private static final MoveLegalityRule ALWAYS_ILLEGAL_RULE = new IllegalAlwaysRule()
 
     def "with no rules, a move is legal"() {
         given:
@@ -42,8 +44,8 @@ class MoveLegalityRuleSuiteSpec extends Specification {
 
     def "with two move evaluation rules, a move is legal if both allow it"() {
         given:
-        MoveLegalityRule ruleOne = new LegalAlwaysRule()
-        MoveLegalityRule ruleTwo = new LegalAlwaysRule()
+        def ruleOne = new LegalAlwaysRule()
+        def ruleTwo = new LegalAlwaysRule()
         MoveLegalityRuleSuite ruleSuite = new MoveLegalityRuleSuite(ruleOne, ruleTwo)
 
         when:
@@ -55,9 +57,7 @@ class MoveLegalityRuleSuiteSpec extends Specification {
 
     def "with two move evaluation rules, a move is illegal if one does not allow it"() {
         given:
-        MoveLegalityRule legal = new LegalAlwaysRule()
-        MoveLegalityRule illegal = new IllegalAlwaysRule()
-        MoveLegalityRuleSuite ruleSuite = new MoveLegalityRuleSuite(legal, illegal)
+        MoveLegalityRuleSuite ruleSuite = new MoveLegalityRuleSuite(ALWAYS_LEGAL_RULE, ALWAYS_ILLEGAL_RULE)
 
         when:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
