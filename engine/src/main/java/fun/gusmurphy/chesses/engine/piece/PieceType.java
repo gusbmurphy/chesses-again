@@ -1,5 +1,5 @@
 package fun.gusmurphy.chesses.engine.piece;
 
 public enum PieceType {
-    BISHOP
+    KING, QUEEN, BISHOP, KNIGHT, ROOK, PAWN
 }
