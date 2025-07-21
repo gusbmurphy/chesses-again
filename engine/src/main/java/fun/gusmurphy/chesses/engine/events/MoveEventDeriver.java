@@ -12,8 +12,16 @@ import java.util.Optional;
 
 public class MoveEventDeriver implements DerivesMoveEvents {
 
+    private final TracksTurns turnTracker;
+
+    public MoveEventDeriver(TracksTurns turnTracker) {
+        this.turnTracker = turnTracker;
+    }
+
     @Override
     public BoardStateEvents deriveEventsFrom(Move move, BoardState boardState) {
+        turnTracker.turnTaken();
+
         List<BoardStateEvent> eventList = new ArrayList<>();
 
         createEventForTakenPiece(move, boardState).ifPresent(eventList::add);

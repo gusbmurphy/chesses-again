@@ -2,6 +2,7 @@ package fun.gusmurphy.chesses.engine.events
 
 import fun.gusmurphy.chesses.engine.DerivesMoveEvents
 import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
 import spock.lang.Specification
@@ -15,15 +16,20 @@ class MoveEventDeriverSpec extends Specification {
     private final static Piece PIECE_A = new Piece(WHITE, ROOK)
     private final static Piece PIECE_B = new Piece(BLACK, ROOK)
 
-    private final DerivesMoveEvents deriver = new MoveEventDeriver()
+    private final static BoardState BOARD = new BoardStateBuilder()
+        .addPieceAt(PIECE_A, A3)
+        .addPieceAt(PIECE_B, D3)
+        .build()
+
+    private final TracksTurns turnTracker = Mock(TracksTurns)
+    private final DerivesMoveEvents deriver = new MoveEventDeriver(turnTracker)
 
     def "moving a piece to another spot on the board does just that"() {
         given:
-        def board = new BoardStateBuilder().addPieceAt(PIECE_A, A3).build()
         def move = new Move(PIECE_A.id(), A7)
 
         when:
-        def result = deriver.deriveEventsFrom(move, board)
+        def result = deriver.deriveEventsFrom(move, BOARD)
 
         then:
         result.inOrder().size() == 1
@@ -34,14 +40,10 @@ class MoveEventDeriverSpec extends Specification {
 
     def "moving a piece to an occupied space removes the piece from that space, and then moves the piece"() {
         given:
-        def board = new BoardStateBuilder()
-            .addPieceAt(PIECE_A, A3)
-            .addPieceAt(PIECE_B, D3)
-            .build()
         def move = new Move(PIECE_A.id(), D3)
 
         when:
-        def result = deriver.deriveEventsFrom(move, board)
+        def result = deriver.deriveEventsFrom(move, BOARD)
 
         then:
         result.inOrder().size() == 2
@@ -52,6 +54,17 @@ class MoveEventDeriverSpec extends Specification {
         def e2 = result.inOrder()[1] as PieceMovedEvent
         e2.newCoordinates() == D3
         e2.pieceId() == PIECE_A.id()
+    }
+
+    def "the turn tracker is consulted to see if a turn change event is needed"() {
+        given:
+        def move = new Move(PIECE_A.id(), A7)
+
+        when:
+        def result = deriver.deriveEventsFrom(move, BOARD)
+
+        then:
+        1 * turnTracker.turnTaken()
     }
 
 }
