@@ -28,4 +28,10 @@ public class BoardCoordinateStates {
             .findFirst();
     }
 
+    public Optional<BoardCoordinateState> forCoordinates(Coordinates coordinates) {
+        return coordinateStateList.stream()
+            .filter(cs -> cs.coordinates() == coordinates)
+            .findFirst();
+    }
+
 }

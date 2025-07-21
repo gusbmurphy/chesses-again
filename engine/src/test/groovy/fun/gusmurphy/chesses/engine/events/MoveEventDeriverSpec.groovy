@@ -29,4 +29,29 @@ class MoveEventDeriverSpec extends Specification {
         event.pieceId() == piece.id()
     }
 
+    def "moving a piece to an occupied space removes the piece from that space, and then moves the piece"() {
+        given:
+        DerivesMoveEvents deriver = new MoveEventDeriver()
+        def movingPiece = new Piece(WHITE, ROOK)
+        def takenPiece = new Piece(WHITE, ROOK)
+        def board = new BoardStateBuilder()
+            .addPieceAt(movingPiece, A3)
+            .addPieceAt(takenPiece, D3)
+            .build()
+        def move = new Move(movingPiece.id(), D3)
+
+        when:
+        def result = deriver.deriveEventsFrom(move, board)
+
+        then:
+        result.inOrder().size() == 2
+
+        def e1 = result.inOrder()[0] as PieceRemovedEvent
+        e1.pieceId() == takenPiece.id()
+
+        def e2 = result.inOrder()[1] as PieceMovedEvent
+        e2.newCoordinates() == D3
+        e2.pieceId() == movingPiece.id()
+    }
+
 }
