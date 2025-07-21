@@ -4,6 +4,9 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 
 public interface AppliesMoves {
 
-    void applyMoveToBoard(Move move, BoardState boardState);
+    /**
+     * @return The resulting board state.
+     */
+    BoardState applyMoveToBoard(Move move, BoardState boardState);
 
 }

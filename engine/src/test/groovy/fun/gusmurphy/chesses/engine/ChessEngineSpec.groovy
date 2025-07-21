@@ -1,7 +1,9 @@
 package fun.gusmurphy.chesses.engine
 
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceId
+import fun.gusmurphy.chesses.engine.piece.PieceType
 import fun.gusmurphy.chesses.engine.rules.MoveLegality
 import fun.gusmurphy.chesses.engine.rules.MoveLegalityRule
 import spock.lang.Specification
@@ -28,12 +30,20 @@ class ChessEngineSpec extends Specification {
     }
 
     def "when a move is made, the move applier is used if the move is legal"() {
+        given:
+        def newBoardState = new BoardStateBuilder()
+            .addPieceAt(new Piece(PlayerColor.WHITE, PieceType.ROOK), Coordinates.A1)
+            .build()
+
         when:
         engine.makeMove(DUMMY_MOVE)
 
         then:
         1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> MoveLegality.LEGAL
-        1 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, INITIAL_BOARD)
+        1 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, INITIAL_BOARD) >> newBoardState
+
+        and: "we can retrieve the new board state"
+        engine.currentBoardState() == newBoardState
     }
 
     def "when a move is made, the move applier is NOT invoked if the move is NOT legal"() {
@@ -43,6 +53,9 @@ class ChessEngineSpec extends Specification {
         then:
         1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> MoveLegality.ILLEGAL
         0 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, INITIAL_BOARD)
+
+        and: "the board state remains the same"
+        engine.currentBoardState() == INITIAL_BOARD
     }
 
 }

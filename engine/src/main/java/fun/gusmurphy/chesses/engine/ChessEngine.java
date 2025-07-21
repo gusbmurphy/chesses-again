@@ -8,12 +8,16 @@ public class ChessEngine {
 
     private final AppliesMoves moveApplicator;
     private final MoveLegalityRule moveRule;
-    private final BoardState boardState;
+    private BoardState boardState;
 
     public ChessEngine(AppliesMoves moveApplicator, MoveLegalityRule moveRule, BoardState boardState) {
         this.moveApplicator = moveApplicator;
         this.moveRule = moveRule;
         this.boardState = boardState;
+    }
+
+    public BoardState currentBoardState() {
+        return boardState;
     }
 
     public MoveLegality checkLegalityOf(Move move) {
@@ -24,7 +28,7 @@ public class ChessEngine {
         MoveLegality moveLegality = moveRule.evaluate(boardState, move);
 
         if (moveLegality == MoveLegality.LEGAL) {
-            moveApplicator.applyMoveToBoard(move, boardState);
+            boardState = moveApplicator.applyMoveToBoard(move, boardState);
         }
     }
 
