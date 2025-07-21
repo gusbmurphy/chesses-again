@@ -1,4 +1,4 @@
-package fun.gusmurphy.chesses.engine.boardstate.events;
+package fun.gusmurphy.chesses.engine.events;
 
 import fun.gusmurphy.chesses.engine.PlayerColor;
 

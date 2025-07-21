@@ -1,8 +1,8 @@
 package fun.gusmurphy.chesses.engine;
 
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
-import fun.gusmurphy.chesses.engine.boardstate.events.BoardStateEvent;
-import fun.gusmurphy.chesses.engine.boardstate.events.BoardStateEvents;
+import fun.gusmurphy.chesses.engine.events.BoardStateEvent;
+import fun.gusmurphy.chesses.engine.events.BoardStateEvents;
 
 public class MoveApplicator implements AppliesMoves {
 

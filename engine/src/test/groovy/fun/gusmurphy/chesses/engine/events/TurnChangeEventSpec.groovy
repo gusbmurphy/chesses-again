@@ -1,6 +1,7 @@
-package fun.gusmurphy.chesses.engine.boardstate.events
+package fun.gusmurphy.chesses.engine.events
 
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.events.TurnChangeEvent
 import spock.lang.Specification
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
 

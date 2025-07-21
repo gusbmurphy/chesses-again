@@ -1,37 +1,38 @@
-package fun.gusmurphy.chesses.engine.boardstate.events
+package fun.gusmurphy.chesses.engine.events
 
 import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.boardstate.UnknownPieceException
+import fun.gusmurphy.chesses.engine.events.BoardStateEvent
+import fun.gusmurphy.chesses.engine.events.PieceMovedEvent
 import fun.gusmurphy.chesses.engine.piece.Piece
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.Coordinates.*
 
-class PieceRemovedEventSpec extends Specification {
+class PieceMovedEventSpec extends Specification {
 
-    def "a piece removed event removes a piece from the board"() {
+    def "a piece moved event will move the given piece on the board"() {
         given:
         Piece piece = new Piece(PlayerColor.WHITE)
         BoardState board = new BoardStateBuilder()
             .addPieceAt(piece, A7)
             .build()
-        BoardStateEvent event = new PieceRemovedEvent(piece.id())
+        BoardStateEvent event = new PieceMovedEvent(piece.id(), B6)
 
         when:
         board.apply(event)
-        board.pieceOnBoardForId(piece.id())
 
         then:
-        thrown UnknownPieceException
+        board.pieceOnBoardForId(piece.id()).coordinates() == B6
     }
 
-    def "removing a piece that is not on the board throws an exception"() {
+    def "a piece moved event for a piece not on the board throws an UnknownPieceException"() {
         given:
         BoardState board = new BoardStateBuilder().build()
         Piece piece = new Piece(PlayerColor.WHITE)
-        BoardStateEvent event = new PieceRemovedEvent(piece.id())
+        BoardStateEvent event = new PieceMovedEvent(piece.id(), B6)
 
         when:
         board.apply(event)
