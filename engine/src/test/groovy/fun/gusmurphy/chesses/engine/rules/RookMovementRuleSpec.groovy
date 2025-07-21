@@ -59,7 +59,7 @@ class RookMovementRuleSpec extends Specification {
         moveCoordinates << [E5, C3, E3, C5]
     }
 
-    def "a rook cannot to other odd spots"() {
+    def "a rook cannot move to other odd spots"() {
         given:
         def move = rookMoveTo(moveCoordinates)
 
