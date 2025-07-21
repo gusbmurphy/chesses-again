@@ -20,8 +20,8 @@ gwt {
 
   // Needs to be in front of "modules" below.
   src = files(file('src/main/java'), project(":core").file('src/main/java'))
-  modules += ["com.gusmurphy.chesses.GdxDefinition"]
-  devModules += ["com.gusmurphy.chesses.GdxDefinitionSuperdev"]
+  modules += ["fun.gusmurphy.chesses.GdxDefinition"]
+  devModules += ["fun.gusmurphy.chesses.GdxDefinitionSuperdev"]
   project.webAppDirName = "webapp"
 
   compiler.strict = true
