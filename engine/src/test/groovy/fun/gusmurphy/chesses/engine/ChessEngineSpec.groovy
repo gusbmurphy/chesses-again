@@ -32,4 +32,13 @@ class ChessEngineSpec extends Specification {
         1 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, BOARD)
     }
 
+    def "when a move is made, the move applier is NOT invoked if the move is NOT legal"() {
+        when:
+        engine.makeMove(DUMMY_MOVE)
+
+        then:
+        1 * moveRule.evaluate(BOARD, DUMMY_MOVE) >> MoveLegality.ILLEGAL
+        0 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, BOARD)
+    }
+
 }

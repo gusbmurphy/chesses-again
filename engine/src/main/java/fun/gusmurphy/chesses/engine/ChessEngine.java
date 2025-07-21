@@ -21,8 +21,11 @@ public class ChessEngine {
     }
 
     public void makeMove(Move move) {
-        moveRule.evaluate(boardState, move);
-        moveApplicator.applyMoveToBoard(move, boardState);
+        MoveLegality moveLegality = moveRule.evaluate(boardState, move);
+
+        if (moveLegality == MoveLegality.LEGAL) {
+            moveApplicator.applyMoveToBoard(move, boardState);
+        }
     }
 
 }
