@@ -1,10 +1,10 @@
 package fun.gusmurphy.chesses.engine;
 
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
-import fun.gusmurphy.chesses.engine.boardstate.events.BoardStateEvents;
+import fun.gusmurphy.chesses.engine.boardstate.events.BoardStateEvent;
 
 public interface ReducesBoardState {
 
-    BoardState reduce(BoardState boardState, BoardStateEvents events);
+    BoardState reduce(BoardState boardState, BoardStateEvent event);
 
 }

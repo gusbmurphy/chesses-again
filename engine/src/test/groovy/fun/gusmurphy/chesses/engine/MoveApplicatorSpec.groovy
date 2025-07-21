@@ -8,14 +8,20 @@ import fun.gusmurphy.chesses.engine.piece.PieceId
 import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
+// TODO: This test is feeling weird, a ton of setup with barely any testing?
 class MoveApplicatorSpec extends Specification {
 
     private static final INITIAL_BOARD = new BoardStateBuilder().build()
-    private static final REDUCED_BOARD = new BoardStateBuilder().addPieceAt(
+    private static final FIRST_REDUCED_BOARD = new BoardStateBuilder().addPieceAt(
         new Piece(PlayerColor.WHITE, PieceType.ROOK), Coordinates.A1
     ).build()
+    private static final SECOND_REDUCED_BOARD = new BoardStateBuilder().addPieceAt(
+        new Piece(PlayerColor.WHITE, PieceType.ROOK), Coordinates.A3
+    ).build()
     private static final DUMMY_MOVE = new Move(new PieceId(), Coordinates.A1)
-    private static final DERIVED_EVENTS = new BoardStateEvents(new DummyBoardStateEvent())
+    private static final FIRST_EVENT = new DummyBoardStateEvent()
+    private static final SECOND_EVENT = new DummyBoardStateEvent()
+    private static final DERIVED_EVENTS = new BoardStateEvents(FIRST_EVENT, SECOND_EVENT)
 
     private DerivesMoveEvents eventDeriver = Mock(DerivesMoveEvents)
     private ReducesBoardState boardStateReducer = Mock(ReducesBoardState)
@@ -28,8 +34,9 @@ class MoveApplicatorSpec extends Specification {
 
         then:
         1 * eventDeriver.deriveEventsFrom(DUMMY_MOVE, INITIAL_BOARD) >> DERIVED_EVENTS
-        1 * boardStateReducer.reduce(INITIAL_BOARD, DERIVED_EVENTS) >> REDUCED_BOARD
-        result == REDUCED_BOARD
+        1 * boardStateReducer.reduce(INITIAL_BOARD, FIRST_EVENT) >> FIRST_REDUCED_BOARD
+        1 * boardStateReducer.reduce(FIRST_REDUCED_BOARD, SECOND_EVENT) >> SECOND_REDUCED_BOARD
+        result == SECOND_REDUCED_BOARD
     }
 
 }

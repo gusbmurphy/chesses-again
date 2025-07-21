@@ -1,6 +1,7 @@
 package fun.gusmurphy.chesses.engine;
 
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.boardstate.events.BoardStateEvent;
 import fun.gusmurphy.chesses.engine.boardstate.events.BoardStateEvents;
 
 public class MoveApplicator implements AppliesMoves {
@@ -16,7 +17,13 @@ public class MoveApplicator implements AppliesMoves {
     @Override
     public BoardState applyMoveToBoard(Move move, BoardState boardState) {
         BoardStateEvents events = eventDeriver.deriveEventsFrom(move, boardState);
-        return boardStateReducer.reduce(boardState, events);
+        BoardState resultingBoardState = boardState;
+
+        for (BoardStateEvent event : events.inOrder()) {
+            resultingBoardState = boardStateReducer.reduce(resultingBoardState, event);
+        }
+
+        return resultingBoardState;
     }
 
 }
