@@ -6,20 +6,23 @@ public class Piece {
 
     private final PlayerColor color;
     private final PieceType type;
+    private final PieceId id;
 
     @Deprecated
     public Piece(PlayerColor color) {
         this.color = color;
         this.type = PieceType.PAWN;
+        this.id = new PieceId();
     }
 
     public Piece(PlayerColor color, PieceType type) {
         this.color = color;
         this.type = type;
+        this.id = new PieceId();
     }
 
     public PieceId id() {
-        return null;
+        return id;
     }
 
     public PlayerColor color() {
