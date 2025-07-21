@@ -8,18 +8,22 @@ import spock.lang.Specification
 
 class ChessEngineSpec extends Specification {
 
-    private static final BOARD = new BoardStateBuilder().build()
+    private static final INITIAL_BOARD = new BoardStateBuilder().build()
     private static final DUMMY_MOVE = new Move(new PieceId(), Coordinates.A1)
     private final AppliesMoves moveApplicator = Mock(AppliesMoves)
     private final MoveLegalityRule moveRule = Mock(MoveLegalityRule)
-    private final ChessEngine engine = new ChessEngine(moveApplicator, moveRule, BOARD)
+    private ChessEngine engine
+
+    def setup() {
+        engine = new ChessEngine(moveApplicator, moveRule, INITIAL_BOARD)
+    }
 
     def "the engine asks its move rule for rule legality"() {
         when:
         def result = engine.checkLegalityOf(DUMMY_MOVE)
 
         then:
-        1 * moveRule.evaluate(BOARD, DUMMY_MOVE) >> MoveLegality.LEGAL
+        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> MoveLegality.LEGAL
         result == MoveLegality.LEGAL
     }
 
@@ -28,8 +32,8 @@ class ChessEngineSpec extends Specification {
         engine.makeMove(DUMMY_MOVE)
 
         then:
-        1 * moveRule.evaluate(BOARD, DUMMY_MOVE) >> MoveLegality.LEGAL
-        1 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, BOARD)
+        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> MoveLegality.LEGAL
+        1 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, INITIAL_BOARD)
     }
 
     def "when a move is made, the move applier is NOT invoked if the move is NOT legal"() {
@@ -37,8 +41,8 @@ class ChessEngineSpec extends Specification {
         engine.makeMove(DUMMY_MOVE)
 
         then:
-        1 * moveRule.evaluate(BOARD, DUMMY_MOVE) >> MoveLegality.ILLEGAL
-        0 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, BOARD)
+        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> MoveLegality.ILLEGAL
+        0 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, INITIAL_BOARD)
     }
 
 }
