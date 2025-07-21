@@ -1,6 +1,7 @@
 package fun.gusmurphy.chesses.engine.events;
 
 import fun.gusmurphy.chesses.engine.Coordinates;
+import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 
 public class PieceMovedEvent implements BoardStateEvent {
@@ -11,6 +12,10 @@ public class PieceMovedEvent implements BoardStateEvent {
     public PieceMovedEvent(PieceId pieceId, Coordinates newCoordinates) {
         this.pieceId = pieceId;
         this.newCoordinates = newCoordinates;
+    }
+
+    public static PieceMovedEvent from(Move move) {
+        return new PieceMovedEvent(move.pieceId(), move.coordinates());
     }
 
     public PieceId pieceId() {
