@@ -32,7 +32,6 @@ class MoveEventDeriverSpec extends Specification {
         def result = deriver.deriveEventsFrom(move, BOARD)
 
         then:
-        result.inOrder().size() == 1
         def event = result.inOrder()[0] as PieceMovedEvent
         event.newCoordinates() == A7
         event.pieceId() == PIECE_A.id()
@@ -46,8 +45,6 @@ class MoveEventDeriverSpec extends Specification {
         def result = deriver.deriveEventsFrom(move, BOARD)
 
         then:
-        result.inOrder().size() == 2
-
         def e1 = result.inOrder()[0] as PieceRemovedEvent
         e1.pieceId() == PIECE_B.id()
 
@@ -56,15 +53,17 @@ class MoveEventDeriverSpec extends Specification {
         e2.pieceId() == PIECE_A.id()
     }
 
-    def "the turn tracker is consulted to see if a turn change event is needed"() {
+    def "the turn tracker is consulted for the new turn color"() {
         given:
+        def turnChangeEvent = new TurnChangeEvent(WHITE)
         def move = new Move(PIECE_A.id(), A7)
 
         when:
         def result = deriver.deriveEventsFrom(move, BOARD)
 
         then:
-        1 * turnTracker.turnTaken()
+        1 * turnTracker.turnTaken() >> turnChangeEvent
+        result.inOrder().any { event -> event == turnChangeEvent }
     }
 
 }

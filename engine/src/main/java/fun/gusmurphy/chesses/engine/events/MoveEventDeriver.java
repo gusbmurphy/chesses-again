@@ -20,12 +20,11 @@ public class MoveEventDeriver implements DerivesMoveEvents {
 
     @Override
     public BoardStateEvents deriveEventsFrom(Move move, BoardState boardState) {
-        turnTracker.turnTaken();
-
         List<BoardStateEvent> eventList = new ArrayList<>();
 
         createEventForTakenPiece(move, boardState).ifPresent(eventList::add);
         eventList.add(PieceMovedEvent.from(move));
+        eventList.add(turnTracker.turnTaken());
 
         return new BoardStateEvents(eventList.toArray(new BoardStateEvent[0]));
     }
