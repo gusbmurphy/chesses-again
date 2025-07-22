@@ -44,8 +44,6 @@ public class BoardState {
         }
     }
 
-    // TODO: I think that the `BoardState` should really be a value object (immutable, etc.), maybe we move all
-    // this other logic into the engine?
     public PlayerColor currentTurnColor() {
         return currentTurnColor;
     }
