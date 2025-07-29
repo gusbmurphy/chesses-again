@@ -12,9 +12,9 @@ import java.util.*;
 
 public class BoardState {
 
-    public PlayerColor currentTurnColor;
-    public final Set<Piece> pieces = new HashSet<>();
-    public final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
+    protected PlayerColor currentTurnColor;
+    protected final Set<Piece> pieces = new HashSet<>();
+    protected final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
     private final Set<Coordinates> coordinatesOnBoard;
 
     protected BoardState(
