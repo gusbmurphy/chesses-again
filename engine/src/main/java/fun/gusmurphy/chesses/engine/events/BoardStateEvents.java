@@ -2,14 +2,14 @@ package fun.gusmurphy.chesses.engine.events;
 
 public class BoardStateEvents {
 
-    private final BoardStateEvent[] eventList;
+    private final BoardStateEvent[] events;
 
     public BoardStateEvents(BoardStateEvent... events) {
-        eventList = events.clone();
+        this.events = events;
     }
 
     public BoardStateEvent[] inOrder() {
-        return eventList;
+        return events;
     }
 
 }

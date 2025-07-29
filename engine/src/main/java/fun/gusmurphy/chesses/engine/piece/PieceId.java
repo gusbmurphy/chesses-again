@@ -1,26 +1,29 @@
 package fun.gusmurphy.chesses.engine.piece;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class PieceId {
 
-    private final UUID uuid;
+    /**
+     * The reason behind using a `long` for the ID implementation is that GWT does not
+     * have an equivalent for UUID, oh well!
+     */
+    private final long id;
 
     public PieceId() {
-        uuid = UUID.randomUUID();
+        id = System.nanoTime();
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         PieceId pieceId = (PieceId) o;
-        return Objects.equals(uuid, pieceId.uuid);
+        return Objects.equals(id, pieceId.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(uuid);
+        return Objects.hashCode(id);
     }
 
 }

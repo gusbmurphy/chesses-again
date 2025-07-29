@@ -19,7 +19,7 @@ gwt {
   minHeapSize = '1G'
 
   // Needs to be in front of "modules" below.
-  src = files(file('src/main/java'), project(":core").file('src/main/java'))
+  src = files(file('src/main/java'), project(":core").file('src/main/java'), project(":engine").file('src/main/java'))
   modules += ["fun.gusmurphy.chesses.GdxDefinition"]
   devModules += ["fun.gusmurphy.chesses.GdxDefinitionSuperdev"]
   project.webAppDirName = "webapp"
@@ -37,7 +37,7 @@ dependencies {
   implementation "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
   implementation "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
   implementation project(':core')
-
+  implementation project(':engine')
 }
 
 import org.akhikhl.gretty.AppBeforeIntegrationTestTask
