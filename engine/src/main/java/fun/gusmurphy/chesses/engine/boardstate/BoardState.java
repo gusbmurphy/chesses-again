@@ -52,7 +52,7 @@ public class BoardState {
             return new PieceOnBoard(piece.get(), coordinates);
         }
 
-        throw new UnknownPieceException("Piece does not exist in board state");
+        throw new UnknownPieceException();
     }
 
     public BoardCoordinateStates allCoordinateStates() {

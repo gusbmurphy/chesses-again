@@ -15,7 +15,7 @@ public class BoardStateReducer implements ReducesBoardState {
             PieceId pieceId = ((PieceMovedEvent) event).pieceId();
 
             if (boardState.pieces.stream().noneMatch(p -> p.id() == pieceId)) {
-                throw new UnknownPieceException("Piece does not exist in board state");
+                throw new UnknownPieceException();
             }
 
             boardState.coordinatesForPieces.put(pieceId, ((PieceMovedEvent) event).newCoordinates());
@@ -26,7 +26,7 @@ public class BoardStateReducer implements ReducesBoardState {
             if (pieceToRemove.isPresent()) {
                 boardState.pieces.remove(pieceToRemove.get());
             } else {
-                throw new UnknownPieceException("Piece does not exist in board state");
+                throw new UnknownPieceException();
             }
         } else if (event instanceof TurnChangeEvent) {
             boardState.currentTurnColor = ((TurnChangeEvent) event).newTurnColor();
