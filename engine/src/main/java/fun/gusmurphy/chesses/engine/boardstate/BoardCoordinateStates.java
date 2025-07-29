@@ -18,10 +18,6 @@ public class BoardCoordinateStates {
         return coordinateStateList.size();
     }
 
-    public Optional<Coordinates> get(Coordinates coordinates) {
-        return Optional.of(coordinates);
-    }
-
     public Optional<BoardCoordinateState> forPieceId(PieceId pieceId) {
         return coordinateStateList.stream()
             .filter(cs -> cs.piece().isPresent() && cs.piece().get().id() == pieceId)
