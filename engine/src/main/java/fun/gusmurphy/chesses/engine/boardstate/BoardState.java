@@ -3,7 +3,6 @@ package fun.gusmurphy.chesses.engine.boardstate;
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.File;
 import fun.gusmurphy.chesses.engine.Rank;
-import fun.gusmurphy.chesses.engine.events.BoardStateEvent;
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
 import fun.gusmurphy.chesses.engine.events.PieceRemovedEvent;
 import fun.gusmurphy.chesses.engine.events.TurnChangeEvent;
@@ -87,17 +86,7 @@ public class BoardState {
         return new UnoccupiedCoordinateState(coordinates);
     }
 
-    public void apply(BoardStateEvent event) {
-        if (event instanceof PieceMovedEvent) {
-            handlePieceMoved((PieceMovedEvent) event);
-        } else if (event instanceof PieceRemovedEvent) {
-            handlePieceRemoved((PieceRemovedEvent) event);
-        } else if (event instanceof TurnChangeEvent) {
-            handleTurnChange((TurnChangeEvent) event);
-        }
-    }
-
-    private void handlePieceMoved(PieceMovedEvent event) {
+    public void handlePieceMoved(PieceMovedEvent event) {
         PieceId pieceId = event.pieceId();
 
         if (pieces.stream().noneMatch(p -> p.id() == pieceId)) {
@@ -107,7 +96,7 @@ public class BoardState {
         coordinatesForPieces.put(pieceId, event.newCoordinates());
     }
 
-    private void handlePieceRemoved(PieceRemovedEvent event) {
+    public void handlePieceRemoved(PieceRemovedEvent event) {
         PieceId pieceId = event.pieceId();
         Optional<Piece> pieceToRemove = pieces.stream().filter(p -> p.id() == pieceId).findFirst();
 
@@ -118,7 +107,7 @@ public class BoardState {
         }
     }
 
-    private void handleTurnChange(TurnChangeEvent event) {
+    public void handleTurnChange(TurnChangeEvent event) {
         currentTurnColor = event.newTurnColor();
     }
 

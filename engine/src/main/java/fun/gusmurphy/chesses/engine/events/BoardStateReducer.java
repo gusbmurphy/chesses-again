@@ -6,7 +6,14 @@ public class BoardStateReducer implements ReducesBoardState {
 
     @Override
     public BoardState reduce(BoardState boardState, BoardStateEvent event) {
-        boardState.apply(event);
+        if (event instanceof PieceMovedEvent) {
+            boardState.handlePieceMoved((PieceMovedEvent) event);
+        } else if (event instanceof PieceRemovedEvent) {
+            boardState.handlePieceRemoved((PieceRemovedEvent) event);
+        } else if (event instanceof TurnChangeEvent) {
+            boardState.handleTurnChange((TurnChangeEvent) event);
+        }
+
         return boardState;
     }
 
