@@ -1,6 +1,5 @@
 package fun.gusmurphy.chesses.engine.events
 
-import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.boardstate.UnknownPieceException
@@ -61,7 +60,7 @@ class BoardStateReducerSpec extends Specification {
         BoardStateEvent event = new PieceRemovedEvent(PIECE.id())
 
         when:
-        emptyBoard.apply(event)
+        reducer.reduce(emptyBoard, event)
 
         then:
         thrown UnknownPieceException
