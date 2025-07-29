@@ -6,18 +6,18 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MatchScreen extends BaseScreen {
 
-    private final BoardRepresentation boardRepresentation;
+    private final Board board;
 
     public MatchScreen(final ChessesGame game) {
         super(game);
-        boardRepresentation = new BoardRepresentation(game);
+        board = new Board(game);
 
         Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
-        boardRepresentation.render();
+        board.render();
         drawScreen();
 
         stage.act(Gdx.graphics.getDeltaTime());
@@ -35,7 +35,7 @@ public class MatchScreen extends BaseScreen {
         game.getSpriteBatch().setProjectionMatrix(game.getViewport().getCamera().combined);
         game.getShapeRenderer().setProjectionMatrix(game.getViewport().getCamera().combined);
 
-        boardRepresentation.draw();
+        board.draw();
     }
 
 }

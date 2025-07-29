@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class BoardRepresentation {
+public class Board {
 
     private final SpriteBatch spriteBatch;
     private final Viewport viewport;
@@ -19,7 +19,7 @@ public class BoardRepresentation {
     static private final int BOARD_WIDTH_IN_SQUARES = 8;
     public static final float SQUARE_SIZE = 40f;
 
-    public BoardRepresentation(final ChessesGame game) {
+    public Board(final ChessesGame game) {
         spriteBatch = game.getSpriteBatch();
         viewport = game.getViewport();
     }
