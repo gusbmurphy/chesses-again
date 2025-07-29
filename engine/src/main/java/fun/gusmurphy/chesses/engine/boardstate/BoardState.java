@@ -3,9 +3,6 @@ package fun.gusmurphy.chesses.engine.boardstate;
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.File;
 import fun.gusmurphy.chesses.engine.Rank;
-import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
-import fun.gusmurphy.chesses.engine.events.PieceRemovedEvent;
-import fun.gusmurphy.chesses.engine.events.TurnChangeEvent;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
@@ -15,9 +12,9 @@ import java.util.*;
 
 public class BoardState {
 
-    private PlayerColor currentTurnColor;
-    private final Set<Piece> pieces = new HashSet<>();
-    private final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
+    public PlayerColor currentTurnColor;
+    public final Set<Piece> pieces = new HashSet<>();
+    public final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
     private final Set<Coordinates> coordinatesOnBoard;
 
     protected BoardState(
@@ -84,31 +81,6 @@ public class BoardState {
         }
 
         return new UnoccupiedCoordinateState(coordinates);
-    }
-
-    public void handlePieceMoved(PieceMovedEvent event) {
-        PieceId pieceId = event.pieceId();
-
-        if (pieces.stream().noneMatch(p -> p.id() == pieceId)) {
-            throw new UnknownPieceException("Piece does not exist in board state");
-        }
-
-        coordinatesForPieces.put(pieceId, event.newCoordinates());
-    }
-
-    public void handlePieceRemoved(PieceRemovedEvent event) {
-        PieceId pieceId = event.pieceId();
-        Optional<Piece> pieceToRemove = pieces.stream().filter(p -> p.id() == pieceId).findFirst();
-
-        if (pieceToRemove.isPresent()) {
-            pieces.remove(pieceToRemove.get());
-        } else {
-            throw new UnknownPieceException("Piece does not exist in board state");
-        }
-    }
-
-    public void handleTurnChange(TurnChangeEvent event) {
-        currentTurnColor = event.newTurnColor();
     }
 
 }
