@@ -20,6 +20,6 @@ public class UnoccupiedCoordinateState implements BoardCoordinateState {
 
     @Override
     public Coordinates coordinates() {
-        return null;
+        return coordinates;
     }
 }

@@ -29,7 +29,7 @@ class BoardStateSpec extends Specification {
         then:
         boardCoordinateStates.size() == 64
         Coordinates.values().each { c ->
-            assert boardCoordinateStates.get(c).isPresent()
+            assert boardCoordinateStates.forCoordinates(c).isPresent()
         }
     }
 
@@ -46,7 +46,7 @@ class BoardStateSpec extends Specification {
         then:
         boardCoordinateStates.size() == expectedSize
         expectedPresentCoordinates.each { c ->
-            assert boardCoordinateStates.get(c).isPresent()
+            assert boardCoordinateStates.forCoordinates(c).isPresent()
         }
 
         where:
