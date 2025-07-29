@@ -28,6 +28,14 @@ public enum Coordinates {
         return Arrays.stream(values()).filter(coordinates -> coordinates.file == file && coordinates.rank == rank).findFirst().get();
     }
 
+    public File file() {
+        return file;
+    }
+
+    public Rank rank() {
+        return rank;
+    }
+
     public boolean sameFileAs(Coordinates other) {
         return this.file == other.file;
     }
