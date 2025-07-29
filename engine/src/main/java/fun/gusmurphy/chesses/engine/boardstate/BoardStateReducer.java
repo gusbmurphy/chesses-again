@@ -13,27 +13,39 @@ public class BoardStateReducer implements ReducesBoardState {
         BoardState result = boardState.copy();
 
         if (event instanceof PieceMovedEvent) {
-            PieceId pieceId = ((PieceMovedEvent) event).pieceId();
-
-            if (result.pieces.stream().noneMatch(p -> p.id() == pieceId)) {
-                throw new UnknownPieceException();
-            }
-
-            result.coordinatesForPieces.put(pieceId, ((PieceMovedEvent) event).newCoordinates());
+            handlePieceMovedEvent((PieceMovedEvent) event, result);
         } else if (event instanceof PieceRemovedEvent) {
-            PieceId pieceId = ((PieceRemovedEvent) event).pieceId();
-            Optional<Piece> pieceToRemove = boardState.pieces.stream().filter(p -> p.id() == pieceId).findFirst();
-
-            if (pieceToRemove.isPresent()) {
-                result.pieces.remove(pieceToRemove.get());
-            } else {
-                throw new UnknownPieceException();
-            }
+            handlePieceRemovedEvent((PieceRemovedEvent) event, result);
         } else if (event instanceof TurnChangeEvent) {
-            result.currentTurnColor = ((TurnChangeEvent) event).newTurnColor();
+            handleTurnChangeEvent((TurnChangeEvent) event, result);
         }
 
         return result;
+    }
+
+    private static void handlePieceMovedEvent(PieceMovedEvent event, BoardState result) {
+        PieceId pieceId = event.pieceId();
+
+        if (result.pieces.stream().noneMatch(p -> p.id() == pieceId)) {
+            throw new UnknownPieceException();
+        }
+
+        result.coordinatesForPieces.put(pieceId, event.newCoordinates());
+    }
+
+    private static void handlePieceRemovedEvent(PieceRemovedEvent event, BoardState result) {
+        PieceId pieceId = event.pieceId();
+        Optional<Piece> pieceToRemove = result.pieces.stream().filter(p -> p.id() == pieceId).findFirst();
+
+        if (pieceToRemove.isPresent()) {
+            result.pieces.remove(pieceToRemove.get());
+        } else {
+            throw new UnknownPieceException();
+        }
+    }
+
+    private static void handleTurnChangeEvent(TurnChangeEvent event, BoardState result) {
+        result.currentTurnColor = event.newTurnColor();
     }
 
 }
