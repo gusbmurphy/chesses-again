@@ -40,6 +40,19 @@ public class BoardState {
         }
     }
 
+    private BoardState() {
+        coordinatesOnBoard = new HashSet<>();
+    }
+
+    public BoardState copy() {
+        BoardState copy = new BoardState();
+        copy.currentTurnColor = currentTurnColor;
+        copy.pieces.addAll(pieces);
+        copy.coordinatesForPieces.putAll(coordinatesForPieces);
+        copy.coordinatesOnBoard.addAll(coordinatesOnBoard);
+        return copy;
+    }
+
     public PlayerColor currentTurnColor() {
         return currentTurnColor;
     }

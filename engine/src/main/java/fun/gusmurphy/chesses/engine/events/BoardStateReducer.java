@@ -11,28 +11,30 @@ public class BoardStateReducer implements ReducesBoardState {
 
     @Override
     public BoardState reduce(BoardState boardState, BoardStateEvent event) {
+        BoardState result = boardState.copy();
+
         if (event instanceof PieceMovedEvent) {
             PieceId pieceId = ((PieceMovedEvent) event).pieceId();
 
-            if (boardState.pieces.stream().noneMatch(p -> p.id() == pieceId)) {
+            if (result.pieces.stream().noneMatch(p -> p.id() == pieceId)) {
                 throw new UnknownPieceException();
             }
 
-            boardState.coordinatesForPieces.put(pieceId, ((PieceMovedEvent) event).newCoordinates());
+            result.coordinatesForPieces.put(pieceId, ((PieceMovedEvent) event).newCoordinates());
         } else if (event instanceof PieceRemovedEvent) {
             PieceId pieceId = ((PieceRemovedEvent) event).pieceId();
             Optional<Piece> pieceToRemove = boardState.pieces.stream().filter(p -> p.id() == pieceId).findFirst();
 
             if (pieceToRemove.isPresent()) {
-                boardState.pieces.remove(pieceToRemove.get());
+                result.pieces.remove(pieceToRemove.get());
             } else {
                 throw new UnknownPieceException();
             }
         } else if (event instanceof TurnChangeEvent) {
-            boardState.currentTurnColor = ((TurnChangeEvent) event).newTurnColor();
+            result.currentTurnColor = ((TurnChangeEvent) event).newTurnColor();
         }
 
-        return boardState;
+        return result;
     }
 
 }

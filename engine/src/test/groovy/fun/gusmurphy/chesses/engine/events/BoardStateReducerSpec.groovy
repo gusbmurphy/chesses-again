@@ -30,6 +30,18 @@ class BoardStateReducerSpec extends Specification {
         result.pieceOnBoardForId(PIECE.id()).coordinates() == B6
     }
 
+    def "the original board state is not modified"() {
+        given:
+        BoardStateEvent event = new PieceMovedEvent(PIECE.id(), B6)
+
+        when:
+        def result = reducer.reduce(BOARD, event)
+
+        then:
+        result != BOARD
+        BOARD.pieceOnBoardForId(PIECE.id()).coordinates() == A7
+    }
+
     def "a piece moved event for a piece not on the board throws an UnknownPieceException"() {
         given:
         BoardState emptyBoard = new BoardStateBuilder().build()
