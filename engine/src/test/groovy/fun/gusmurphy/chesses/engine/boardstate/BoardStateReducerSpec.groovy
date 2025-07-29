@@ -1,8 +1,9 @@
-package fun.gusmurphy.chesses.engine.events
+package fun.gusmurphy.chesses.engine.boardstate
 
-import fun.gusmurphy.chesses.engine.boardstate.BoardState
-import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
-import fun.gusmurphy.chesses.engine.boardstate.UnknownPieceException
+import fun.gusmurphy.chesses.engine.events.BoardStateEvent
+import fun.gusmurphy.chesses.engine.events.PieceMovedEvent
+import fun.gusmurphy.chesses.engine.events.PieceRemovedEvent
+import fun.gusmurphy.chesses.engine.events.TurnChangeEvent
 import fun.gusmurphy.chesses.engine.piece.Piece
 import spock.lang.Specification
 
