@@ -45,7 +45,7 @@ public class BoardState {
         coordinatesOnBoard = new HashSet<>();
     }
 
-    public BoardState copy() {
+    protected BoardState copy() {
         BoardState copy = new BoardState();
         copy.currentTurnColor = currentTurnColor;
         copy.pieces.addAll(pieces);
