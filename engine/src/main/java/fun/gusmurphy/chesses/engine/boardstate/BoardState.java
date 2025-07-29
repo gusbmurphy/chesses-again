@@ -12,6 +12,7 @@ import java.util.*;
 
 public class BoardState {
 
+    // TODO: Feels a little bad to make this members `protected`...
     protected PlayerColor currentTurnColor;
     protected final Set<Piece> pieces = new HashSet<>();
     protected final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
