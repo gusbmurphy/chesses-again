@@ -9,6 +9,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.piece.PieceOnScreen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
 
@@ -19,6 +23,7 @@ public class Board {
     private final Rectangle bounds = new Rectangle();
     private final Vector2 cursorPosition = new Vector2();
     private final BoardState boardState;
+    private final List<PieceOnScreen> piecesOnScreen = new ArrayList<>();
 
     static private final int BOARD_WIDTH_IN_SQUARES = 8;
     public static final float SQUARE_SIZE = 40f;
@@ -41,21 +46,26 @@ public class Board {
 
         bounds.set(bottomLeftX, bottomLeftY, boardSize, boardSize);
 
+        spriteBatch.begin();
         drawSpaces();
+        piecesOnScreen.forEach(PieceOnScreen::draw);
+        spriteBatch.end();
     }
 
     private void drawSpaces() {
-        spriteBatch.begin();
-
         BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
+        // TODO: Maybe the squares should be able to draw themselves?
         for (Coordinates c : Coordinates.values()) {
             coordinateStates.forCoordinates(c).ifPresent(boardCoordinateState -> {
                 CoordinatesXyAdapter xyAdapter = new CoordinatesXyAdapter(c);
                 drawSquareAt(xyAdapter.x(), xyAdapter.y());
+
+                boardCoordinateState.piece().ifPresent(piece -> {
+                    Vector2 piecePosition = getScreenPositionForCenterOf(c);
+                    piecesOnScreen.add(new PieceOnScreen(piece, spriteBatch, piecePosition));
+                });
             });
         }
-
-        spriteBatch.end();
     }
 
     private void drawSquareAt(int x, int y) {
@@ -66,6 +76,18 @@ public class Board {
         float xPosition = x * SQUARE_SIZE + bottomLeftX;
         float yPosition = y * SQUARE_SIZE + bottomLeftY;
         spriteBatch.draw(texture, xPosition, yPosition, SQUARE_SIZE, SQUARE_SIZE);
+    }
+
+    private Vector2 getScreenPositionForCenterOf(Coordinates coordinates) {
+        CoordinatesXyAdapter xyAdapter = new CoordinatesXyAdapter(coordinates);
+
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+        float boardWidth = BOARD_WIDTH_IN_SQUARES * SQUARE_SIZE;
+
+        float x = xyAdapter.x() * SQUARE_SIZE + SQUARE_SIZE / 2 + worldWidth / 2 - boardWidth / 2;
+        float y = xyAdapter.y() * SQUARE_SIZE + SQUARE_SIZE / 2 + worldHeight / 2 - boardWidth / 2;
+        return new Vector2(x, y);
     }
 
     private float boardSize() {

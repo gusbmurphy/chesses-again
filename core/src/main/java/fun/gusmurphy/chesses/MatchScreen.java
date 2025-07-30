@@ -3,8 +3,12 @@ package fun.gusmurphy.chesses;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
+import fun.gusmurphy.chesses.engine.Coordinates;
+import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder;
+import fun.gusmurphy.chesses.engine.piece.Piece;
+import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 public class MatchScreen extends BaseScreen {
 
@@ -13,6 +17,8 @@ public class MatchScreen extends BaseScreen {
     public MatchScreen(final ChessesGame game) {
         super(game);
         BoardState initialBoardState = new BoardStateBuilder()
+            .addPieceAt(new Piece(PlayerColor.BLACK, PieceType.ROOK), Coordinates.A1)
+            .addPieceAt(new Piece(PlayerColor.WHITE, PieceType.BISHOP), Coordinates.C3)
             .height(3)
             .width(7)
             .build();
