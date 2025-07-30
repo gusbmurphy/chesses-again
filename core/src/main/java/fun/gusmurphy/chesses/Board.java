@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import fun.gusmurphy.chesses.engine.Coordinates;
+import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
+import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 
 public class Board {
 
@@ -15,13 +18,15 @@ public class Board {
     private final Texture lightSquareTexture = new Texture("light_square.png");
     private final Rectangle bounds = new Rectangle();
     private final Vector2 cursorPosition = new Vector2();
+    private final BoardState boardState;
 
     static private final int BOARD_WIDTH_IN_SQUARES = 8;
     public static final float SQUARE_SIZE = 40f;
 
-    public Board(final ChessesGame game) {
+    public Board(final ChessesGame game, BoardState initialBoardState) {
         spriteBatch = game.getSpriteBatch();
         viewport = game.getViewport();
+        boardState = initialBoardState;
     }
 
     public void render() {
@@ -42,17 +47,15 @@ public class Board {
     private void drawSpaces() {
         spriteBatch.begin();
 
-        for (int x = 0; x < BOARD_WIDTH_IN_SQUARES; x++) {
-            drawColumnAt(x);
+        BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
+        for (Coordinates c : Coordinates.values()) {
+            coordinateStates.forCoordinates(c).ifPresent(boardCoordinateState -> {
+                CoordinatesXyAdapter xyAdapter = new CoordinatesXyAdapter(c);
+                drawSquareAt(xyAdapter.x(), xyAdapter.y());
+            });
         }
 
         spriteBatch.end();
-    }
-
-    private void drawColumnAt(int x) {
-        for (int y = 0; y < BOARD_WIDTH_IN_SQUARES; y++) {
-            drawSquareAt(x, y);
-        }
     }
 
     private void drawSquareAt(int x, int y) {
