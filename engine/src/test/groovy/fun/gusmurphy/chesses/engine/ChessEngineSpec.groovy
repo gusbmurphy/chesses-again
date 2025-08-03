@@ -14,7 +14,7 @@ class ChessEngineSpec extends Specification {
     private static final DUMMY_MOVE = new Move(new PieceId(), Coordinates.A1)
     private final AppliesMoves moveApplicator = Mock(AppliesMoves)
     private final MoveLegalityRule moveRule = Mock(MoveLegalityRule)
-    private ChessEngine engine
+    private RunsGame engine
 
     def setup() {
         engine = new ChessEngine(moveApplicator, moveRule, INITIAL_BOARD)
