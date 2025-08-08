@@ -12,7 +12,7 @@ import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 public class MatchScreen extends BaseScreen {
 
-    private final Board board;
+    private final BoardOnScreen board;
 
     public MatchScreen(final ChessesGame game) {
         super(game);
@@ -22,7 +22,7 @@ public class MatchScreen extends BaseScreen {
             .height(3)
             .width(7)
             .build();
-        board = new Board(game, initialBoardState);
+        board = new BoardOnScreen(game, initialBoardState);
 
         Gdx.input.setInputProcessor(stage);
     }

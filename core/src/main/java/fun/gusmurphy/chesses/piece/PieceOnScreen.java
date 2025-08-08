@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 
-import static fun.gusmurphy.chesses.Board.SQUARE_SIZE;
+import static fun.gusmurphy.chesses.BoardOnScreen.SQUARE_SIZE;
 
 public class PieceOnScreen {
 

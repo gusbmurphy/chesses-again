@@ -14,7 +14,7 @@ import fun.gusmurphy.chesses.piece.PieceOnScreen;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+public class BoardOnScreen {
 
     private final SpriteBatch spriteBatch;
     private final Viewport viewport;
@@ -28,7 +28,7 @@ public class Board {
     static private final int BOARD_WIDTH_IN_SQUARES = 8;
     public static final float SQUARE_SIZE = 40f;
 
-    public Board(final ChessesGame game, BoardState initialBoardState) {
+    public BoardOnScreen(final ChessesGame game, BoardState initialBoardState) {
         spriteBatch = game.getSpriteBatch();
         viewport = game.getViewport();
         boardState = initialBoardState;
