@@ -7,14 +7,17 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fun.gusmurphy.chesses.engine.Coordinates;
+import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.piece.PieceId;
 import fun.gusmurphy.chesses.piece.PieceOnScreen;
+import fun.gusmurphy.chesses.piece.PieceOnScreenSelectionListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardOnScreen {
+public class BoardOnScreen implements PieceOnScreenSelectionListener {
 
     private final SpriteBatch spriteBatch;
     private final Viewport viewport;
@@ -24,6 +27,7 @@ public class BoardOnScreen {
     private final Vector2 cursorPosition = new Vector2();
     private final BoardState boardState;
     private final List<PieceOnScreen> piecesOnScreen = new ArrayList<>();
+    private PieceId selectedPieceId;
 
     static private final int BOARD_WIDTH_IN_SQUARES = 8;
     public static final float SQUARE_SIZE = 40f;
@@ -32,11 +36,25 @@ public class BoardOnScreen {
         spriteBatch = game.getSpriteBatch();
         viewport = game.getViewport();
         boardState = initialBoardState;
+
+        BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
+        for (Coordinates c : Coordinates.values()) {
+            coordinateStates.forCoordinates(c).flatMap(BoardCoordinateState::piece).ifPresent(piece -> {
+                Vector2 piecePosition = getScreenPositionForCenterOf(c);
+                PieceOnScreen pieceOnScreen = new PieceOnScreen(piece, spriteBatch, piecePosition);
+                pieceOnScreen.listenToSelection(this);
+                piecesOnScreen.add(pieceOnScreen);
+            });
+        }
     }
 
     public void render() {
         cursorPosition.set(Gdx.input.getX(), Gdx.input.getY());
         viewport.unproject(cursorPosition);
+
+        for (PieceOnScreen piece : piecesOnScreen) {
+            piece.processInput(cursorPosition);
+        }
     }
 
     public void draw() {
@@ -52,6 +70,35 @@ public class BoardOnScreen {
         spriteBatch.end();
     }
 
+    // TODO: What if all the piece selection stuff lived somewhere else?
+    @Override
+    public void onPieceSelected(PieceId pieceId) {
+        if (selectedPieceId == null) {
+            updateSelectedPiece(pieceId);
+        }
+    }
+
+    @Override
+    public void onPieceReleased(PieceId pieceId, Vector2 screenPosition) {
+        if (selectedPieceId == pieceId) {
+            unselectPiece(pieceId);
+        }
+    }
+
+    private void updateSelectedPiece(PieceId pieceId) {
+        selectedPieceId = pieceId;
+        PieceOnScreen pieceOnScreen = piecesOnScreen
+            .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
+        pieceOnScreen.setDragStatus(true);
+    }
+
+    private void unselectPiece(PieceId pieceId) {
+        selectedPieceId = null;
+        PieceOnScreen pieceOnScreen = piecesOnScreen
+            .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
+        pieceOnScreen.setDragStatus(false);
+    }
+
     private void drawSpaces() {
         BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
         // TODO: Maybe the squares should be able to draw themselves?
@@ -59,11 +106,6 @@ public class BoardOnScreen {
             coordinateStates.forCoordinates(c).ifPresent(boardCoordinateState -> {
                 CoordinatesXyAdapter xyAdapter = new CoordinatesXyAdapter(c);
                 drawSquareAt(xyAdapter.x(), xyAdapter.y());
-
-                boardCoordinateState.piece().ifPresent(piece -> {
-                    Vector2 piecePosition = getScreenPositionForCenterOf(c);
-                    piecesOnScreen.add(new PieceOnScreen(piece, spriteBatch, piecePosition));
-                });
             });
         }
     }
