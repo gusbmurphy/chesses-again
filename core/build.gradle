@@ -1,3 +1,7 @@
+plugins {
+  id 'groovy'
+}
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 eclipse.project.name = appName + '-core'
 
@@ -5,6 +9,10 @@ dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
 
   implementation project(":engine")
+
+  testImplementation 'org.spockframework:spock-core:2.4-M1-groovy-4.0'
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
   if (enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
