@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import fun.gusmurphy.chesses.Drawable;
+import fun.gusmurphy.chesses.InputProcessor;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 import static fun.gusmurphy.chesses.BoardDrawable.SQUARE_SIZE;
 
-public class PieceDrawable implements Drawable {
+public class PieceDrawable implements Drawable, InputProcessor {
 
     protected final Rectangle bounds;
     protected Sprite sprite;

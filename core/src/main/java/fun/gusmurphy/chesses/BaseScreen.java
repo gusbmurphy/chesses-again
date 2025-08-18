@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -16,8 +17,11 @@ public abstract class BaseScreen implements Screen {
     protected final ChessesGame game;
     protected final Stage stage;
     protected final Skin skin;
+    protected List<InputProcessor> inputProcessors = new ArrayList<>();
     protected List<Renderable> renderables = new ArrayList<>();
     protected List<Drawable> drawables = new ArrayList<>();
+
+    private final Vector2 cursorPosition = new Vector2();
 
     BaseScreen(final ChessesGame game) {
         this.game = game;
@@ -39,17 +43,26 @@ public abstract class BaseScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        renderables.forEach(Renderable::render);
+        cursorPosition.set(Gdx.input.getX(), Gdx.input.getY());
+        game.getViewport().unproject(cursorPosition);
+
+        processCursorPositionInput();
 
         ScreenUtils.clear(Color.WHITE);
         game.getViewport().apply();
         game.getSpriteBatch().setProjectionMatrix(game.getViewport().getCamera().combined);
         game.getShapeRenderer().setProjectionMatrix(game.getViewport().getCamera().combined);
 
+        game.getSpriteBatch().begin();
         drawables.forEach(Drawable::draw);
+        game.getSpriteBatch().end();
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+    }
+
+    private void processCursorPositionInput() {
+        inputProcessors.forEach(ip -> ip.processInput(cursorPosition));
     }
 
     @Override

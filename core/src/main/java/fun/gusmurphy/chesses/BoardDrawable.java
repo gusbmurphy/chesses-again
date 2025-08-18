@@ -1,26 +1,18 @@
 package fun.gusmurphy.chesses;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fun.gusmurphy.chesses.engine.Coordinates;
-import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
-import fun.gusmurphy.chesses.piece.PieceDrawable;
-import fun.gusmurphy.chesses.piece.PieceOnScreenSelectionListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BoardDrawable implements
-    PieceOnScreenSelectionListener,
+//    PieceOnScreenSelectionListener,
     Drawable,
-    Renderable,
     CoordinateToScreenSpaceTranslator {
 
     private final SpriteBatch spriteBatch;
@@ -30,7 +22,6 @@ public class BoardDrawable implements
     private final Rectangle bounds = new Rectangle();
     private final Vector2 cursorPosition = new Vector2();
     private final BoardState boardState;
-    private final List<PieceDrawable> pieceDrawables = new ArrayList<>();
     private PieceId selectedPieceId;
 
     static private final int BOARD_WIDTH_IN_SQUARES = 8;
@@ -40,26 +31,6 @@ public class BoardDrawable implements
         spriteBatch = game.getSpriteBatch();
         viewport = game.getViewport();
         boardState = initialBoardState;
-
-        BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
-        // TODO: This is looking ugly...
-        for (Coordinates c : Coordinates.values()) {
-            coordinateStates.forCoordinates(c).flatMap(BoardCoordinateState::piece).ifPresent(piece -> {
-                Vector2 piecePosition = getScreenPositionForCenterOf(c);
-                PieceDrawable pieceDrawable = new PieceDrawable(piece, spriteBatch, piecePosition);
-                pieceDrawable.listenToSelection(this);
-                pieceDrawables.add(pieceDrawable);
-            });
-        }
-    }
-
-    public void render() {
-        cursorPosition.set(Gdx.input.getX(), Gdx.input.getY());
-        viewport.unproject(cursorPosition);
-
-        for (PieceDrawable piece : pieceDrawables) {
-            piece.processInput(cursorPosition);
-        }
     }
 
     public void draw() {
@@ -69,40 +40,37 @@ public class BoardDrawable implements
 
         bounds.set(bottomLeftX, bottomLeftY, boardSize, boardSize);
 
-        spriteBatch.begin();
         drawSpaces();
-        pieceDrawables.forEach(PieceDrawable::draw);
-        spriteBatch.end();
     }
 
     // TODO: What if all the piece selection stuff lived somewhere else?
-    @Override
-    public void onPieceSelected(PieceId pieceId) {
-        if (selectedPieceId == null) {
-            updateSelectedPiece(pieceId);
-        }
-    }
-
-    @Override
-    public void onPieceReleased(PieceId pieceId, Vector2 screenPosition) {
-        if (selectedPieceId == pieceId) {
-            unselectPiece(pieceId);
-        }
-    }
-
-    private void updateSelectedPiece(PieceId pieceId) {
-        selectedPieceId = pieceId;
-        PieceDrawable pieceDrawable = pieceDrawables
-            .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
-        pieceDrawable.setDragStatus(true);
-    }
-
-    private void unselectPiece(PieceId pieceId) {
-        selectedPieceId = null;
-        PieceDrawable pieceDrawable = pieceDrawables
-            .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
-        pieceDrawable.setDragStatus(false);
-    }
+//    @Override
+//    public void onPieceSelected(PieceId pieceId) {
+//        if (selectedPieceId == null) {
+//            updateSelectedPiece(pieceId);
+//        }
+//    }
+//
+//    @Override
+//    public void onPieceReleased(PieceId pieceId, Vector2 screenPosition) {
+//        if (selectedPieceId == pieceId) {
+//            unselectPiece(pieceId);
+//        }
+//    }
+//
+//    private void updateSelectedPiece(PieceId pieceId) {
+//        selectedPieceId = pieceId;
+//        PieceDrawable pieceDrawable = pieceDrawables
+//            .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
+//        pieceDrawable.setDragStatus(true);
+//    }
+//
+//    private void unselectPiece(PieceId pieceId) {
+//        selectedPieceId = null;
+//        PieceDrawable pieceDrawable = pieceDrawables
+//            .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
+//        pieceDrawable.setDragStatus(false);
+//    }
 
     private void drawSpaces() {
         BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
