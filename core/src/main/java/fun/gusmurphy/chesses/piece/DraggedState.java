@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 
 class DraggedState extends PieceOnScreenState {
 
-    public DraggedState(PieceOnScreen pieceOnScreen) {
-        super(pieceOnScreen);
+    public DraggedState(PieceDrawable pieceDrawable) {
+        super(pieceDrawable);
     }
 
     @Override
@@ -22,25 +22,25 @@ class DraggedState extends PieceOnScreenState {
     @Override
     public void setDragStatus(boolean isNowDragged) {
         if (!isNowDragged) {
-            pieceOnScreen.setState(new DefaultState(pieceOnScreen));
+            pieceDrawable.setState(new DefaultState(pieceDrawable));
         }
     }
 
     private void updateSpritePositionTo(Vector2 newPosition) {
-        pieceOnScreen.sprite.setPosition(
-            newPosition.x - pieceOnScreen.sprite.getWidth() / 2,
-            newPosition.y - pieceOnScreen.sprite.getHeight() / 2
+        pieceDrawable.sprite.setPosition(
+            newPosition.x - pieceDrawable.sprite.getWidth() / 2,
+            newPosition.y - pieceDrawable.sprite.getHeight() / 2
         );
     }
 
     private void notifyListenersOfRelease(Vector2 cursorPosition) {
-        pieceOnScreen.selectionListeners.forEach(listener ->
-            listener.onPieceReleased(pieceOnScreen.pieceId(), cursorPosition)
+        pieceDrawable.selectionListeners.forEach(listener ->
+            listener.onPieceReleased(pieceDrawable.pieceId(), cursorPosition)
         );
     }
 
     private void updateSpriteCenter() {
-        pieceOnScreen.sprite.setCenter(pieceOnScreen.position.x, pieceOnScreen.position.y);
+        pieceDrawable.sprite.setCenter(pieceDrawable.position.x, pieceDrawable.position.y);
     }
 
 }

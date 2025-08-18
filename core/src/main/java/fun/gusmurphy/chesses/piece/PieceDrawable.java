@@ -10,9 +10,9 @@ import fun.gusmurphy.chesses.engine.piece.PieceId;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.gusmurphy.chesses.BoardOnScreen.SQUARE_SIZE;
+import static fun.gusmurphy.chesses.BoardDrawable.SQUARE_SIZE;
 
-public class PieceOnScreen {
+public class PieceDrawable {
 
     protected final Rectangle bounds;
     protected Sprite sprite;
@@ -24,7 +24,7 @@ public class PieceOnScreen {
     private final SpriteBatch spriteBatch;
     private PieceOnScreenState state;
 
-    public PieceOnScreen(Piece piece, SpriteBatch spriteBatch, Vector2 position) {
+    public PieceDrawable(Piece piece, SpriteBatch spriteBatch, Vector2 position) {
         this.piece = piece;
         this.spriteBatch = spriteBatch;
         this.position = position;

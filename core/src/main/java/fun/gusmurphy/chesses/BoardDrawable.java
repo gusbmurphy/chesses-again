@@ -11,13 +11,13 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
-import fun.gusmurphy.chesses.piece.PieceOnScreen;
+import fun.gusmurphy.chesses.piece.PieceDrawable;
 import fun.gusmurphy.chesses.piece.PieceOnScreenSelectionListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardOnScreen implements PieceOnScreenSelectionListener, Drawable {
+public class BoardDrawable implements PieceOnScreenSelectionListener, Drawable {
 
     private final SpriteBatch spriteBatch;
     private final Viewport viewport;
@@ -26,13 +26,13 @@ public class BoardOnScreen implements PieceOnScreenSelectionListener, Drawable {
     private final Rectangle bounds = new Rectangle();
     private final Vector2 cursorPosition = new Vector2();
     private final BoardState boardState;
-    private final List<PieceOnScreen> piecesOnScreen = new ArrayList<>();
+    private final List<PieceDrawable> pieceDrawables = new ArrayList<>();
     private PieceId selectedPieceId;
 
     static private final int BOARD_WIDTH_IN_SQUARES = 8;
     public static final float SQUARE_SIZE = 40f;
 
-    public BoardOnScreen(final ChessesGame game, BoardState initialBoardState) {
+    public BoardDrawable(final ChessesGame game, BoardState initialBoardState) {
         spriteBatch = game.getSpriteBatch();
         viewport = game.getViewport();
         boardState = initialBoardState;
@@ -42,9 +42,9 @@ public class BoardOnScreen implements PieceOnScreenSelectionListener, Drawable {
         for (Coordinates c : Coordinates.values()) {
             coordinateStates.forCoordinates(c).flatMap(BoardCoordinateState::piece).ifPresent(piece -> {
                 Vector2 piecePosition = getScreenPositionForCenterOf(c);
-                PieceOnScreen pieceOnScreen = new PieceOnScreen(piece, spriteBatch, piecePosition);
-                pieceOnScreen.listenToSelection(this);
-                piecesOnScreen.add(pieceOnScreen);
+                PieceDrawable pieceDrawable = new PieceDrawable(piece, spriteBatch, piecePosition);
+                pieceDrawable.listenToSelection(this);
+                pieceDrawables.add(pieceDrawable);
             });
         }
     }
@@ -53,7 +53,7 @@ public class BoardOnScreen implements PieceOnScreenSelectionListener, Drawable {
         cursorPosition.set(Gdx.input.getX(), Gdx.input.getY());
         viewport.unproject(cursorPosition);
 
-        for (PieceOnScreen piece : piecesOnScreen) {
+        for (PieceDrawable piece : pieceDrawables) {
             piece.processInput(cursorPosition);
         }
     }
@@ -67,7 +67,7 @@ public class BoardOnScreen implements PieceOnScreenSelectionListener, Drawable {
 
         spriteBatch.begin();
         drawSpaces();
-        piecesOnScreen.forEach(PieceOnScreen::draw);
+        pieceDrawables.forEach(PieceDrawable::draw);
         spriteBatch.end();
     }
 
@@ -88,16 +88,16 @@ public class BoardOnScreen implements PieceOnScreenSelectionListener, Drawable {
 
     private void updateSelectedPiece(PieceId pieceId) {
         selectedPieceId = pieceId;
-        PieceOnScreen pieceOnScreen = piecesOnScreen
+        PieceDrawable pieceDrawable = pieceDrawables
             .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
-        pieceOnScreen.setDragStatus(true);
+        pieceDrawable.setDragStatus(true);
     }
 
     private void unselectPiece(PieceId pieceId) {
         selectedPieceId = null;
-        PieceOnScreen pieceOnScreen = piecesOnScreen
+        PieceDrawable pieceDrawable = pieceDrawables
             .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
-        pieceOnScreen.setDragStatus(false);
+        pieceDrawable.setDragStatus(false);
     }
 
     private void drawSpaces() {

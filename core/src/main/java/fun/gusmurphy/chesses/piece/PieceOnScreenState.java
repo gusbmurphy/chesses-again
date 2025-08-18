@@ -4,10 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class PieceOnScreenState {
 
-    protected PieceOnScreen pieceOnScreen;
+    protected PieceDrawable pieceDrawable;
 
-    PieceOnScreenState(PieceOnScreen pieceOnScreen) {
-        this.pieceOnScreen = pieceOnScreen;
+    PieceOnScreenState(PieceDrawable pieceDrawable) {
+        this.pieceDrawable = pieceDrawable;
     }
 
     public abstract void processInput(Vector2 cursorPosition);
