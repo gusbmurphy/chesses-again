@@ -22,13 +22,19 @@ public abstract class BaseScreen implements Screen {
     BaseScreen(final ChessesGame game) {
         this.game = game;
         stage = new Stage();
+        skin = setupSkin();
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    private Skin setupSkin() {
+        final Skin skin;
         skin = new Skin(
             Gdx.files.internal("uiskin.json"),
             new TextureAtlas(
                 Gdx.files.internal("uiskin.atlas")
             )
         );
-        Gdx.input.setInputProcessor(stage);
+        return skin;
     }
 
     @Override
