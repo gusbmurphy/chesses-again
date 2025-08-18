@@ -38,6 +38,7 @@ public class BoardOnScreen implements PieceOnScreenSelectionListener, Drawable {
         boardState = initialBoardState;
 
         BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
+        // TODO: This is looking ugly...
         for (Coordinates c : Coordinates.values()) {
             coordinateStates.forCoordinates(c).flatMap(BoardCoordinateState::piece).ifPresent(piece -> {
                 Vector2 piecePosition = getScreenPositionForCenterOf(c);
