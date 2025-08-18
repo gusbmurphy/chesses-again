@@ -17,7 +17,11 @@ import fun.gusmurphy.chesses.piece.PieceOnScreenSelectionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardDrawable implements PieceOnScreenSelectionListener, Drawable, Renderable {
+public class BoardDrawable implements
+    PieceOnScreenSelectionListener,
+    Drawable,
+    Renderable,
+    CoordinateToScreenSpaceTranslator {
 
     private final SpriteBatch spriteBatch;
     private final Viewport viewport;
@@ -121,7 +125,7 @@ public class BoardDrawable implements PieceOnScreenSelectionListener, Drawable, 
         spriteBatch.draw(texture, xPosition, yPosition, SQUARE_SIZE, SQUARE_SIZE);
     }
 
-    private Vector2 getScreenPositionForCenterOf(Coordinates coordinates) {
+    public Vector2 getScreenPositionForCenterOf(Coordinates coordinates) {
         CoordinatesXyAdapter xyAdapter = new CoordinatesXyAdapter(coordinates);
 
         float worldWidth = viewport.getWorldWidth();
