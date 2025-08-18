@@ -1,5 +1,5 @@
 package fun.gusmurphy.chesses;
 
-interface Drawable {
+public interface Drawable {
     void draw();
 }
