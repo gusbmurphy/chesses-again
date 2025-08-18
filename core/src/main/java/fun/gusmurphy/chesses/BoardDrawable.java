@@ -17,7 +17,7 @@ import fun.gusmurphy.chesses.piece.PieceOnScreenSelectionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardDrawable implements PieceOnScreenSelectionListener, Drawable {
+public class BoardDrawable implements PieceOnScreenSelectionListener, Drawable, Renderable {
 
     private final SpriteBatch spriteBatch;
     private final Viewport viewport;
