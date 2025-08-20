@@ -19,7 +19,7 @@ public class PieceDrawable implements Drawable, InputProcessor {
     protected final Rectangle bounds;
     protected Sprite sprite;
     protected Vector2 position;
-    protected final List<PieceOnScreenSelectionListener> selectionListeners = new ArrayList<>();
+    protected final List<PieceSelectionListener> selectionListeners = new ArrayList<>();
 
     private final Piece piece;
     private final static float PIECE_TO_SQUARE_SIZE_RATIO = 0.8f;
@@ -52,7 +52,7 @@ public class PieceDrawable implements Drawable, InputProcessor {
         state.processInput(cursorPosition);
     }
 
-    public void listenToSelection(PieceOnScreenSelectionListener listener) {
+    public void listenToSelection(PieceSelectionListener listener) {
         selectionListeners.add(listener);
     }
 

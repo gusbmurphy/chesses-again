@@ -11,12 +11,12 @@ import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 import fun.gusmurphy.chesses.piece.PieceDrawable;
-import fun.gusmurphy.chesses.piece.PieceOnScreenSelectionListener;
+import fun.gusmurphy.chesses.piece.PieceSelectionListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchScreen extends BaseScreen implements PieceOnScreenSelectionListener {
+public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
     private PieceId selectedPieceId;
     private List<PieceDrawable> pieceDrawables;
