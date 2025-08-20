@@ -38,6 +38,7 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
             coordinateStates.forCoordinates(c).flatMap(BoardCoordinateState::piece).ifPresent(piece -> {
                 Vector2 piecePosition = board.getScreenPositionForCenterOf(c);
                 PieceDrawable pieceDrawable = new PieceDrawable(piece, game.getSpriteBatch(), piecePosition);
+                pieceDrawable.listenToSelection(this);
                 pieceDrawables.add(pieceDrawable);
             });
         }
@@ -45,6 +46,7 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         this.pieceDrawables = pieceDrawables;
         drawables.add(board);
         drawables.addAll(pieceDrawables);
+        inputProcessors.addAll(pieceDrawables);
     }
 
     @Override
