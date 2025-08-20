@@ -10,14 +10,11 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 import fun.gusmurphy.chesses.piece.PieceDrawable;
-import fun.gusmurphy.chesses.piece.PieceOnScreenSelectionListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MatchScreen extends BaseScreen {
-
-    private final PieceOnScreenSelectionListener pieceOnScreenSelectionListener;
 
     public MatchScreen(final ChessesGame game) {
         super(game);
@@ -39,8 +36,6 @@ public class MatchScreen extends BaseScreen {
                 pieces.add(pieceDrawable);
             });
         }
-
-        pieceOnScreenSelectionListener = new PieceSelectionManager(pieces);
 
         drawables.add(board);
         drawables.addAll(pieces);
