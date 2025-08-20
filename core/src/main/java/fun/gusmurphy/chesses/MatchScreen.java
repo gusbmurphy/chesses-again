@@ -26,19 +26,19 @@ public class MatchScreen extends BaseScreen {
             .build();
         BoardDrawable board = new BoardDrawable(game, initialBoardState);
 
-        List<PieceDrawable> pieceDrawables = new ArrayList<>();
+        List<PieceDrawable> pieces = new ArrayList<>();
         BoardCoordinateStates coordinateStates = initialBoardState.allCoordinateStates();
         // TODO: This is looking ugly...
         for (Coordinates c : Coordinates.values()) {
             coordinateStates.forCoordinates(c).flatMap(BoardCoordinateState::piece).ifPresent(piece -> {
                 Vector2 piecePosition = board.getScreenPositionForCenterOf(c);
                 PieceDrawable pieceDrawable = new PieceDrawable(piece, game.getSpriteBatch(), piecePosition);
-                pieceDrawables.add(pieceDrawable);
+                pieces.add(pieceDrawable);
             });
         }
 
         drawables.add(board);
-        drawables.addAll(pieceDrawables);
+        drawables.addAll(pieces);
     }
 
 }
