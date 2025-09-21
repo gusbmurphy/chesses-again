@@ -51,6 +51,10 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
         return new Vector2(x, y);
     }
 
+    public BoardState boardState() {
+        return boardState;
+    }
+
     private void drawSpaces() {
         BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
         // TODO: Maybe the squares should be able to draw themselves?
