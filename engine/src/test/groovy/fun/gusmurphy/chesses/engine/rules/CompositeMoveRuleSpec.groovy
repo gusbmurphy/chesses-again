@@ -3,6 +3,7 @@ package fun.gusmurphy.chesses.engine.rules
 import fun.gusmurphy.chesses.engine.Coordinates
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysRule
 import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysRule
 import fun.gusmurphy.chesses.engine.piece.PieceId
 import spock.lang.Specification
@@ -19,6 +20,18 @@ class CompositeMoveRuleSpec extends Specification {
 
         expect:
         compositeRule.evaluate(board, new Move(new PieceId(), Coordinates.A1)) == MoveLegality.LEGAL
+    }
+
+    def "regardless of order, if one rule says illegal, the final result is illegal"() {
+        given:
+        def firstRule = new LegalAlwaysRule()
+        def secondRule = new IllegalAlwaysRule()
+        MoveLegalityRule compositeRule = new CompositeMoveRule(List.of(firstRule, secondRule))
+
+        def board = new BoardStateBuilder().build()
+
+        expect:
+        compositeRule.evaluate(board, new Move(new PieceId(), Coordinates.A1)) == MoveLegality.ILLEGAL
     }
 
 }
