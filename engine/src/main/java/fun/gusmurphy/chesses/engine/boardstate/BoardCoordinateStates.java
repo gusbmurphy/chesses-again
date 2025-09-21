@@ -6,7 +6,6 @@ import fun.gusmurphy.chesses.engine.piece.PieceId;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BoardCoordinateStates {
 
@@ -39,10 +38,6 @@ public class BoardCoordinateStates {
             .collect(Collectors.toList());
 
         return new BoardCoordinateStates(occupiedStateList);
-    }
-
-    public Stream<BoardCoordinateState> all() {
-        return coordinateStateList.stream();
     }
 
 }
