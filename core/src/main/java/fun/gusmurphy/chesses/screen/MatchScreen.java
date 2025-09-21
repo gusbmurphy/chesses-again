@@ -33,17 +33,7 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
             .build();
         BoardDrawable board = new BoardDrawable(game, initialBoardState);
 
-        List<PieceDrawable> pieceDrawables = new ArrayList<>();
-        BoardCoordinateStates coordinateStates = initialBoardState.allCoordinateStates();
-        // TODO: This is looking ugly...
-        for (Coordinates c : Coordinates.values()) {
-            coordinateStates.forCoordinates(c).flatMap(BoardCoordinateState::piece).ifPresent(piece -> {
-                Vector2 piecePosition = board.getScreenPositionForCenterOf(c);
-                PieceDrawable pieceDrawable = new PieceDrawable(piece, game.getSpriteBatch(), piecePosition);
-                pieceDrawable.listenToSelection(this);
-                pieceDrawables.add(pieceDrawable);
-            });
-        }
+        List<PieceDrawable> pieceDrawables = createPieceDrawables(game, initialBoardState, board);
 
         this.pieceDrawables = pieceDrawables;
         drawables.add(board);
@@ -63,6 +53,21 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         if (selectedPieceId == pieceId) {
             unselectPiece(pieceId);
         }
+    }
+
+    private List<PieceDrawable> createPieceDrawables(ChessesGame game, BoardState initialBoardState, BoardDrawable board) {
+        List<PieceDrawable> pieceDrawables = new ArrayList<>();
+        BoardCoordinateStates coordinateStates = initialBoardState.allCoordinateStates();
+        // TODO: This is looking ugly...
+        for (Coordinates c : Coordinates.values()) {
+            coordinateStates.forCoordinates(c).flatMap(BoardCoordinateState::piece).ifPresent(piece -> {
+                Vector2 piecePosition = board.getScreenPositionForCenterOf(c);
+                PieceDrawable pieceDrawable = new PieceDrawable(piece, game.getSpriteBatch(), piecePosition);
+                pieceDrawable.listenToSelection(this);
+                pieceDrawables.add(pieceDrawable);
+            });
+        }
+        return pieceDrawables;
     }
 
     private void updateSelectedPiece(PieceId pieceId) {
