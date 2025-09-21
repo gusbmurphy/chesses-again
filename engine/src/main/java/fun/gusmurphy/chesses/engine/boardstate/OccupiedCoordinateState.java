@@ -20,8 +20,14 @@ public class OccupiedCoordinateState implements BoardCoordinateState {
         return Optional.of(piece);
     }
 
+    @Override
     public Coordinates coordinates() {
         return coordinates;
+    }
+
+    @Override
+    public boolean isOccupied() {
+        return true;
     }
 
 }

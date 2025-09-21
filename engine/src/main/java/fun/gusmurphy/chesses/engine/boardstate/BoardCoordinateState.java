@@ -9,5 +9,6 @@ public interface BoardCoordinateState {
 
     Optional<Piece> piece();
     Coordinates coordinates();
+    boolean isOccupied();
 
 }
