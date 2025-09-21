@@ -5,16 +5,17 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysRule
 import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysRule
+import fun.gusmurphy.chesses.engine.doubles.UnconcernedAlwaysRule
 import fun.gusmurphy.chesses.engine.piece.PieceId
 import spock.lang.Specification
 
 class CompositeMoveRuleSpec extends Specification {
 
-    def "the composite move rule returns legal if all the rules say it's legal"() {
+    def "the composite move rule returns legal if all the rules say it's legal, or don't care"() {
         given:
-        def firstRule = new LegalAlwaysRule()
-        def secondRule = new LegalAlwaysRule()
-        MoveLegalityRule compositeRule = new CompositeMoveRule(List.of(firstRule, secondRule))
+        MoveLegalityRule compositeRule = new CompositeMoveRule(List.of(
+            new LegalAlwaysRule(), new LegalAlwaysRule(), new UnconcernedAlwaysRule()
+        ))
 
         def board = new BoardStateBuilder().build()
 
@@ -22,11 +23,11 @@ class CompositeMoveRuleSpec extends Specification {
         compositeRule.evaluate(board, new Move(new PieceId(), Coordinates.A1)) == MoveLegality.LEGAL
     }
 
-    def "regardless of order, if one rule says illegal, the final result is illegal"() {
+    def "if one rule says illegal, the final result is illegal"() {
         given:
-        def firstRule = new LegalAlwaysRule()
-        def secondRule = new IllegalAlwaysRule()
-        MoveLegalityRule compositeRule = new CompositeMoveRule(List.of(firstRule, secondRule))
+        MoveLegalityRule compositeRule = new CompositeMoveRule(List.of(
+            new LegalAlwaysRule(), new IllegalAlwaysRule(), new UnconcernedAlwaysRule()
+        ))
 
         def board = new BoardStateBuilder().build()
 
