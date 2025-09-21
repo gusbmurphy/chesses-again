@@ -4,9 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import fun.gusmurphy.chesses.ChessesGame;
 import fun.gusmurphy.chesses.board.BoardDrawable;
 import fun.gusmurphy.chesses.engine.ChessEngine;
+import fun.gusmurphy.chesses.engine.Coordinates;
+import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
+import fun.gusmurphy.chesses.engine.rules.MoveLegality;
 import fun.gusmurphy.chesses.piece.PieceDrawable;
 import fun.gusmurphy.chesses.piece.PieceSelectionListener;
 
@@ -18,12 +21,13 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
     private PieceId selectedPieceId;
     private List<PieceDrawable> pieceDrawables;
     private final ChessEngine engine;
+    private final BoardDrawable board;
 
     public MatchScreen(final ChessesGame game) {
         super(game);
         engine = ChessEngine.defaultEngine();
-        BoardDrawable board = setupBoard();
-        setupPieceDrawables(board);
+        board = setupBoard();
+        setupPieceDrawables();
     }
 
     @Override
@@ -46,7 +50,7 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         return board;
     }
 
-    private void setupPieceDrawables(BoardDrawable board) {
+    private void setupPieceDrawables() {
         pieceDrawables = new ArrayList<>();
 
         board.boardState()
@@ -76,6 +80,18 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         PieceDrawable pieceDrawable = pieceDrawables
             .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
         pieceDrawable.setDragStatus(true);
+
+        List<Coordinates> coordinatesToHighlight = new ArrayList<>();
+        for (Coordinates coordinates : Coordinates.values()) {
+            Move possibleMove = new Move(pieceId, coordinates);
+            MoveLegality moveLegality = engine.checkLegalityOf(possibleMove);
+
+            if (moveLegality == MoveLegality.LEGAL) {
+                coordinatesToHighlight.add(coordinates);
+            }
+        }
+
+        board.setCoordinatesToHighlight(coordinatesToHighlight.toArray(new Coordinates[0]));
     }
 
     private void unselectPiece(PieceId pieceId) {

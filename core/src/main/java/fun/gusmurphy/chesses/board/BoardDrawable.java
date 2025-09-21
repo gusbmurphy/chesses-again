@@ -1,7 +1,11 @@
 package fun.gusmurphy.chesses.board;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -14,19 +18,24 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslator {
 
     private final SpriteBatch spriteBatch;
+    private final ShapeRenderer shapeRenderer;
     private final Viewport viewport;
     private final Texture darkSquareTexture = new Texture("dark_square.png");
     private final Texture lightSquareTexture = new Texture("light_square.png");
     private final Rectangle bounds = new Rectangle();
     private final BoardState boardState;
+    private Coordinates[] coordinatesToHighlight;
 
     static private final int BOARD_WIDTH_IN_SQUARES = 8;
+    private static final Color HIGHLIGHT_COLOR = new Color(0, 1, 1, 0.5f);
     public static final float SQUARE_SIZE = 40f;
 
     public BoardDrawable(final ChessesGame game, BoardState initialBoardState) {
         spriteBatch = game.getSpriteBatch();
+        shapeRenderer = game.getShapeRenderer();
         viewport = game.getViewport();
         boardState = initialBoardState;
+        coordinatesToHighlight = new Coordinates[0];
     }
 
     public void draw() {
@@ -37,6 +46,7 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
         bounds.set(bottomLeftX, bottomLeftY, boardSize, boardSize);
 
         drawSpaces();
+        drawHighlightedSpaces();
     }
 
     public Vector2 getScreenPositionForCenterOf(Coordinates coordinates) {
@@ -55,6 +65,14 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
         return boardState;
     }
 
+    public void setCoordinatesToHighlight(Coordinates[] coordinatesToHighlight) {
+        this.coordinatesToHighlight = coordinatesToHighlight;
+    }
+
+    public void clearHighlights() {
+        this.coordinatesToHighlight = new Coordinates[0];
+    }
+
     private void drawSpaces() {
         BoardCoordinateStates coordinateStates = boardState.coordinateStates();
         // TODO: Maybe the squares should be able to draw themselves?
@@ -64,6 +82,24 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
                 drawSquareAt(xyAdapter.x(), xyAdapter.y());
             });
         }
+    }
+
+    private void drawHighlightedSpaces() {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        for (Coordinates coordinates : coordinatesToHighlight) {
+            Vector2 center = getScreenPositionForCenterOf(coordinates);
+            float xPosition = center.x - SQUARE_SIZE / 2;
+            float yPosition = center.y - SQUARE_SIZE / 2;
+
+            shapeRenderer.setColor(HIGHLIGHT_COLOR);
+            shapeRenderer.rect(xPosition, yPosition, SQUARE_SIZE, SQUARE_SIZE);
+        }
+
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     private void drawSquareAt(int x, int y) {
