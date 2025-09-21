@@ -58,7 +58,7 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         pieceDrawables = new ArrayList<>();
 
         board.boardState()
-            .allCoordinateStates()
+            .coordinateStates()
             .all()
             .forEach(coordinateState -> setupPieceDrawableForCoordinateState(coordinateState, board));
     }

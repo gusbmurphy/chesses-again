@@ -56,7 +56,7 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
     }
 
     private void drawSpaces() {
-        BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
+        BoardCoordinateStates coordinateStates = boardState.coordinateStates();
         // TODO: Maybe the squares should be able to draw themselves?
         for (Coordinates c : Coordinates.values()) {
             coordinateStates.forCoordinates(c).ifPresent(boardCoordinateState -> {

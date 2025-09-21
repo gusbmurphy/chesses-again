@@ -24,7 +24,7 @@ class BoardStateSpec extends Specification {
         BoardState boardState = new BoardStateBuilder().build()
 
         when:
-        BoardCoordinateStates boardCoordinateStates = boardState.allCoordinateStates()
+        BoardCoordinateStates boardCoordinateStates = boardState.coordinateStates()
 
         then:
         boardCoordinateStates.size() == 64
@@ -41,7 +41,7 @@ class BoardStateSpec extends Specification {
             .build()
 
         when:
-        BoardCoordinateStates boardCoordinateStates = boardState.allCoordinateStates()
+        BoardCoordinateStates boardCoordinateStates = boardState.coordinateStates()
 
         then:
         boardCoordinateStates.size() == expectedSize

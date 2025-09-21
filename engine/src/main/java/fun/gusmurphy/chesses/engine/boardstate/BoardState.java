@@ -69,7 +69,7 @@ public class BoardState {
         throw new UnknownPieceException();
     }
 
-    public BoardCoordinateStates allCoordinateStates() {
+    public BoardCoordinateStates coordinateStates() {
         List<BoardCoordinateState> statesList = new ArrayList<>();
 
         for (Coordinates coordinates : coordinatesOnBoard) {

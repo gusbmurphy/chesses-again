@@ -30,7 +30,7 @@ public class MoveEventDeriver implements DerivesMoveEvents {
     }
 
     private Optional<PieceRemovedEvent> createEventForTakenPiece(Move move, BoardState boardState) {
-        BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
+        BoardCoordinateStates coordinateStates = boardState.coordinateStates();
         return coordinateStates.forCoordinates(move.coordinates())
             .flatMap(BoardCoordinateState::piece)
             .map(occupyingPiece -> new PieceRemovedEvent(occupyingPiece.id()));

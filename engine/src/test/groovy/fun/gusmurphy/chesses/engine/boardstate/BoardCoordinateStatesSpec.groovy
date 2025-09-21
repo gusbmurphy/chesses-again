@@ -13,7 +13,7 @@ class BoardCoordinateStatesSpec extends Specification {
         BoardState boardState = new BoardStateBuilder().build()
 
         when:
-        def result = boardState.allCoordinateStates().forPieceId(new PieceId())
+        def result = boardState.coordinateStates().forPieceId(new PieceId())
 
         then:
         result.isEmpty()
@@ -27,7 +27,7 @@ class BoardCoordinateStatesSpec extends Specification {
             .build()
 
         when:
-        def result = boardState.allCoordinateStates().forPieceId(piece.id())
+        def result = boardState.coordinateStates().forPieceId(piece.id())
 
         then:
         result.isPresent()
