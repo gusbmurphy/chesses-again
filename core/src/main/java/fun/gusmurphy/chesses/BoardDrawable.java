@@ -37,6 +37,18 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
         drawSpaces();
     }
 
+    public Vector2 getScreenPositionForCenterOf(Coordinates coordinates) {
+        CoordinatesXyAdapter xyAdapter = new CoordinatesXyAdapter(coordinates);
+
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+        float boardWidth = BOARD_WIDTH_IN_SQUARES * SQUARE_SIZE;
+
+        float x = xyAdapter.x() * SQUARE_SIZE + SQUARE_SIZE / 2 + worldWidth / 2 - boardWidth / 2;
+        float y = xyAdapter.y() * SQUARE_SIZE + SQUARE_SIZE / 2 + worldHeight / 2 - boardWidth / 2;
+        return new Vector2(x, y);
+    }
+
     private void drawSpaces() {
         BoardCoordinateStates coordinateStates = boardState.allCoordinateStates();
         // TODO: Maybe the squares should be able to draw themselves?
@@ -56,18 +68,6 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
         float xPosition = x * SQUARE_SIZE + bottomLeftX;
         float yPosition = y * SQUARE_SIZE + bottomLeftY;
         spriteBatch.draw(texture, xPosition, yPosition, SQUARE_SIZE, SQUARE_SIZE);
-    }
-
-    public Vector2 getScreenPositionForCenterOf(Coordinates coordinates) {
-        CoordinatesXyAdapter xyAdapter = new CoordinatesXyAdapter(coordinates);
-
-        float worldWidth = viewport.getWorldWidth();
-        float worldHeight = viewport.getWorldHeight();
-        float boardWidth = BOARD_WIDTH_IN_SQUARES * SQUARE_SIZE;
-
-        float x = xyAdapter.x() * SQUARE_SIZE + SQUARE_SIZE / 2 + worldWidth / 2 - boardWidth / 2;
-        float y = xyAdapter.y() * SQUARE_SIZE + SQUARE_SIZE / 2 + worldHeight / 2 - boardWidth / 2;
-        return new Vector2(x, y);
     }
 
     private float boardSize() {
