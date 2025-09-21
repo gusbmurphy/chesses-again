@@ -33,14 +33,15 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
     @Override
     public void onPieceSelected(PieceId pieceId) {
         if (selectedPieceId == null) {
-            updateSelectedPiece(pieceId);
+            dragPiece(pieceId);
+            setHighlightedMovesFor(pieceId);
         }
     }
 
     @Override
     public void onPieceReleased(PieceId pieceId, Vector2 screenPosition) {
         if (selectedPieceId == pieceId) {
-            unselectPiece(pieceId);
+            stopDraggingPiece(pieceId);
         }
     }
 
@@ -75,12 +76,14 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         inputProcessors.add(pieceDrawable);
     }
 
-    private void updateSelectedPiece(PieceId pieceId) {
+    private void dragPiece(PieceId pieceId) {
         selectedPieceId = pieceId;
         PieceDrawable pieceDrawable = pieceDrawables
             .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
         pieceDrawable.setDragStatus(true);
+    }
 
+    private void setHighlightedMovesFor(PieceId pieceId) {
         List<Coordinates> coordinatesToHighlight = new ArrayList<>();
         for (Coordinates coordinates : Coordinates.values()) {
             Move possibleMove = new Move(pieceId, coordinates);
@@ -94,7 +97,7 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         board.setCoordinatesToHighlight(coordinatesToHighlight.toArray(new Coordinates[0]));
     }
 
-    private void unselectPiece(PieceId pieceId) {
+    private void stopDraggingPiece(PieceId pieceId) {
         selectedPieceId = null;
         PieceDrawable pieceDrawable = pieceDrawables
             .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
