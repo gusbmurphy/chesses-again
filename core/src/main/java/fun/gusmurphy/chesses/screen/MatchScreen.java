@@ -21,7 +21,7 @@ import java.util.List;
 public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
     private PieceId selectedPieceId;
-    private List<PieceDrawable> pieceDrawables;
+    private final List<PieceDrawable> pieceDrawables;
 
     public MatchScreen(final ChessesGame game) {
         super(game);
