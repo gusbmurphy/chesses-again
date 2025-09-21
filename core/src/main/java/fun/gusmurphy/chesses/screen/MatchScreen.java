@@ -21,7 +21,7 @@ import java.util.List;
 public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
     private PieceId selectedPieceId;
-    private final List<PieceDrawable> pieceDrawables;
+    private List<PieceDrawable> pieceDrawables;
 
     public MatchScreen(final ChessesGame game) {
         super(game);
@@ -32,13 +32,9 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
             .width(7)
             .build();
         BoardDrawable board = new BoardDrawable(game, initialBoardState);
-
-        List<PieceDrawable> pieceDrawables = createPieceDrawables(game, initialBoardState, board);
-
-        this.pieceDrawables = pieceDrawables;
         drawables.add(board);
-        drawables.addAll(pieceDrawables);
-        inputProcessors.addAll(pieceDrawables);
+
+        setupPieceDrawables(game, initialBoardState, board);
     }
 
     @Override
@@ -55,9 +51,10 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         }
     }
 
-    private List<PieceDrawable> createPieceDrawables(ChessesGame game, BoardState initialBoardState, BoardDrawable board) {
+    private void setupPieceDrawables(ChessesGame game, BoardState initialBoardState, BoardDrawable board) {
         List<PieceDrawable> pieceDrawables = new ArrayList<>();
         BoardCoordinateStates coordinateStates = initialBoardState.allCoordinateStates();
+
         // TODO: This is looking ugly...
         for (Coordinates c : Coordinates.values()) {
             coordinateStates.forCoordinates(c).flatMap(BoardCoordinateState::piece).ifPresent(piece -> {
@@ -67,7 +64,10 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
                 pieceDrawables.add(pieceDrawable);
             });
         }
-        return pieceDrawables;
+
+        this.pieceDrawables = pieceDrawables;
+        drawables.addAll(pieceDrawables);
+        inputProcessors.addAll(pieceDrawables);
     }
 
     private void updateSelectedPiece(PieceId pieceId) {
