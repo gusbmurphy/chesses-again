@@ -5,6 +5,7 @@ import fun.gusmurphy.chesses.engine.piece.PieceId;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class BoardCoordinateStates {
 
@@ -28,6 +29,10 @@ public class BoardCoordinateStates {
         return coordinateStateList.stream()
             .filter(cs -> cs.coordinates() == coordinates)
             .findFirst();
+    }
+
+    public Stream<BoardCoordinateState> all() {
+        return coordinateStateList.stream();
     }
 
 }
