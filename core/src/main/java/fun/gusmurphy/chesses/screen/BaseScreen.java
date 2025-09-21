@@ -57,9 +57,7 @@ public abstract class BaseScreen implements Screen {
         game.getSpriteBatch().setProjectionMatrix(game.getViewport().getCamera().combined);
         game.getShapeRenderer().setProjectionMatrix(game.getViewport().getCamera().combined);
 
-        game.getSpriteBatch().begin();
         drawables.forEach(Drawable::draw);
-        game.getSpriteBatch().end();
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();

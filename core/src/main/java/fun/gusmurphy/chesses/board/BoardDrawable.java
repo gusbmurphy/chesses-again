@@ -74,6 +74,7 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
     }
 
     private void drawSpaces() {
+        spriteBatch.begin();
         BoardCoordinateStates coordinateStates = boardState.coordinateStates();
         // TODO: Maybe the squares should be able to draw themselves?
         for (Coordinates c : Coordinates.values()) {
@@ -82,6 +83,7 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
                 drawSquareAt(xyAdapter.x(), xyAdapter.y());
             });
         }
+        spriteBatch.end();
     }
 
     private void drawHighlightedSpaces() {

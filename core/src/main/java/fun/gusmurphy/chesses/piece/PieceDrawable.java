@@ -36,8 +36,10 @@ public class PieceDrawable implements Drawable, InputProcessor {
     }
 
     public void draw() {
+        spriteBatch.begin();
         sprite.draw(spriteBatch);
         bounds.set(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
+        spriteBatch.end();
     }
 
     public PieceId pieceId() {
