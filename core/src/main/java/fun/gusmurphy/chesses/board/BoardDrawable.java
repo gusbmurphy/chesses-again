@@ -15,6 +15,8 @@ import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 
+import java.util.Optional;
+
 public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslator {
 
     private final SpriteBatch spriteBatch;
@@ -59,6 +61,21 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
         float x = xyAdapter.x() * SQUARE_SIZE + SQUARE_SIZE / 2 + worldWidth / 2 - boardWidth / 2;
         float y = xyAdapter.y() * SQUARE_SIZE + SQUARE_SIZE / 2 + worldHeight / 2 - boardWidth / 2;
         return new Vector2(x, y);
+    }
+
+    public Optional<Coordinates> getCoordinatesForScreenPosition(Vector2 screenPosition) {
+        if (bounds.contains(screenPosition)) {
+            float xWithinBoard = screenPosition.x - bottomLeftX();
+            float yWithinBoard = screenPosition.y - bottomLeftY();
+
+            int x = (int) Math.floor(xWithinBoard / SQUARE_SIZE);
+            int y = (int) Math.floor(yWithinBoard / SQUARE_SIZE);
+
+            CoordinatesXyAdapter adapter = new CoordinatesXyAdapter(x, y);
+            return Optional.of(adapter.coordinates());
+        }
+
+        return Optional.empty();
     }
 
     public BoardState boardState() {
