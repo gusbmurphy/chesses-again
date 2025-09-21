@@ -42,6 +42,7 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
     public void onPieceReleased(PieceId pieceId, Vector2 screenPosition) {
         if (selectedPieceId == pieceId) {
             stopDraggingPiece(pieceId);
+            board.clearHighlights();
         }
     }
 
