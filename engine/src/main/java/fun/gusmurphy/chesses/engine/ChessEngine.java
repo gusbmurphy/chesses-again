@@ -1,8 +1,10 @@
 package fun.gusmurphy.chesses.engine;
 
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
-import fun.gusmurphy.chesses.engine.rules.MoveLegality;
-import fun.gusmurphy.chesses.engine.rules.MoveLegalityRule;
+import fun.gusmurphy.chesses.engine.boardstate.BoardStateReducer;
+import fun.gusmurphy.chesses.engine.events.MoveEventDeriver;
+import fun.gusmurphy.chesses.engine.events.TurnTracker;
+import fun.gusmurphy.chesses.engine.rules.*;
 
 public class ChessEngine implements RunsGame {
 
@@ -14,6 +16,21 @@ public class ChessEngine implements RunsGame {
         this.moveApplicator = moveApplicator;
         this.moveRule = moveRule;
         this.boardState = boardState;
+    }
+
+    public static ChessEngine defaultEngine(BoardState initialBoardState) {
+        PlayerColor startingPlayerColor = PlayerColor.WHITE;
+
+        MoveLegalityRule pieceMovementRule = new MoveLegalityRuleSuite(
+            new BishopMovementRule(),
+            new RookMovementRule()
+        );
+
+        return new ChessEngine(
+            new MoveApplicator(new MoveEventDeriver(new TurnTracker(startingPlayerColor)), new BoardStateReducer()),
+            new MoveLegalityRuleSuite(pieceMovementRule, new PlayerTurnRule()),
+            initialBoardState
+        );
     }
 
     @Override
