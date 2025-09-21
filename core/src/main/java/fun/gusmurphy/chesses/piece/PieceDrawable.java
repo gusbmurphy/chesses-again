@@ -12,7 +12,7 @@ import fun.gusmurphy.chesses.engine.piece.PieceId;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fun.gusmurphy.chesses.BoardDrawable.SQUARE_SIZE;
+import static fun.gusmurphy.chesses.board.BoardDrawable.SQUARE_SIZE;
 
 public class PieceDrawable implements Drawable, InputProcessor {
 

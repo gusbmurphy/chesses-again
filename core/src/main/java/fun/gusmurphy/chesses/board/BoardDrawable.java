@@ -1,10 +1,12 @@
-package fun.gusmurphy.chesses;
+package fun.gusmurphy.chesses.board;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import fun.gusmurphy.chesses.ChessesGame;
+import fun.gusmurphy.chesses.Drawable;
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;

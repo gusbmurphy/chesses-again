@@ -1,4 +1,4 @@
-package fun.gusmurphy.chesses;
+package fun.gusmurphy.chesses.board;
 
 import fun.gusmurphy.chesses.engine.Coordinates;
 

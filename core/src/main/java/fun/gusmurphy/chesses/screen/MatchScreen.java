@@ -1,6 +1,8 @@
-package fun.gusmurphy.chesses;
+package fun.gusmurphy.chesses.screen;
 
 import com.badlogic.gdx.math.Vector2;
+import fun.gusmurphy.chesses.ChessesGame;
+import fun.gusmurphy.chesses.board.BoardDrawable;
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;

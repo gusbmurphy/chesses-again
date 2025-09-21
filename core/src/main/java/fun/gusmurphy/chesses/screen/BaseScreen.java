@@ -1,4 +1,4 @@
-package fun.gusmurphy.chesses;
+package fun.gusmurphy.chesses.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -8,6 +8,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import fun.gusmurphy.chesses.ChessesGame;
+import fun.gusmurphy.chesses.Drawable;
+import fun.gusmurphy.chesses.InputProcessor;
+import fun.gusmurphy.chesses.Renderable;
 
 import java.util.ArrayList;
 import java.util.List;
