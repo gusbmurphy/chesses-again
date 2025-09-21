@@ -25,16 +25,8 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
     public MatchScreen(final ChessesGame game) {
         super(game);
-        BoardState initialBoardState = new BoardStateBuilder()
-            .addPieceAt(new Piece(PlayerColor.BLACK, PieceType.ROOK), Coordinates.A1)
-            .addPieceAt(new Piece(PlayerColor.WHITE, PieceType.BISHOP), Coordinates.C3)
-            .height(3)
-            .width(7)
-            .build();
-        BoardDrawable board = new BoardDrawable(game, initialBoardState);
-        drawables.add(board);
-
-        setupPieceDrawables(game, initialBoardState, board);
+        BoardDrawable board = setupBoard();
+        setupPieceDrawables(board);
     }
 
     @Override
@@ -51,9 +43,21 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         }
     }
 
-    private void setupPieceDrawables(ChessesGame game, BoardState initialBoardState, BoardDrawable board) {
+    private BoardDrawable setupBoard() {
+        BoardState initialBoardState = new BoardStateBuilder()
+            .addPieceAt(new Piece(PlayerColor.BLACK, PieceType.ROOK), Coordinates.A1)
+            .addPieceAt(new Piece(PlayerColor.WHITE, PieceType.BISHOP), Coordinates.C3)
+            .height(3)
+            .width(7)
+            .build();
+        BoardDrawable board = new BoardDrawable(game, initialBoardState);
+        drawables.add(board);
+        return board;
+    }
+
+    private void setupPieceDrawables(BoardDrawable board) {
         List<PieceDrawable> pieceDrawables = new ArrayList<>();
-        BoardCoordinateStates coordinateStates = initialBoardState.allCoordinateStates();
+        BoardCoordinateStates coordinateStates = board.boardState().allCoordinateStates();
 
         // TODO: This is looking ugly...
         for (Coordinates c : Coordinates.values()) {
