@@ -6,7 +6,6 @@ import fun.gusmurphy.chesses.board.BoardDrawable;
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
-import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder;
 import fun.gusmurphy.chesses.engine.piece.Piece;
