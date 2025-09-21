@@ -57,22 +57,26 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
     private void setupPieceDrawables(BoardDrawable board) {
         pieceDrawables = new ArrayList<>();
 
-        for (Coordinates c : Coordinates.values()) {
-            setupPieceDrawableForPiecePotentiallyAtCoordinatesOnBoard(board, c);
-        }
+        board.boardState()
+            .allCoordinateStates()
+            .all()
+            .forEach(coordinateState -> setupPieceDrawableForCoordinateState(coordinateState, board));
     }
 
-    private void setupPieceDrawableForPiecePotentiallyAtCoordinatesOnBoard(BoardDrawable board, Coordinates c) {
-        board.boardState().allCoordinateStates().forCoordinates(c).flatMap(BoardCoordinateState::piece).ifPresent(piece -> {
-            Vector2 piecePosition = board.getScreenPositionForCenterOf(c);
+    private void setupPieceDrawableForCoordinateState(BoardCoordinateState coordinateState, BoardDrawable board) {
+        if (!coordinateState.piece().isPresent()) {
+            return;
+        }
 
-            PieceDrawable pieceDrawable = new PieceDrawable(piece, game.getSpriteBatch(), piecePosition);
+        Vector2 piecePosition = board.getScreenPositionForCenterOf(coordinateState.coordinates());
 
-            pieceDrawable.listenToSelection(this);
-            pieceDrawables.add(pieceDrawable);
-            drawables.add(pieceDrawable);
-            inputProcessors.add(pieceDrawable);
-        });
+        Piece piece = coordinateState.piece().get();
+        PieceDrawable pieceDrawable = new PieceDrawable(piece, game.getSpriteBatch(), piecePosition);
+
+        pieceDrawable.listenToSelection(this);
+        pieceDrawables.add(pieceDrawable);
+        drawables.add(pieceDrawable);
+        inputProcessors.add(pieceDrawable);
     }
 
     private void updateSelectedPiece(PieceId pieceId) {
