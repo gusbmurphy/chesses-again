@@ -7,3 +7,4 @@
     - [ ] Knight 
     - [ ] King (no castling)
     - [ ] Queen 
+- [ ] Make selected piece render above other pieces
