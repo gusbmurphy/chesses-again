@@ -6,15 +6,21 @@ import fun.gusmurphy.chesses.board.BoardDrawable;
 import fun.gusmurphy.chesses.engine.ChessEngine;
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.Move;
+import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
+import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
+import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
+import fun.gusmurphy.chesses.engine.piece.PieceType;
 import fun.gusmurphy.chesses.engine.rules.MoveLegality;
 import fun.gusmurphy.chesses.piece.PieceDrawable;
 import fun.gusmurphy.chesses.piece.PieceSelectionListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
@@ -25,7 +31,14 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
     public MatchScreen(final ChessesGame game) {
         super(game);
-        engine = ChessEngine.defaultEngine();
+
+        BoardState boardState = new BoardStateBuilder()
+            .currentTurnColor(PlayerColor.WHITE)
+            .addPieceAt(new Piece(PlayerColor.WHITE, PieceType.BISHOP), Coordinates.A1)
+            .addPieceAt(new Piece(PlayerColor.BLACK, PieceType.ROOK), Coordinates.H8)
+            .build();
+
+        engine = ChessEngine.defaultEngine(boardState);
         board = setupBoard();
         setupPieceDrawables();
     }
@@ -43,6 +56,22 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         if (selectedPieceId == pieceId) {
             stopDraggingPiece(pieceId);
             board.clearHighlights();
+
+            Optional<Coordinates> coordinatesForReleasePosition = board.getCoordinatesForScreenPosition(screenPosition);
+
+            if (!coordinatesForReleasePosition.isPresent()) {
+                return;
+            }
+
+            Move move = new Move(pieceId, coordinatesForReleasePosition.get());
+            engine.makeMove(move);
+            BoardState newBoardState = engine.currentBoardState();
+            board.updateBoardState(newBoardState);
+            pieceDrawables.forEach(pieceDrawable -> {
+                PieceOnBoard pieceOnBoard = newBoardState.pieceOnBoardForId(pieceDrawable.pieceId());
+                Coordinates updatedPieceCoordinates = pieceOnBoard.coordinates();
+                pieceDrawable.setPositionCenter(board.getScreenPositionForCenterOf(updatedPieceCoordinates));
+            });
         }
     }
 

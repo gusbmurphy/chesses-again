@@ -25,7 +25,7 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
     private final Texture darkSquareTexture = new Texture("dark_square.png");
     private final Texture lightSquareTexture = new Texture("light_square.png");
     private final Rectangle bounds = new Rectangle();
-    private final BoardState boardState;
+    private BoardState boardState;
     private Coordinates[] coordinatesToHighlight;
 
     static private final int BOARD_WIDTH_IN_SQUARES = 8;
@@ -80,6 +80,10 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
 
     public BoardState boardState() {
         return boardState;
+    }
+
+    public void updateBoardState(BoardState boardState) {
+        this.boardState = boardState;
     }
 
     public void setCoordinatesToHighlight(Coordinates[] coordinatesToHighlight) {

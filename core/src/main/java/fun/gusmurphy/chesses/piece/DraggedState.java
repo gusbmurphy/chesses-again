@@ -15,7 +15,6 @@ class DraggedState extends PieceOnScreenState {
 
         if (Gdx.input.justTouched()) {
             notifyListenersOfRelease(cursorPosition);
-            updateSpriteCenter();
         }
     }
 
@@ -30,10 +29,6 @@ class DraggedState extends PieceOnScreenState {
         pieceDrawable.selectionListeners.forEach(listener ->
             listener.onPieceReleased(pieceDrawable.pieceId(), cursorPosition)
         );
-    }
-
-    private void updateSpriteCenter() {
-        pieceDrawable.sprite.setCenter(pieceDrawable.position.x, pieceDrawable.position.y);
     }
 
 }
