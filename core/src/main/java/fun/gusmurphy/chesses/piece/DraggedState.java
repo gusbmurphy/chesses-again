@@ -11,7 +11,7 @@ class DraggedState extends PieceOnScreenState {
 
     @Override
     public void processInput(Vector2 cursorPosition) {
-        updateSpritePositionTo(cursorPosition);
+        pieceDrawable.setPositionCenter(cursorPosition);
 
         if (Gdx.input.justTouched()) {
             notifyListenersOfRelease(cursorPosition);
@@ -24,13 +24,6 @@ class DraggedState extends PieceOnScreenState {
         if (!isNowDragged) {
             pieceDrawable.setState(new DefaultState(pieceDrawable));
         }
-    }
-
-    private void updateSpritePositionTo(Vector2 newPosition) {
-        pieceDrawable.sprite.setPosition(
-            newPosition.x - pieceDrawable.sprite.getWidth() / 2,
-            newPosition.y - pieceDrawable.sprite.getHeight() / 2
-        );
     }
 
     private void notifyListenersOfRelease(Vector2 cursorPosition) {

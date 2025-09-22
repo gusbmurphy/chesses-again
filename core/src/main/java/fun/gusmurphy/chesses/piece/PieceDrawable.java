@@ -42,6 +42,13 @@ public class PieceDrawable implements Drawable, InputProcessor {
         spriteBatch.end();
     }
 
+    public void setPositionCenter(Vector2 center) {
+        sprite.setPosition(
+            center.x - sprite.getWidth() / 2,
+            center.y - sprite.getHeight() / 2
+        );
+    }
+
     public PieceId pieceId() {
         return piece.id();
     }
