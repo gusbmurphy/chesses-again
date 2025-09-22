@@ -31,14 +31,7 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
     public MatchScreen(final ChessesGame game) {
         super(game);
-
-        BoardState boardState = new BoardStateBuilder()
-            .currentTurnColor(PlayerColor.WHITE)
-            .addPieceAt(new Piece(PlayerColor.WHITE, PieceType.BISHOP), Coordinates.A1)
-            .addPieceAt(new Piece(PlayerColor.BLACK, PieceType.ROOK), Coordinates.H8)
-            .build();
-
-        engine = ChessEngine.defaultEngine(boardState);
+        engine = ChessEngine.defaultEngine();
         board = setupBoard();
         setupPieceDrawables();
     }
