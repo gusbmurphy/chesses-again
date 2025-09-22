@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import fun.gusmurphy.chesses.ChessesGame;
 import fun.gusmurphy.chesses.Drawable;
 import fun.gusmurphy.chesses.InputProcessor;
-import fun.gusmurphy.chesses.Renderable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,6 @@ public abstract class BaseScreen implements Screen {
     protected final Stage stage;
     protected final Skin skin;
     protected List<InputProcessor> inputProcessors = new ArrayList<>();
-    protected List<Renderable> renderables = new ArrayList<>();
     protected List<Drawable> drawables = new ArrayList<>();
 
     private final Vector2 cursorPosition = new Vector2();
