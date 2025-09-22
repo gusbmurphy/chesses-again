@@ -1,7 +1,7 @@
 # `TODO`
 
 - [x] Indicate possible moves for a piece on selection
-- [ ] Allow submitting moves from UI
+- [x] Allow submitting moves from UI
 - [ ] Basic movement for other pieces
     - [ ] Pawn (no en passant or first double space move yet)
     - [ ] Knight 
