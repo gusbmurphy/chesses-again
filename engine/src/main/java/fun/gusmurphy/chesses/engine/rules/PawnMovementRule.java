@@ -1,5 +1,6 @@
 package fun.gusmurphy.chesses.engine.rules;
 
+import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
@@ -14,14 +15,24 @@ public class PawnMovementRule implements MoveLegalityRule {
             return MoveLegality.UNCONCERNED;
         }
 
-        if (Math.abs(pieceOnBoard.coordinates().rankDifferenceTo(move.coordinates())) > 1) {
+        Coordinates currentCoordinates = pieceOnBoard.coordinates();
+
+        if (moveIsGreaterThanOneSpotVertically(move, currentCoordinates)) {
             return MoveLegality.ILLEGAL;
         }
 
-        if (!pieceOnBoard.coordinates().sameFileAs(move.coordinates())) {
+        if (moveIsToDifferentFile(move, currentCoordinates)) {
             return MoveLegality.ILLEGAL;
         }
 
         return MoveLegality.LEGAL;
+    }
+
+    private static boolean moveIsGreaterThanOneSpotVertically(Move move, Coordinates currentCoordinates) {
+        return Math.abs(currentCoordinates.rankDifferenceTo(move.coordinates())) > 1;
+    }
+
+    private static boolean moveIsToDifferentFile(Move move, Coordinates currentCoordinates) {
+        return !currentCoordinates.sameFileAs(move.coordinates());
     }
 }
