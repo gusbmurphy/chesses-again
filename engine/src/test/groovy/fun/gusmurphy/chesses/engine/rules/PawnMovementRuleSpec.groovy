@@ -9,6 +9,7 @@ import spock.lang.Specification
 import static fun.gusmurphy.chesses.engine.Coordinates.C2
 import static fun.gusmurphy.chesses.engine.Coordinates.D4
 import static fun.gusmurphy.chesses.engine.Coordinates.D5
+import static fun.gusmurphy.chesses.engine.Coordinates.D6
 import static fun.gusmurphy.chesses.engine.PlayerColor.WHITE
 import static fun.gusmurphy.chesses.engine.piece.PieceType.BISHOP
 import static fun.gusmurphy.chesses.engine.piece.PieceType.KING
@@ -44,5 +45,14 @@ class PawnMovementRuleSpec extends Specification {
 
         expect:
         PAWN_RULE.evaluate(board, new Move(pawn.id(), D5)) == MoveLegality.LEGAL
+    }
+
+    def "a white pawn cannot move more than a single spot forward"() {
+        given:
+        def pawn = new Piece(WHITE, PAWN)
+        def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
+
+        expect:
+        PAWN_RULE.evaluate(board, new Move(pawn.id(), D6)) == MoveLegality.ILLEGAL
     }
 }
