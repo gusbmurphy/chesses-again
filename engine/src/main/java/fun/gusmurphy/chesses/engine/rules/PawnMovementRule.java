@@ -21,6 +21,10 @@ public class PawnMovementRule implements MoveLegalityRule {
             return MoveLegality.ILLEGAL;
         }
 
+        if (moveIsBackwards(move, currentCoordinates)) {
+            return MoveLegality.ILLEGAL;
+        }
+
         if (moveIsToDifferentFile(move, currentCoordinates)) {
             return MoveLegality.ILLEGAL;
         }
@@ -34,5 +38,9 @@ public class PawnMovementRule implements MoveLegalityRule {
 
     private static boolean moveIsToDifferentFile(Move move, Coordinates currentCoordinates) {
         return !currentCoordinates.sameFileAs(move.coordinates());
+    }
+
+    private static boolean moveIsBackwards(Move move, Coordinates currentCoordinates) {
+        return currentCoordinates.rankDifferenceTo(move.coordinates()) == 1;
     }
 }

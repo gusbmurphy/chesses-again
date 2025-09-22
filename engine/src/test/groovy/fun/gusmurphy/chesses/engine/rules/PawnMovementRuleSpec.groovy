@@ -10,6 +10,7 @@ import static fun.gusmurphy.chesses.engine.Coordinates.C2
 import static fun.gusmurphy.chesses.engine.Coordinates.C3
 import static fun.gusmurphy.chesses.engine.Coordinates.C4
 import static fun.gusmurphy.chesses.engine.Coordinates.C5
+import static fun.gusmurphy.chesses.engine.Coordinates.D3
 import static fun.gusmurphy.chesses.engine.Coordinates.D4
 import static fun.gusmurphy.chesses.engine.Coordinates.D5
 import static fun.gusmurphy.chesses.engine.Coordinates.D6
@@ -51,6 +52,15 @@ class PawnMovementRuleSpec extends Specification {
 
         expect:
         PAWN_RULE.evaluate(board, new Move(pawn.id(), D5)) == MoveLegality.LEGAL
+    }
+
+    def "a white pawn cannot move a backward"() {
+        given:
+        def pawn = new Piece(WHITE, PAWN)
+        def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
+
+        expect:
+        PAWN_RULE.evaluate(board, new Move(pawn.id(), D3)) == MoveLegality.ILLEGAL
     }
 
     def "a white pawn cannot move more than a single spot forward"() {
