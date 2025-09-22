@@ -18,6 +18,10 @@ public class PawnMovementRule implements MoveLegalityRule {
             return MoveLegality.ILLEGAL;
         }
 
+        if (!pieceOnBoard.coordinates().sameFileAs(move.coordinates())) {
+            return MoveLegality.ILLEGAL;
+        }
+
         return MoveLegality.LEGAL;
     }
 }

@@ -7,9 +7,15 @@ import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.Coordinates.C2
+import static fun.gusmurphy.chesses.engine.Coordinates.C3
+import static fun.gusmurphy.chesses.engine.Coordinates.C4
+import static fun.gusmurphy.chesses.engine.Coordinates.C5
 import static fun.gusmurphy.chesses.engine.Coordinates.D4
 import static fun.gusmurphy.chesses.engine.Coordinates.D5
 import static fun.gusmurphy.chesses.engine.Coordinates.D6
+import static fun.gusmurphy.chesses.engine.Coordinates.E4
+import static fun.gusmurphy.chesses.engine.Coordinates.E5
+import static fun.gusmurphy.chesses.engine.Coordinates.E6
 import static fun.gusmurphy.chesses.engine.PlayerColor.WHITE
 import static fun.gusmurphy.chesses.engine.piece.PieceType.BISHOP
 import static fun.gusmurphy.chesses.engine.piece.PieceType.KING
@@ -54,5 +60,17 @@ class PawnMovementRuleSpec extends Specification {
 
         expect:
         PAWN_RULE.evaluate(board, new Move(pawn.id(), D6)) == MoveLegality.ILLEGAL
+    }
+
+    def "a white pawn cannot move horizontally"() {
+        given:
+        def pawn = new Piece(WHITE, PAWN)
+        def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
+
+        expect:
+        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == MoveLegality.ILLEGAL
+
+        where:
+        moveCoordinates << [C3, C4, C5, E4, E5, E6]
     }
 }
