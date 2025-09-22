@@ -14,7 +14,7 @@ public class PawnMovementRule implements MoveLegalityRule {
             return MoveLegality.UNCONCERNED;
         }
 
-        if (Math.abs(pieceOnBoard.coordinates().rank().ordinal() - move.coordinates().rank().ordinal()) > 1) {
+        if (Math.abs(pieceOnBoard.coordinates().rankDifferenceTo(move.coordinates())) > 1) {
             return MoveLegality.ILLEGAL;
         }
 

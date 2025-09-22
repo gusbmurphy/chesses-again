@@ -48,7 +48,7 @@ public enum Coordinates {
         return Math.abs(rankDifferenceTo(other)) - Math.abs(fileDifferenceTo(other)) == 0;
     }
 
-    private int rankDifferenceTo(Coordinates other) {
+    public int rankDifferenceTo(Coordinates other) {
         return this.rank.ordinal() - other.rank.ordinal();
     }
 
