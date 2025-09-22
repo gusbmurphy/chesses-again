@@ -20,6 +20,10 @@ public class ChessEngine implements RunsGame {
     }
 
     public static ChessEngine defaultEngine() {
+        return defaultEngine(BoardStateBuilder.defaultBoard());
+    }
+
+    public static ChessEngine defaultEngine(BoardState initialBoardState) {
         PlayerColor startingPlayerColor = PlayerColor.WHITE;
 
         MoveLegalityRule pieceMovementRule = new MoveLegalityRuleSuite(
@@ -30,7 +34,7 @@ public class ChessEngine implements RunsGame {
         return new ChessEngine(
             new MoveApplicator(new MoveEventDeriver(new TurnTracker(startingPlayerColor)), new BoardStateReducer()),
             new MoveLegalityRuleSuite(pieceMovementRule, new PlayerTurnRule()),
-            BoardStateBuilder.defaultBoard()
+            initialBoardState
         );
     }
 
