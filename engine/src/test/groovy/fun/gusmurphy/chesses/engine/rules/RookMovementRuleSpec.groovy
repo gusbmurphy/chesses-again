@@ -5,6 +5,7 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
+import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.Coordinates.*
@@ -16,6 +17,22 @@ class RookMovementRuleSpec extends Specification {
     private static final Piece TEST_ROOK = new Piece(WHITE, ROOK)
     private static final BoardState TEST_BOARD = new BoardStateBuilder().addPieceAt(TEST_ROOK, D4).build()
     private static final MoveLegalityRule ROOK_RULE = new RookMovementRule()
+
+    def "we are unconcerned with any move for a piece other than a rook"() {
+        given:
+        def nonRook = new Piece(WHITE, pieceType as PieceType)
+        def board = new BoardStateBuilder().addPieceAt(nonRook, D4).build()
+        def move = new Move(nonRook.id(), C2)
+
+        when:
+        def result = ROOK_RULE.evaluate(board, move)
+
+        then:
+        result == MoveLegality.UNCONCERNED
+
+        where:
+        pieceType << [BISHOP, PAWN, KING, QUEEN, KNIGHT]
+    }
 
     def "a rook can move to a spot in the same file"() {
         given:
