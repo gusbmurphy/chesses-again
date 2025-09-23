@@ -52,7 +52,7 @@ public enum Coordinates {
         return this.rank.ordinal() - other.rank.ordinal();
     }
 
-    private int fileDifferenceTo(Coordinates other) {
+    public int fileDifferenceTo(Coordinates other) {
         return this.file.ordinal() - other.file.ordinal();
     }
 
