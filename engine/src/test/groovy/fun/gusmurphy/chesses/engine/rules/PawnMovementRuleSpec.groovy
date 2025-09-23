@@ -6,25 +6,9 @@ import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
-import static fun.gusmurphy.chesses.engine.Coordinates.C2
-import static fun.gusmurphy.chesses.engine.Coordinates.C3
-import static fun.gusmurphy.chesses.engine.Coordinates.C4
-import static fun.gusmurphy.chesses.engine.Coordinates.C5
-import static fun.gusmurphy.chesses.engine.Coordinates.D3
-import static fun.gusmurphy.chesses.engine.Coordinates.D4
-import static fun.gusmurphy.chesses.engine.Coordinates.D5
-import static fun.gusmurphy.chesses.engine.Coordinates.D6
-import static fun.gusmurphy.chesses.engine.Coordinates.E4
-import static fun.gusmurphy.chesses.engine.Coordinates.E5
-import static fun.gusmurphy.chesses.engine.Coordinates.E6
-import static fun.gusmurphy.chesses.engine.PlayerColor.BLACK
-import static fun.gusmurphy.chesses.engine.PlayerColor.WHITE
-import static fun.gusmurphy.chesses.engine.piece.PieceType.BISHOP
-import static fun.gusmurphy.chesses.engine.piece.PieceType.KING
-import static fun.gusmurphy.chesses.engine.piece.PieceType.KNIGHT
-import static fun.gusmurphy.chesses.engine.piece.PieceType.PAWN
-import static fun.gusmurphy.chesses.engine.piece.PieceType.QUEEN
-import static fun.gusmurphy.chesses.engine.piece.PieceType.ROOK
+import static fun.gusmurphy.chesses.engine.Coordinates.*
+import static fun.gusmurphy.chesses.engine.PlayerColor.*
+import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
 class PawnMovementRuleSpec extends Specification {
 
