@@ -17,6 +17,7 @@ import static fun.gusmurphy.chesses.engine.Coordinates.D6
 import static fun.gusmurphy.chesses.engine.Coordinates.E4
 import static fun.gusmurphy.chesses.engine.Coordinates.E5
 import static fun.gusmurphy.chesses.engine.Coordinates.E6
+import static fun.gusmurphy.chesses.engine.PlayerColor.BLACK
 import static fun.gusmurphy.chesses.engine.PlayerColor.WHITE
 import static fun.gusmurphy.chesses.engine.piece.PieceType.BISHOP
 import static fun.gusmurphy.chesses.engine.piece.PieceType.KING
@@ -45,22 +46,32 @@ class PawnMovementRuleSpec extends Specification {
         pieceType << [ROOK, BISHOP, KING, QUEEN, KNIGHT]
     }
 
-    def "a white pawn can move a single spot forward"() {
+    def "a pawn can move a single spot forward"() {
         given:
-        def pawn = new Piece(WHITE, PAWN)
+        def pawn = new Piece(color, PAWN)
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), D5)) == MoveLegality.LEGAL
+        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == MoveLegality.LEGAL
+
+        where:
+        color | moveCoordinates
+        WHITE | D5
+        BLACK | D3
     }
 
-    def "a white pawn cannot move a backward"() {
+    def "a pawn cannot move backward"() {
         given:
-        def pawn = new Piece(WHITE, PAWN)
+        def pawn = new Piece(color, PAWN)
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), D3)) == MoveLegality.ILLEGAL
+        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == MoveLegality.ILLEGAL
+
+        where:
+        color | moveCoordinates
+        WHITE | D3
+        BLACK | D5
     }
 
     def "a white pawn cannot move more than a single spot forward"() {
@@ -83,4 +94,5 @@ class PawnMovementRuleSpec extends Specification {
         where:
         moveCoordinates << [C3, C4, C5, E4, E5, E6]
     }
+
 }

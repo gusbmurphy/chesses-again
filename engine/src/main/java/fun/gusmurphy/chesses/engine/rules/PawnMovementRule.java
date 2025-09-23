@@ -2,6 +2,7 @@ package fun.gusmurphy.chesses.engine.rules;
 
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.Move;
+import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
@@ -21,7 +22,7 @@ public class PawnMovementRule implements MoveLegalityRule {
             return MoveLegality.ILLEGAL;
         }
 
-        if (moveIsBackwards(move, currentCoordinates)) {
+        if (moveIsBackwards(move, currentCoordinates, pieceOnBoard.color())) {
             return MoveLegality.ILLEGAL;
         }
 
@@ -40,7 +41,7 @@ public class PawnMovementRule implements MoveLegalityRule {
         return !currentCoordinates.sameFileAs(move.coordinates());
     }
 
-    private static boolean moveIsBackwards(Move move, Coordinates currentCoordinates) {
-        return currentCoordinates.rankDifferenceTo(move.coordinates()) == 1;
+    private static boolean moveIsBackwards(Move move, Coordinates currentCoordinates, PlayerColor color) {
+        return currentCoordinates.rankDifferenceTo(move.coordinates()) == (color == PlayerColor.WHITE ? 1 : -1);
     }
 }
