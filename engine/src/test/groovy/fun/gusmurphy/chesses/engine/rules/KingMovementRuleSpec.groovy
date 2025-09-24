@@ -1,6 +1,5 @@
 package fun.gusmurphy.chesses.engine.rules
 
-import fun.gusmurphy.chesses.engine.Coordinates
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
@@ -30,6 +29,22 @@ class KingMovementRuleSpec extends Specification {
 
         where:
         pieceType << [ROOK, BISHOP, KNIGHT, QUEEN, PAWN]
+    }
+
+    def "a king can move to any spot right next to it"() {
+        given:
+        def king = new Piece(WHITE, KING)
+        def board = new BoardStateBuilder().addPieceAt(king, D4).build()
+        def move = new Move(king.id(), moveCoordinates)
+
+        when:
+        def result = KING_RULE.evaluate(board, move)
+
+        then:
+        result == MoveLegality.LEGAL
+
+        where:
+        moveCoordinates << [C5, D5, E5, E4, E3, D3, C3, C4]
     }
 
 }
