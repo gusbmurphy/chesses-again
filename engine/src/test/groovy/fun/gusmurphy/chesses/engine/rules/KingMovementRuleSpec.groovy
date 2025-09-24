@@ -47,4 +47,20 @@ class KingMovementRuleSpec extends Specification {
         moveCoordinates << [C5, D5, E5, E4, E3, D3, C3, C4]
     }
 
+    def "a king cannot move beyond one spot"() {
+        given:
+        def king = new Piece(WHITE, KING)
+        def board = new BoardStateBuilder().addPieceAt(king, D4).build()
+        def move = new Move(king.id(), moveCoordinates)
+
+        when:
+        def result = KING_RULE.evaluate(board, move)
+
+        then:
+        result == MoveLegality.ILLEGAL
+
+        where:
+        moveCoordinates << [D6, D2, F6, F5, B4]
+    }
+
 }
