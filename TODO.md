@@ -5,6 +5,6 @@
 - [ ] Basic movement for other pieces
     - [x] Pawn (no en passant or first double space move yet)
     - [x] Knight 
-    - [ ] King (no castling)
+    - [x] King (no castling)
     - [ ] Queen 
 - [ ] Make selected piece render above other pieces
