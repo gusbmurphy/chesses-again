@@ -5,7 +5,6 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.Coordinates.*
@@ -16,20 +15,9 @@ class PawnMovementRuleSpec extends Specification {
 
     private static final MoveLegalityRule PAWN_RULE = new PawnMovementRule()
 
-    def "the pawn movement rule is not concerned with a non-pawn piece"() {
-        given:
-        def nonPawn = new Piece(WHITE, pieceType as PieceType)
-        def board = new BoardStateBuilder().addPieceAt(nonPawn, D4).build()
-        def move = new Move(nonPawn.id(), C2)
-
-        when:
-        def result = PAWN_RULE.evaluate(board, move)
-
-        then:
-        result == MoveLegality.UNCONCERNED
-
-        where:
-        pieceType << [ROOK, BISHOP, KING, QUEEN, KNIGHT]
+    def "the rule is only concerned with pawns"() {
+        expect:
+        PAWN_RULE.relevantPieceTypes().asList() == [PAWN]
     }
 
     def "a pawn can move a single spot forward"() {

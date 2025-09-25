@@ -7,7 +7,12 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-public class PawnMovementRule implements MoveLegalityRule {
+public class PawnMovementRule extends SinglePieceMovementRule {
+
+    public PawnMovementRule() {
+        super(PieceType.PAWN);
+    }
+
     @Override
     public MoveLegality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
@@ -31,11 +36,6 @@ public class PawnMovementRule implements MoveLegalityRule {
         }
 
         return MoveLegality.LEGAL;
-    }
-
-    @Override
-    public RelevantPieceTypes relevantPieceTypes() {
-        return null;
     }
 
     private static boolean moveIsGreaterThanOneSpotVertically(Move move, Coordinates currentCoordinates) {

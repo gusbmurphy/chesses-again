@@ -18,20 +18,9 @@ class RookMovementRuleSpec extends Specification {
     private static final BoardState TEST_BOARD = new BoardStateBuilder().addPieceAt(TEST_ROOK, D4).build()
     private static final MoveLegalityRule ROOK_RULE = new RookMovementRule()
 
-    def "we are unconcerned with any move for a piece other than a rook"() {
-        given:
-        def nonRook = new Piece(WHITE, pieceType as PieceType)
-        def board = new BoardStateBuilder().addPieceAt(nonRook, D4).build()
-        def move = new Move(nonRook.id(), C2)
-
-        when:
-        def result = ROOK_RULE.evaluate(board, move)
-
-        then:
-        result == MoveLegality.UNCONCERNED
-
-        where:
-        pieceType << [BISHOP, PAWN, KING, QUEEN, KNIGHT]
+    def "the rule is only concerned with rooks"() {
+        expect:
+        ROOK_RULE.relevantPieceTypes().asList() == [ROOK]
     }
 
     def "a rook can move to a spot in the same file"() {

@@ -8,7 +8,12 @@ import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 import static fun.gusmurphy.chesses.engine.rules.MoveLegality.*;
 
-public class RookMovementRule implements MoveLegalityRule {
+public class RookMovementRule extends SinglePieceMovementRule {
+
+    public RookMovementRule() {
+        super(PieceType.ROOK);
+    }
+
     @Override
     public MoveLegality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
@@ -28,10 +33,5 @@ public class RookMovementRule implements MoveLegalityRule {
         }
 
         return ILLEGAL;
-    }
-
-    @Override
-    public RelevantPieceTypes relevantPieceTypes() {
-        return null;
     }
 }
