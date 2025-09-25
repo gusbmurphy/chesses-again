@@ -6,9 +6,11 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-public class KingMovementRule implements MoveLegalityRule {
+public class KingMovementRule extends SinglePieceMovementRule {
 
-    private static final RelevantPieceTypes RELEVANT_PIECE_TYPE = new SingleRelevantPieceType(PieceType.KING);
+    public KingMovementRule() {
+        super(PieceType.KING);
+    }
 
     @Override
     public MoveLegality evaluate(BoardState boardState, Move move) {
@@ -30,10 +32,5 @@ public class KingMovementRule implements MoveLegalityRule {
         }
 
         return MoveLegality.LEGAL;
-    }
-
-    @Override
-    public RelevantPieceTypes relevantPieceTypes() {
-        return RELEVANT_PIECE_TYPE;
     }
 }
