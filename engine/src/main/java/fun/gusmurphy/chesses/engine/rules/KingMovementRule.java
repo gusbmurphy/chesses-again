@@ -28,4 +28,9 @@ public class KingMovementRule implements MoveLegalityRule {
 
         return MoveLegality.LEGAL;
     }
+
+    @Override
+    public RelevantPieceTypes relevantPieceTypes() {
+        return null;
+    }
 }

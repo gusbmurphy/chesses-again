@@ -6,5 +6,6 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 public interface MoveLegalityRule {
 
     MoveLegality evaluate(BoardState boardState, Move move);
+    RelevantPieceTypes relevantPieceTypes();
 
 }

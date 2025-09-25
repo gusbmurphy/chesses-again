@@ -59,20 +59,9 @@ class BishopMovementRuleSpec extends Specification {
         moveCoordinates << [C2, E2, F3, F5, E6, C6, B5, B3]
     }
 
-    def "the bishop movement rule is not concerned with a non-bishop piece"() {
-        given:
-        def nonBishop = new Piece(WHITE, pieceType as PieceType)
-        def board = new BoardStateBuilder().addPieceAt(nonBishop, D4).build()
-        def move = new Move(nonBishop.id(), C2)
-
-        when:
-        def result = BISHOP_RULE.evaluate(board, move)
-
-        then:
-        result == MoveLegality.UNCONCERNED
-
-        where:
-        pieceType << [ROOK, PAWN, KING, QUEEN, KNIGHT]
+    def "the rule is only concerned with bishops"() {
+        expect:
+        BISHOP_RULE.relevantPieceTypes().asList() == [BISHOP]
     }
 
     private static Move bishopMoveTo(Coordinates coordinates) {

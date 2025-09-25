@@ -9,6 +9,9 @@ import fun.gusmurphy.chesses.engine.piece.PieceType;
 import static fun.gusmurphy.chesses.engine.rules.MoveLegality.*;
 
 public class BishopMovementRule implements MoveLegalityRule {
+
+    private static final RelevantPieceTypes RELEVANT_PIECE_TYPE = new SingleRelevantPieceType(PieceType.BISHOP);
+
     @Override
     public MoveLegality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
@@ -31,5 +34,10 @@ public class BishopMovementRule implements MoveLegalityRule {
         }
 
         return LEGAL;
+    }
+
+    @Override
+    public RelevantPieceTypes relevantPieceTypes() {
+        return RELEVANT_PIECE_TYPE;
     }
 }

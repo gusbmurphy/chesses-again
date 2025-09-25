@@ -26,4 +26,9 @@ public class MoveLegalityRuleSuite implements MoveLegalityRule {
         return MoveLegality.LEGAL;
     }
 
+    @Override
+    public RelevantPieceTypes relevantPieceTypes() {
+        return null;
+    }
+
 }

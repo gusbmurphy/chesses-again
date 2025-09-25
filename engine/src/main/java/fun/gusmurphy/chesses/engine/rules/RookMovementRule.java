@@ -29,4 +29,9 @@ public class RookMovementRule implements MoveLegalityRule {
 
         return ILLEGAL;
     }
+
+    @Override
+    public RelevantPieceTypes relevantPieceTypes() {
+        return null;
+    }
 }

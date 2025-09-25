@@ -33,6 +33,11 @@ public class PawnMovementRule implements MoveLegalityRule {
         return MoveLegality.LEGAL;
     }
 
+    @Override
+    public RelevantPieceTypes relevantPieceTypes() {
+        return null;
+    }
+
     private static boolean moveIsGreaterThanOneSpotVertically(Move move, Coordinates currentCoordinates) {
         return Math.abs(currentCoordinates.rankDifferenceTo(move.coordinates())) > 1;
     }

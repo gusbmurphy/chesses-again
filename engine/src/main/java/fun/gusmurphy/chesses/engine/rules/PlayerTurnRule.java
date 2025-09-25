@@ -17,4 +17,9 @@ public class PlayerTurnRule implements MoveLegalityRule {
         return MoveLegality.ILLEGAL;
     }
 
+    @Override
+    public RelevantPieceTypes relevantPieceTypes() {
+        return null;
+    }
+
 }
