@@ -103,4 +103,20 @@ class MoveLegalityRuleSuiteSpec extends Specification {
         suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == LEGAL
     }
 
+    def "if the second rule says something is illegal, but the first is not relevant to the piece, the move is still illegal"() {
+        given:
+        def pieceType = PieceType.PAWN
+        def notThePieceType = PieceType.BISHOP
+        def piece = new Piece(PlayerColor.WHITE, pieceType)
+        def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+
+        and: "a rule that's legal for the piece, and one that's illegal but not concerned with the piece"
+        def legalRule = new LegalAlwaysRule(notThePieceType)
+        def illegalRule = new IllegalAlwaysRule(pieceType)
+        def suite = new MoveLegalityRuleSuite(legalRule, illegalRule)
+
+        expect:
+        suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == ILLEGAL
+    }
+
 }
