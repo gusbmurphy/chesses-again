@@ -22,12 +22,21 @@ public class MoveLegalityRuleSuite implements MoveLegalityRule {
         PieceType pieceType = getTypeOfMovingPiece(boardState, move);
 
         for (MoveLegalityRule rule : rules) {
-            if (rule.isRelevantForPieceType(pieceType) && rule.evaluate(boardState, move) == MoveLegality.ILLEGAL) {
+            if (ruleIsRelevantForPieceAndIllegal(boardState, move, rule, pieceType)) {
                 return MoveLegality.ILLEGAL;
             }
         }
 
         return MoveLegality.LEGAL;
+    }
+
+    private static boolean ruleIsRelevantForPieceAndIllegal(
+        BoardState boardState,
+        Move move,
+        MoveLegalityRule rule,
+        PieceType pieceType
+    ) {
+        return rule.isRelevantForPieceType(pieceType) && rule.evaluate(boardState, move) == MoveLegality.ILLEGAL;
     }
 
     private static PieceType getTypeOfMovingPiece(BoardState boardState, Move move) {
