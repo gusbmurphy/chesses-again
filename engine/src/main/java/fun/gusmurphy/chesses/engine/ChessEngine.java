@@ -28,7 +28,10 @@ public class ChessEngine implements RunsGame {
 
         MoveLegalityRule pieceMovementRule = new MoveLegalityRuleSuite(
             new BishopMovementRule(),
-            new RookMovementRule()
+            new RookMovementRule(),
+            new PawnMovementRule(),
+            new KingMovementRule(),
+            new KnightMovementRule()
         );
 
         return new ChessEngine(
