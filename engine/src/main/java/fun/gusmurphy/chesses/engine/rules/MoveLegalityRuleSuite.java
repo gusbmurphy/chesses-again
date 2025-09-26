@@ -19,11 +19,10 @@ public class MoveLegalityRuleSuite implements MoveLegalityRule {
             return MoveLegality.LEGAL;
         }
 
-        PieceOnBoard piece = boardState.pieceOnBoardForId(move.pieceId());
-        PieceType pieceType = piece.type();
+        PieceType pieceType = getTypeOfMovingPiece(boardState, move);
 
         for (MoveLegalityRule rule : rules) {
-            if (!rule.isRelevantForPieceType(pieceType)) {
+            if (pieceTypeIsNotRelevantToRule(rule, pieceType)) {
                 break;
             }
 
@@ -33,6 +32,15 @@ public class MoveLegalityRuleSuite implements MoveLegalityRule {
         }
 
         return MoveLegality.LEGAL;
+    }
+
+    private static PieceType getTypeOfMovingPiece(BoardState boardState, Move move) {
+        PieceOnBoard piece = boardState.pieceOnBoardForId(move.pieceId());
+        return piece.type();
+    }
+
+    private static boolean pieceTypeIsNotRelevantToRule(MoveLegalityRule rule, PieceType pieceType) {
+        return !rule.isRelevantForPieceType(pieceType);
     }
 
 }
