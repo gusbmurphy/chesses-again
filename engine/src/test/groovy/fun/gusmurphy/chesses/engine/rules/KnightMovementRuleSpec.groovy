@@ -18,7 +18,16 @@ class KnightMovementRuleSpec extends Specification {
 
     def "the rule is only concerned with knights"() {
         expect:
-        KNIGHT_RULE.relevantPieceTypes().asList() == [KNIGHT]
+        KNIGHT_RULE.isRelevantForPieceType(pieceType) == expected
+
+        where:
+        pieceType | expected
+        BISHOP    | false
+        ROOK      | false
+        KNIGHT    | true
+        KING      | false
+        QUEEN     | false
+        PAWN      | false
     }
 
     def "the knight can move in an L shape"() {

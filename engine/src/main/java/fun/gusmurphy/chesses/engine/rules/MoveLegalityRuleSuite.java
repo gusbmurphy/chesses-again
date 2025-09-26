@@ -18,17 +18,13 @@ public class MoveLegalityRuleSuite implements MoveLegalityRule {
         }
 
         for (MoveLegalityRule rule : rules) {
+            // TODO: Only use rules relevant to the piece type...
             if (rule.evaluate(boardState, move) == MoveLegality.ILLEGAL) {
                 return MoveLegality.ILLEGAL;
             }
         }
 
         return MoveLegality.LEGAL;
-    }
-
-    @Override
-    public RelevantPieceTypes relevantPieceTypes() {
-        return null;
     }
 
 }

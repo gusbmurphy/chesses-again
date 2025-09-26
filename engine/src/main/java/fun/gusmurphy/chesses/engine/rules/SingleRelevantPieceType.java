@@ -2,19 +2,16 @@ package fun.gusmurphy.chesses.engine.rules;
 
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-import java.util.Collections;
-import java.util.List;
-
 public class SingleRelevantPieceType implements RelevantPieceTypes {
 
-    private final PieceType pieceType;
+    private final PieceType relevantType;
 
     public SingleRelevantPieceType(PieceType pieceType) {
-        this.pieceType = pieceType;
+        this.relevantType = pieceType;
     }
 
     @Override
-    public List<PieceType> asList() {
-        return Collections.singletonList(pieceType);
+    public boolean includes(PieceType pieceType) {
+        return pieceType == relevantType;
     }
 }

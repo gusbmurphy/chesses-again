@@ -5,7 +5,6 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.Coordinates.*
@@ -20,7 +19,16 @@ class RookMovementRuleSpec extends Specification {
 
     def "the rule is only concerned with rooks"() {
         expect:
-        ROOK_RULE.relevantPieceTypes().asList() == [ROOK]
+        ROOK_RULE.isRelevantForPieceType(pieceType) == expected
+
+        where:
+        pieceType | expected
+        BISHOP    | false
+        ROOK      | true
+        KNIGHT    | false
+        KING      | false
+        QUEEN     | false
+        PAWN      | false
     }
 
     def "a rook can move to a spot in the same file"() {

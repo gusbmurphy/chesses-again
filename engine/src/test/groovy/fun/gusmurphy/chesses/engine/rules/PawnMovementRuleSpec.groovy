@@ -17,7 +17,16 @@ class PawnMovementRuleSpec extends Specification {
 
     def "the rule is only concerned with pawns"() {
         expect:
-        PAWN_RULE.relevantPieceTypes().asList() == [PAWN]
+        PAWN_RULE.isRelevantForPieceType(pieceType) == expected
+
+        where:
+        pieceType | expected
+        BISHOP    | false
+        ROOK      | false
+        KNIGHT    | false
+        KING      | false
+        QUEEN     | false
+        PAWN      | true
     }
 
     def "a pawn can move a single spot forward"() {

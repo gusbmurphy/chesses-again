@@ -11,7 +11,7 @@ abstract class SinglePieceMovementRule implements MoveLegalityRule {
     }
 
     @Override
-    public RelevantPieceTypes relevantPieceTypes() {
-        return relevantPieceType;
+    public boolean isRelevantForPieceType(PieceType pieceType) {
+        return relevantPieceType.includes(pieceType);
     }
 }

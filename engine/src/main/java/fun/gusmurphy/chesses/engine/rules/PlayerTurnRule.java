@@ -3,6 +3,7 @@ package fun.gusmurphy.chesses.engine.rules;
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.Piece;
+import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 public class PlayerTurnRule implements MoveLegalityRule {
 
@@ -18,8 +19,7 @@ public class PlayerTurnRule implements MoveLegalityRule {
     }
 
     @Override
-    public RelevantPieceTypes relevantPieceTypes() {
-        return null;
+    public boolean isRelevantForPieceType(PieceType pieceType) {
+        return true;
     }
-
 }

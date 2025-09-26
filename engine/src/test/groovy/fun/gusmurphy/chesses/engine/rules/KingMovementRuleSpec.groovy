@@ -3,7 +3,6 @@ package fun.gusmurphy.chesses.engine.rules
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.Coordinates.*
@@ -16,7 +15,16 @@ class KingMovementRuleSpec extends Specification {
 
     def "the rule is only concerned with kings"() {
         expect:
-        KING_RULE.relevantPieceTypes().asList() == [KING]
+        KING_RULE.isRelevantForPieceType(pieceType) == expected
+
+        where:
+        pieceType | expected
+        BISHOP    | false
+        ROOK      | false
+        KNIGHT    | false
+        KING      | true
+        QUEEN     | false
+        PAWN      | false
     }
 
     def "a king can move to any spot right next to it"() {

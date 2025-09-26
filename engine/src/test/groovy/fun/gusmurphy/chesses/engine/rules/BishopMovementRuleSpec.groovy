@@ -5,7 +5,6 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 import static fun.gusmurphy.chesses.engine.Coordinates.*
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
@@ -61,7 +60,16 @@ class BishopMovementRuleSpec extends Specification {
 
     def "the rule is only concerned with bishops"() {
         expect:
-        BISHOP_RULE.relevantPieceTypes().asList() == [BISHOP]
+        BISHOP_RULE.isRelevantForPieceType(pieceType) == expected
+
+        where:
+        pieceType | expected
+        BISHOP    | true
+        ROOK      | false
+        KNIGHT    | false
+        KING      | false
+        QUEEN     | false
+        PAWN      | false
     }
 
     private static Move bishopMoveTo(Coordinates coordinates) {
