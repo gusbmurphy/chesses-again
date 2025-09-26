@@ -5,6 +5,8 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
+import static fun.gusmurphy.chesses.engine.rules.MoveLegality.*;
+
 public class MoveLegalityRuleSuite implements MoveLegalityRule {
 
     private final MoveLegalityRule[] rules;
@@ -16,18 +18,26 @@ public class MoveLegalityRuleSuite implements MoveLegalityRule {
     @Override
     public MoveLegality evaluate(BoardState boardState, Move move) {
         if (rules.length < 1) {
-            return MoveLegality.LEGAL;
+            return LEGAL;
         }
 
+        if (anyRelevantRuleSaysMoveIsIllegal(boardState, move)) {
+            return ILLEGAL;
+        }
+
+        return LEGAL;
+    }
+
+    private boolean anyRelevantRuleSaysMoveIsIllegal(BoardState boardState, Move move) {
         PieceType pieceType = getTypeOfMovingPiece(boardState, move);
 
         for (MoveLegalityRule rule : rules) {
             if (ruleIsRelevantForPieceAndIllegal(boardState, move, rule, pieceType)) {
-                return MoveLegality.ILLEGAL;
+                return true;
             }
         }
 
-        return MoveLegality.LEGAL;
+        return false;
     }
 
     private static boolean ruleIsRelevantForPieceAndIllegal(
@@ -36,7 +46,7 @@ public class MoveLegalityRuleSuite implements MoveLegalityRule {
         MoveLegalityRule rule,
         PieceType pieceType
     ) {
-        return rule.isRelevantForPieceType(pieceType) && rule.evaluate(boardState, move) == MoveLegality.ILLEGAL;
+        return rule.isRelevantForPieceType(pieceType) && rule.evaluate(boardState, move) == ILLEGAL;
     }
 
     private static PieceType getTypeOfMovingPiece(BoardState boardState, Move move) {
