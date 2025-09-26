@@ -2,6 +2,8 @@ package fun.gusmurphy.chesses.engine.rules;
 
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
+import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 public class MoveLegalityRuleSuite implements MoveLegalityRule {
 
@@ -17,8 +19,14 @@ public class MoveLegalityRuleSuite implements MoveLegalityRule {
             return MoveLegality.LEGAL;
         }
 
+        PieceOnBoard piece = boardState.pieceOnBoardForId(move.pieceId());
+        PieceType pieceType = piece.type();
+
         for (MoveLegalityRule rule : rules) {
-            // TODO: Only use rules relevant to the piece type...
+            if (!rule.isRelevantForPieceType(pieceType)) {
+                break;
+            }
+
             if (rule.evaluate(boardState, move) == MoveLegality.ILLEGAL) {
                 return MoveLegality.ILLEGAL;
             }

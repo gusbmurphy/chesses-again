@@ -2,11 +2,13 @@ package fun.gusmurphy.chesses.engine.rules
 
 import fun.gusmurphy.chesses.engine.Coordinates
 import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysRule
 import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysRule
 import fun.gusmurphy.chesses.engine.doubles.UnconcernedAlwaysRule
-import fun.gusmurphy.chesses.engine.piece.PieceId
+import fun.gusmurphy.chesses.engine.piece.Piece
+import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.rules.MoveLegality.ILLEGAL
@@ -14,8 +16,9 @@ import static fun.gusmurphy.chesses.engine.rules.MoveLegality.LEGAL
 
 class MoveLegalityRuleSuiteSpec extends Specification {
 
-    private static final DUMMY_BOARD = new BoardStateBuilder().build()
-    private static final DUMMY_MOVE = new Move(new PieceId(), Coordinates.A1)
+    private static final TEST_PIECE = new Piece(PlayerColor.WHITE, PieceType.KING)
+    private static final DUMMY_BOARD = new BoardStateBuilder().addPieceAt(TEST_PIECE, Coordinates.A7).build()
+    private static final DUMMY_MOVE = new Move(TEST_PIECE.id(), Coordinates.A1)
     private static final MoveLegalityRule ALWAYS_LEGAL_RULE = new LegalAlwaysRule()
     private static final MoveLegalityRule ALWAYS_ILLEGAL_RULE = new IllegalAlwaysRule()
 
@@ -82,6 +85,22 @@ class MoveLegalityRuleSuiteSpec extends Specification {
         otherRule           | expected
         ALWAYS_ILLEGAL_RULE | ILLEGAL
         ALWAYS_LEGAL_RULE   | LEGAL
+    }
+
+    def "only moves relevant for a the move's piece type are used"() {
+        given:
+        def pieceType = PieceType.PAWN
+        def notThePieceType = PieceType.BISHOP
+        def piece = new Piece(PlayerColor.WHITE, pieceType)
+        def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+
+        and: "a rule that's legal for the piece, and one that's illegal but not concerned with the piece"
+        def legalRule = new LegalAlwaysRule(pieceType)
+        def illegalRule = new IllegalAlwaysRule(notThePieceType)
+        def suite = new MoveLegalityRuleSuite(legalRule, illegalRule)
+
+        expect:
+        suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == LEGAL
     }
 
 }
