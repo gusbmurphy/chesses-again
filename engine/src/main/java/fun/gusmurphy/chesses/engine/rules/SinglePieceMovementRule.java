@@ -4,14 +4,14 @@ import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 abstract class SinglePieceMovementRule implements MoveLegalityRule {
 
-    private final SingleRelevantPieceType relevantPieceType;
+    private final PieceType relevantType;
 
     SinglePieceMovementRule(PieceType pieceType) {
-        relevantPieceType = new SingleRelevantPieceType(pieceType);
+        relevantType = pieceType;
     }
 
     @Override
     public boolean isRelevantForPieceType(PieceType pieceType) {
-        return relevantPieceType.includes(pieceType);
+        return relevantType == pieceType;
     }
 }
