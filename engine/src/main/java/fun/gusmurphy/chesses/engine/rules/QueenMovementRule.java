@@ -5,7 +5,7 @@ import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-class QueenMovementRule extends SinglePieceMovementRule {
+public class QueenMovementRule extends SinglePieceMovementRule {
 
     public QueenMovementRule() {
         super(PieceType.QUEEN);
