@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
-class CantMoveThroughSameColorRuleSpec extends Specification {
+class CantMoveThroughPiecesRuleSpec extends Specification {
 
     def "the rule is for all pieces except knights"() {
         given:
