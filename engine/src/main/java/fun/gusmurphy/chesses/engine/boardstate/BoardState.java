@@ -18,6 +18,7 @@ public class BoardState {
     protected final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
     private final Set<Coordinates> coordinatesOnBoard;
 
+    // TODO: Throw an exception if two pieces are at the same coordinates.
     protected BoardState(
         PlayerColor currentTurnColor,
         HashMap<Coordinates, Piece> piecesAtCoordinates,
