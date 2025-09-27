@@ -6,6 +6,6 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 class CantStayStillRule implements MoveRule {
     @Override
     public Legality evaluate(BoardState boardState, Move move) {
-        return null;
+        return Legality.ILLEGAL;
     }
 }

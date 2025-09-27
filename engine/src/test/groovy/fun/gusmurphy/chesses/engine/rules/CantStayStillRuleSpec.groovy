@@ -1,19 +1,33 @@
 package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.Coordinates
+import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.PlayerColor
+import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
 class CantStayStillRuleSpec extends Specification {
 
-    def "the rule is relevant for all piece types"() {
-        given:
-        MoveRule rule = new CantStayStillRule()
+    static rule = new CantStayStillRule()
 
+    def "the rule is relevant for all piece types"() {
         expect:
         rule.isRelevantForPieceType(type)
 
         where:
         type << PieceType.values()
+    }
+
+    def "a move to a pieces current position is illegal"() {
+        given:
+        def piece = new Piece(PlayerColor.WHITE, PieceType.PAWN)
+        def piecePosition = Coordinates.D5
+        def board = new BoardStateBuilder().addPieceAt(piece, piecePosition).build()
+
+        expect:
+        rule.evaluate(board, new Move(piece.id(), piecePosition)) == Legality.ILLEGAL
     }
 
 }
