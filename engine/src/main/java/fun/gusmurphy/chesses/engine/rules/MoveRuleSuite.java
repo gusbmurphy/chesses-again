@@ -54,4 +54,14 @@ public class MoveRuleSuite implements MoveRule {
         return rule.isRelevantForPieceType(pieceType) && rule.evaluate(boardState, move) == ILLEGAL;
     }
 
+    public static final MoveRuleSuite BASIC = new MoveRuleSuite(
+        new BishopMovementRule(),
+        new RookMovementRule(),
+        new PawnMovementRule(),
+        new KingMovementRule(),
+        new KnightMovementRule(),
+        new QueenMovementRule(),
+        new PlayerTurnRule()
+    );
+
 }
