@@ -18,11 +18,11 @@ class PlayerTurnRuleSpec extends Specification {
             .addPieceAt(piece, Coordinates.A1)
             .build()
 
-        MoveLegalityRule rule = new PlayerTurnRule()
+        MoveRule rule = new PlayerTurnRule()
         Move move = new Move(piece.id(), Coordinates.A1)
 
         expect:
-        rule.evaluate(board, move) == MoveLegality.LEGAL
+        rule.evaluate(board, move) == Legality.LEGAL
 
         where:
         color << [PlayerColor.WHITE, PlayerColor.BLACK]
@@ -36,11 +36,11 @@ class PlayerTurnRuleSpec extends Specification {
             .addPieceAt(piece, Coordinates.A1)
             .build()
 
-        MoveLegalityRule rule = new PlayerTurnRule()
+        MoveRule rule = new PlayerTurnRule()
         Move move = new Move(piece.id(), Coordinates.A1)
 
         expect:
-        rule.evaluate(board, move) == MoveLegality.ILLEGAL
+        rule.evaluate(board, move) == Legality.ILLEGAL
 
         where:
         pieceColor << [PlayerColor.WHITE, PlayerColor.BLACK]

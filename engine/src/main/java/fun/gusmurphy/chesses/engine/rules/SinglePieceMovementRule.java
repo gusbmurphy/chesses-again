@@ -2,7 +2,7 @@ package fun.gusmurphy.chesses.engine.rules;
 
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-abstract class SinglePieceMovementRule implements MoveLegalityRule {
+abstract class SinglePieceMovementRule implements MoveRule {
 
     private final PieceType relevantType;
 

@@ -3,10 +3,10 @@ package fun.gusmurphy.chesses.engine.doubles
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.piece.PieceType
-import fun.gusmurphy.chesses.engine.rules.MoveLegalityRule
-import fun.gusmurphy.chesses.engine.rules.MoveLegality
+import fun.gusmurphy.chesses.engine.rules.MoveRule
+import fun.gusmurphy.chesses.engine.rules.Legality
 
-class IllegalAlwaysRule implements MoveLegalityRule {
+class IllegalAlwaysRule implements MoveRule {
 
     private final PieceType relevantPieceType
 
@@ -19,8 +19,8 @@ class IllegalAlwaysRule implements MoveLegalityRule {
     }
 
     @Override
-    MoveLegality evaluate(BoardState boardState, Move move) {
-        return MoveLegality.ILLEGAL
+    Legality evaluate(BoardState boardState, Move move) {
+        return Legality.ILLEGAL
     }
 
     @Override

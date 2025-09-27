@@ -12,15 +12,15 @@ class QueenMovementRule extends SinglePieceMovementRule {
     }
 
     @Override
-    public MoveLegality evaluate(BoardState boardState, Move move) {
+    public Legality evaluate(BoardState boardState, Move move) {
         Coordinates currentPosition = getCurrentPiecePosition(boardState, move);
         Coordinates movePosition = move.coordinates();
 
         if (moveIsLegal(movePosition, currentPosition)) {
-            return MoveLegality.LEGAL;
+            return Legality.LEGAL;
         }
 
-        return MoveLegality.ILLEGAL;
+        return Legality.ILLEGAL;
     }
 
     private static boolean moveIsLegal(Coordinates movePosition, Coordinates currentPosition) {

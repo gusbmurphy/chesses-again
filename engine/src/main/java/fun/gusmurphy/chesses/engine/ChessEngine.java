@@ -10,10 +10,10 @@ import fun.gusmurphy.chesses.engine.rules.*;
 public class ChessEngine implements RunsGame {
 
     private final AppliesMoves moveApplicator;
-    private final MoveLegalityRule moveRule;
+    private final MoveRule moveRule;
     private BoardState boardState;
 
-    public ChessEngine(AppliesMoves moveApplicator, MoveLegalityRule moveRule, BoardState boardState) {
+    public ChessEngine(AppliesMoves moveApplicator, MoveRule moveRule, BoardState boardState) {
         this.moveApplicator = moveApplicator;
         this.moveRule = moveRule;
         this.boardState = boardState;
@@ -26,7 +26,7 @@ public class ChessEngine implements RunsGame {
     public static ChessEngine defaultEngine(BoardState initialBoardState) {
         PlayerColor startingPlayerColor = PlayerColor.WHITE;
 
-        MoveLegalityRule pieceMovementRule = new MoveLegalityRuleSuite(
+        MoveRule pieceMovementRule = new MoveRuleSuite(
             new BishopMovementRule(),
             new RookMovementRule(),
             new PawnMovementRule(),
@@ -36,7 +36,7 @@ public class ChessEngine implements RunsGame {
 
         return new ChessEngine(
             new MoveApplicator(new MoveEventDeriver(new TurnTracker(startingPlayerColor)), new BoardStateReducer()),
-            new MoveLegalityRuleSuite(pieceMovementRule, new PlayerTurnRule()),
+            new MoveRuleSuite(pieceMovementRule, new PlayerTurnRule()),
             initialBoardState
         );
     }
@@ -47,15 +47,15 @@ public class ChessEngine implements RunsGame {
     }
 
     @Override
-    public MoveLegality checkLegalityOf(Move move) {
+    public Legality checkLegalityOf(Move move) {
         return moveRule.evaluate(boardState, move);
     }
 
     @Override
     public void makeMove(Move move) {
-        MoveLegality moveLegality = moveRule.evaluate(boardState, move);
+        Legality legality = moveRule.evaluate(boardState, move);
 
-        if (moveLegality == MoveLegality.LEGAL) {
+        if (legality == Legality.LEGAL) {
             boardState = moveApplicator.applyMoveToBoard(move, boardState);
         }
     }

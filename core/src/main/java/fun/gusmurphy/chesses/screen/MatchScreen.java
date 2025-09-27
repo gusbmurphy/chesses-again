@@ -6,15 +6,12 @@ import fun.gusmurphy.chesses.board.BoardDrawable;
 import fun.gusmurphy.chesses.engine.ChessEngine;
 import fun.gusmurphy.chesses.engine.Coordinates;
 import fun.gusmurphy.chesses.engine.Move;
-import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
-import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
-import fun.gusmurphy.chesses.engine.piece.PieceType;
-import fun.gusmurphy.chesses.engine.rules.MoveLegality;
+import fun.gusmurphy.chesses.engine.rules.Legality;
 import fun.gusmurphy.chesses.piece.PieceDrawable;
 import fun.gusmurphy.chesses.piece.PieceSelectionListener;
 
@@ -110,9 +107,9 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         List<Coordinates> coordinatesToHighlight = new ArrayList<>();
         for (Coordinates coordinates : Coordinates.values()) {
             Move possibleMove = new Move(pieceId, coordinates);
-            MoveLegality moveLegality = engine.checkLegalityOf(possibleMove);
+            Legality legality = engine.checkLegalityOf(possibleMove);
 
-            if (moveLegality == MoveLegality.LEGAL) {
+            if (legality == Legality.LEGAL) {
                 coordinatesToHighlight.add(coordinates);
             }
         }

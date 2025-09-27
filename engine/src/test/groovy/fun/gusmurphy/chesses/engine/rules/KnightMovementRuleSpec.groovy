@@ -12,7 +12,7 @@ import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
 class KnightMovementRuleSpec extends Specification {
 
-    private static final MoveLegalityRule KNIGHT_RULE = new KnightMovementRule()
+    private static final MoveRule KNIGHT_RULE = new KnightMovementRule()
     private static final KNIGHT_POSITION = D5
     private static final L_COORDINATES = [C7, E7, F6, F4, E3, C3, B4, B6]
 
@@ -36,7 +36,7 @@ class KnightMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(piece, KNIGHT_POSITION).build()
 
         expect:
-        KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates)) == MoveLegality.LEGAL
+        KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates)) == Legality.LEGAL
 
         where:
         coordinates << L_COORDINATES
@@ -48,7 +48,7 @@ class KnightMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(piece, KNIGHT_POSITION).build()
 
         expect:
-        KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates as Coordinates)) == MoveLegality.ILLEGAL
+        KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates as Coordinates)) == Legality.ILLEGAL
 
         where:
         coordinates << Arrays.asList(Coordinates.values()) - L_COORDINATES

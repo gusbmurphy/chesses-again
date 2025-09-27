@@ -13,11 +13,11 @@ public class KnightMovementRule extends SinglePieceMovementRule {
     }
 
     @Override
-    public MoveLegality evaluate(BoardState boardState, Move move) {
+    public Legality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
 
         if (pieceOnBoard.type() != PieceType.KNIGHT) {
-            return MoveLegality.UNCONCERNED;
+            return Legality.UNCONCERNED;
         }
 
         Coordinates currentPieceCoordinates = pieceOnBoard.coordinates();
@@ -25,16 +25,16 @@ public class KnightMovementRule extends SinglePieceMovementRule {
         int verticalChangeWithMove = Math.abs(currentPieceCoordinates.rankDifferenceTo(moveCoordinates));
 
         if (verticalChangeWithMove > 2 || verticalChangeWithMove == 0) {
-            return MoveLegality.ILLEGAL;
+            return Legality.ILLEGAL;
         }
 
         int requiredHorizontalMove = verticalChangeWithMove == 2 ? 1 : 2;
         int horizontalChangeWithMove = Math.abs(currentPieceCoordinates.fileDifferenceTo(moveCoordinates));
         if (horizontalChangeWithMove != requiredHorizontalMove) {
-            return MoveLegality.ILLEGAL;
+            return Legality.ILLEGAL;
         }
 
-        return MoveLegality.LEGAL;
+        return Legality.LEGAL;
     }
 
 }

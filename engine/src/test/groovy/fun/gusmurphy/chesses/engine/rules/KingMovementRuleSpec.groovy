@@ -11,7 +11,7 @@ import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
 class KingMovementRuleSpec extends Specification {
 
-    private static final MoveLegalityRule KING_RULE = new KingMovementRule()
+    private static final MoveRule KING_RULE = new KingMovementRule()
 
     def "the rule is only concerned with kings"() {
         expect:
@@ -37,7 +37,7 @@ class KingMovementRuleSpec extends Specification {
         def result = KING_RULE.evaluate(board, move)
 
         then:
-        result == MoveLegality.LEGAL
+        result == Legality.LEGAL
 
         where:
         moveCoordinates << [C5, D5, E5, E4, E3, D3, C3, C4]
@@ -53,7 +53,7 @@ class KingMovementRuleSpec extends Specification {
         def result = KING_RULE.evaluate(board, move)
 
         then:
-        result == MoveLegality.ILLEGAL
+        result == Legality.ILLEGAL
 
         where:
         moveCoordinates << [D6, D2, F6, F5, B4]

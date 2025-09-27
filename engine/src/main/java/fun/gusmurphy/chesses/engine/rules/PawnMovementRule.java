@@ -14,28 +14,28 @@ public class PawnMovementRule extends SinglePieceMovementRule {
     }
 
     @Override
-    public MoveLegality evaluate(BoardState boardState, Move move) {
+    public Legality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
 
         if (pieceOnBoard.type() != PieceType.PAWN) {
-            return MoveLegality.UNCONCERNED;
+            return Legality.UNCONCERNED;
         }
 
         Coordinates currentCoordinates = pieceOnBoard.coordinates();
 
         if (moveIsGreaterThanOneSpotVertically(move, currentCoordinates)) {
-            return MoveLegality.ILLEGAL;
+            return Legality.ILLEGAL;
         }
 
         if (moveIsBackwards(move, currentCoordinates, pieceOnBoard.color())) {
-            return MoveLegality.ILLEGAL;
+            return Legality.ILLEGAL;
         }
 
         if (moveIsToDifferentFile(move, currentCoordinates)) {
-            return MoveLegality.ILLEGAL;
+            return Legality.ILLEGAL;
         }
 
-        return MoveLegality.LEGAL;
+        return Legality.LEGAL;
     }
 
     private static boolean moveIsGreaterThanOneSpotVertically(Move move, Coordinates currentCoordinates) {

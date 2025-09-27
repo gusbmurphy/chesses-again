@@ -1,5 +1,5 @@
 package fun.gusmurphy.chesses.engine.rules;
 
-public enum MoveLegality {
+public enum Legality {
     LEGAL, ILLEGAL, UNCONCERNED
 }

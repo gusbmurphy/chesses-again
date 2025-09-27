@@ -14,7 +14,7 @@ class BishopMovementRuleSpec extends Specification {
 
     private static final Piece TEST_BISHOP = new Piece(WHITE, BISHOP)
     private static final BoardState TEST_BOARD = new BoardStateBuilder().addPieceAt(TEST_BISHOP, D4).build()
-    private static final MoveLegalityRule BISHOP_RULE = new BishopMovementRule()
+    private static final MoveRule BISHOP_RULE = new BishopMovementRule()
 
     def "a bishop can move diagonally"() {
         given:
@@ -24,7 +24,7 @@ class BishopMovementRuleSpec extends Specification {
         def result = BISHOP_RULE.evaluate(TEST_BOARD, move)
 
         then:
-        result == MoveLegality.LEGAL
+        result == Legality.LEGAL
 
         where:
         moveCoordinates << [E5, C5, C3, E3, B2, B6, F6]
@@ -38,7 +38,7 @@ class BishopMovementRuleSpec extends Specification {
         def result = BISHOP_RULE.evaluate(TEST_BOARD, move)
 
         then:
-        result == MoveLegality.ILLEGAL
+        result == Legality.ILLEGAL
 
         where:
         moveCoordinates << [D5, C4, D3, E4]
@@ -52,7 +52,7 @@ class BishopMovementRuleSpec extends Specification {
         def result = BISHOP_RULE.evaluate(TEST_BOARD, move)
 
         then:
-        result == MoveLegality.ILLEGAL
+        result == Legality.ILLEGAL
 
         where:
         moveCoordinates << [C2, E2, F3, F5, E6, C6, B5, B3]

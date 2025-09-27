@@ -13,24 +13,24 @@ public class KingMovementRule extends SinglePieceMovementRule {
     }
 
     @Override
-    public MoveLegality evaluate(BoardState boardState, Move move) {
+    public Legality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
 
         if (pieceOnBoard.type() != PieceType.KING) {
-            return MoveLegality.UNCONCERNED;
+            return Legality.UNCONCERNED;
         }
 
         Coordinates currentPieceCoordinates = pieceOnBoard.coordinates();
         Coordinates moveCoordinates = move.coordinates();
 
         if (Math.abs(currentPieceCoordinates.fileDifferenceTo(moveCoordinates)) > 1) {
-            return MoveLegality.ILLEGAL;
+            return Legality.ILLEGAL;
         }
 
         if (Math.abs(currentPieceCoordinates.rankDifferenceTo(moveCoordinates)) > 1) {
-            return MoveLegality.ILLEGAL;
+            return Legality.ILLEGAL;
         }
 
-        return MoveLegality.LEGAL;
+        return Legality.LEGAL;
     }
 }

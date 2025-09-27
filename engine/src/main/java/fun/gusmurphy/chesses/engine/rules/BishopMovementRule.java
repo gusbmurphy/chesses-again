@@ -6,7 +6,7 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-import static fun.gusmurphy.chesses.engine.rules.MoveLegality.*;
+import static fun.gusmurphy.chesses.engine.rules.Legality.*;
 
 public class BishopMovementRule extends SinglePieceMovementRule {
 
@@ -15,7 +15,7 @@ public class BishopMovementRule extends SinglePieceMovementRule {
     }
 
     @Override
-    public MoveLegality evaluate(BoardState boardState, Move move) {
+    public Legality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
         Coordinates moveCoordinates = move.coordinates();
 

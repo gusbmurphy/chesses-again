@@ -5,17 +5,17 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-public class PlayerTurnRule implements MoveLegalityRule {
+public class PlayerTurnRule implements MoveRule {
 
     @Override
-    public MoveLegality evaluate(BoardState boardState, Move move) {
+    public Legality evaluate(BoardState boardState, Move move) {
         Piece piece = boardState.pieceOnBoardForId(move.pieceId());
 
         if (piece.color() == boardState.currentTurnColor()) {
-            return MoveLegality.LEGAL;
+            return Legality.LEGAL;
         }
 
-        return MoveLegality.ILLEGAL;
+        return Legality.ILLEGAL;
     }
 
     @Override

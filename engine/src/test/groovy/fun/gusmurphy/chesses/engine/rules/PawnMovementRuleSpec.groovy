@@ -13,7 +13,7 @@ import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
 class PawnMovementRuleSpec extends Specification {
 
-    private static final MoveLegalityRule PAWN_RULE = new PawnMovementRule()
+    private static final MoveRule PAWN_RULE = new PawnMovementRule()
 
     def "the rule is only concerned with pawns"() {
         expect:
@@ -35,7 +35,7 @@ class PawnMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == MoveLegality.LEGAL
+        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == Legality.LEGAL
 
         where:
         color | moveCoordinates
@@ -49,7 +49,7 @@ class PawnMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == MoveLegality.ILLEGAL
+        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == Legality.ILLEGAL
 
         where:
         color | moveCoordinates
@@ -63,7 +63,7 @@ class PawnMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == MoveLegality.ILLEGAL
+        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == Legality.ILLEGAL
 
         where:
         color | moveCoordinates
@@ -77,7 +77,7 @@ class PawnMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates as Coordinates)) == MoveLegality.ILLEGAL
+        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates as Coordinates)) == Legality.ILLEGAL
 
         where:
         [color, moveCoordinates] << [[WHITE, BLACK], [C3, C4, C5, E4, E5, E6]].combinations()

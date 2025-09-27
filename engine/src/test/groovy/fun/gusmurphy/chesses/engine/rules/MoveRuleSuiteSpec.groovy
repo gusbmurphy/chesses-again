@@ -11,20 +11,20 @@ import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
-import static fun.gusmurphy.chesses.engine.rules.MoveLegality.ILLEGAL
-import static fun.gusmurphy.chesses.engine.rules.MoveLegality.LEGAL
+import static Legality.ILLEGAL
+import static Legality.LEGAL
 
-class MoveLegalityRuleSuiteSpec extends Specification {
+class MoveRuleSuiteSpec extends Specification {
 
     private static final TEST_PIECE = new Piece(PlayerColor.WHITE, PieceType.KING)
     private static final DUMMY_BOARD = new BoardStateBuilder().addPieceAt(TEST_PIECE, Coordinates.A7).build()
     private static final DUMMY_MOVE = new Move(TEST_PIECE.id(), Coordinates.A1)
-    private static final MoveLegalityRule ALWAYS_LEGAL_RULE = new LegalAlwaysRule()
-    private static final MoveLegalityRule ALWAYS_ILLEGAL_RULE = new IllegalAlwaysRule()
+    private static final MoveRule ALWAYS_LEGAL_RULE = new LegalAlwaysRule()
+    private static final MoveRule ALWAYS_ILLEGAL_RULE = new IllegalAlwaysRule()
 
     def "with no rules, a move is legal"() {
         given:
-        MoveLegalityRuleSuite ruleSuite = new MoveLegalityRuleSuite()
+        MoveRuleSuite ruleSuite = new MoveRuleSuite()
 
         expect:
         ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE) == LEGAL
@@ -32,7 +32,7 @@ class MoveLegalityRuleSuiteSpec extends Specification {
 
     def "with just one move evaluation rule, a move is legal or illegal based on just that one"() {
         given:
-        MoveLegalityRuleSuite ruleSuite = new MoveLegalityRuleSuite(rule)
+        MoveRuleSuite ruleSuite = new MoveRuleSuite(rule)
 
         when:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
@@ -50,7 +50,7 @@ class MoveLegalityRuleSuiteSpec extends Specification {
         given:
         def ruleOne = new LegalAlwaysRule()
         def ruleTwo = new LegalAlwaysRule()
-        MoveLegalityRuleSuite ruleSuite = new MoveLegalityRuleSuite(ruleOne, ruleTwo)
+        MoveRuleSuite ruleSuite = new MoveRuleSuite(ruleOne, ruleTwo)
 
         when:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
@@ -61,7 +61,7 @@ class MoveLegalityRuleSuiteSpec extends Specification {
 
     def "with two move evaluation rules, a move is illegal if one does not allow it"() {
         given:
-        MoveLegalityRuleSuite ruleSuite = new MoveLegalityRuleSuite(ALWAYS_LEGAL_RULE, ALWAYS_ILLEGAL_RULE)
+        MoveRuleSuite ruleSuite = new MoveRuleSuite(ALWAYS_LEGAL_RULE, ALWAYS_ILLEGAL_RULE)
 
         when:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
@@ -72,8 +72,8 @@ class MoveLegalityRuleSuiteSpec extends Specification {
 
     def "with two move evaluation rules, where one is unconcerned, the other rule decides the legality"() {
         given:
-        MoveLegalityRule unconcerned = new UnconcernedAlwaysRule()
-        def suite = new MoveLegalityRuleSuite(unconcerned, otherRule)
+        MoveRule unconcerned = new UnconcernedAlwaysRule()
+        def suite = new MoveRuleSuite(unconcerned, otherRule)
 
         when:
         def result = suite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
@@ -97,7 +97,7 @@ class MoveLegalityRuleSuiteSpec extends Specification {
         and: "a rule that's legal for the piece, and one that's illegal but not concerned with the piece"
         def legalRule = new LegalAlwaysRule(pieceType)
         def illegalRule = new IllegalAlwaysRule(notThePieceType)
-        def suite = new MoveLegalityRuleSuite(legalRule, illegalRule)
+        def suite = new MoveRuleSuite(legalRule, illegalRule)
 
         expect:
         suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == LEGAL
@@ -113,7 +113,7 @@ class MoveLegalityRuleSuiteSpec extends Specification {
         and: "a rule that's legal for the piece, and one that's illegal but not concerned with the piece"
         def legalRule = new LegalAlwaysRule(notThePieceType)
         def illegalRule = new IllegalAlwaysRule(pieceType)
-        def suite = new MoveLegalityRuleSuite(legalRule, illegalRule)
+        def suite = new MoveRuleSuite(legalRule, illegalRule)
 
         expect:
         suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == ILLEGAL
