@@ -30,4 +30,14 @@ class CantStayStillRuleSpec extends Specification {
         rule.evaluate(board, new Move(piece.id(), piecePosition)) == Legality.ILLEGAL
     }
 
+    def "for any other move, we are unconcerned"() {
+        given:
+        def piece = new Piece(PlayerColor.WHITE, PieceType.PAWN)
+        def piecePosition = Coordinates.D5
+        def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.A7).build()
+
+        expect:
+        rule.evaluate(board, new Move(piece.id(), piecePosition)) == Legality.UNCONCERNED
+    }
+
 }
