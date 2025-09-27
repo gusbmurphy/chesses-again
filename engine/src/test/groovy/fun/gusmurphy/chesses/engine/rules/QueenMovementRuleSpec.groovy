@@ -39,6 +39,14 @@ class QueenMovementRuleSpec extends Specification {
         coordinates << [coordinatesInSameRankOrFileAsQueen(), coordinatesDiagonalFromQueen()].flatten()
     }
 
+    def "queens cannot move anywhere else"() {
+        expect:
+        new QueenMovementRule().evaluate(board, new Move(queen.id(), coordinates)) == ILLEGAL
+
+        where:
+        coordinates << allIllegalCoordinates()
+    }
+
     static List<Coordinates> coordinatesInSameRankOrFileAsQueen() {
         return Coordinates.values().findAll(
             c -> c.file() == queenPosition.file() || c.rank() == queenPosition.rank()
@@ -46,7 +54,14 @@ class QueenMovementRuleSpec extends Specification {
     }
 
     static List<Coordinates> coordinatesDiagonalFromQueen() {
-        return Coordinates.values().findAll( c -> c.isDiagonalFrom(queenPosition))
+        return Coordinates.values().findAll(c -> c.isDiagonalFrom(queenPosition))
+    }
+
+    static List<Coordinates> allIllegalCoordinates() {
+        def coordinates = Coordinates.values().toList()
+        coordinates.removeAll(coordinatesInSameRankOrFileAsQueen())
+        coordinates.removeAll(coordinatesDiagonalFromQueen())
+        return coordinates
     }
 
 }
