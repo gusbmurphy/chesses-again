@@ -12,6 +12,6 @@ class QueenMovementRule extends SinglePieceMovementRule {
 
     @Override
     public MoveLegality evaluate(BoardState boardState, Move move) {
-        return null;
+        return MoveLegality.LEGAL;
     }
 }
