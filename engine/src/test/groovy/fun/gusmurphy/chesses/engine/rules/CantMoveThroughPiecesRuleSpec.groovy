@@ -1,6 +1,5 @@
 package fun.gusmurphy.chesses.engine.rules
 
-import fun.gusmurphy.chesses.engine.Coordinates
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
@@ -11,7 +10,7 @@ import static fun.gusmurphy.chesses.engine.Coordinates.*
 
 class CantMoveThroughPiecesRuleSpec extends Specification {
 
-    static rule = new CantMoveThroughSameColorRule()
+    static rule = new CantMoveThroughPiecesRule()
 
     def "the rule is for all pieces except knights"() {
         expect:
