@@ -1,15 +1,19 @@
 package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.Coordinates
+import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.piece.Piece
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
+import static fun.gusmurphy.chesses.engine.Coordinates.*
 
 class CantMoveThroughPiecesRuleSpec extends Specification {
 
-    def "the rule is for all pieces except knights"() {
-        given:
-        MoveRule rule = new CantMoveThroughSameColorRule()
+    static rule = new CantMoveThroughSameColorRule()
 
+    def "the rule is for all pieces except knights"() {
         expect:
         rule.isRelevantForPieceType(type) == expected
 
@@ -21,6 +25,25 @@ class CantMoveThroughPiecesRuleSpec extends Specification {
         KING   | true
         BISHOP | true
         ROOK   | true
+    }
+
+    def "a move to the opposite side of another piece is illegal"() {
+        given:
+        def movingPiece = new Piece()
+        def blockingPiece = new Piece()
+        def board = new BoardStateBuilder()
+            .addPieceAt(movingPiece, E4)
+            .addPieceAt(blockingPiece, blockingPosition)
+            .build()
+
+        expect:
+        rule.evaluate(board, new Move(movingPiece.id(), moveCoordinates)) == Legality.ILLEGAL
+
+        where:
+        blockingPosition | moveCoordinates
+        E5               | E6
+        F5               | G6
+        F4               | G4
     }
 
 }
