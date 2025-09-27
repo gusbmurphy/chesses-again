@@ -31,7 +31,8 @@ public class ChessEngine implements RunsGame {
             new RookMovementRule(),
             new PawnMovementRule(),
             new KingMovementRule(),
-            new KnightMovementRule()
+            new KnightMovementRule(),
+            new QueenMovementRule()
         );
 
         return new ChessEngine(
