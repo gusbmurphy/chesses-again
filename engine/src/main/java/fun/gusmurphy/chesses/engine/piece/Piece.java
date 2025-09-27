@@ -8,7 +8,12 @@ public class Piece {
     private final PieceType type;
     private final PieceId id;
 
-    @Deprecated
+    public Piece() {
+        color = PlayerColor.WHITE;
+        type = PieceType.BISHOP;
+        id = new PieceId();
+    }
+
     public Piece(PlayerColor color) {
         this.color = color;
         this.type = PieceType.PAWN;
