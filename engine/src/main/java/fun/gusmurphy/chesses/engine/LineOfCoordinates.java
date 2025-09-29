@@ -51,7 +51,7 @@ public class LineOfCoordinates {
             return 0;
         }
 
-        return a.rank.ordinal() < b.rank.ordinal() ? 1 : -1;
+        return a.rankDifferenceTo(b) < 0 ? 1 : -1;
     }
 
     private static int getVerticalChange(Coordinates a, Coordinates b) {
@@ -59,7 +59,7 @@ public class LineOfCoordinates {
             return 0;
         }
 
-        return a.file.ordinal() < b.file.ordinal() ? 1 : -1;
+        return a.fileDifferenceTo(b) < 0 ? 1 : -1;
     }
 
 }
