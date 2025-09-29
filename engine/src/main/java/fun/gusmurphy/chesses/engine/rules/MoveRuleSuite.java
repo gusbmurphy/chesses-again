@@ -62,7 +62,8 @@ public class MoveRuleSuite implements MoveRule {
         new KnightMovementRule(),
         new QueenMovementRule(),
         new PlayerTurnRule(),
-        new CantStayStillRule()
+        new CantStayStillRule(),
+        new CantMoveThroughPiecesRule()
     );
 
 }
