@@ -28,17 +28,14 @@ public class LineOfCoordinates {
     private static List<Coordinates> createListOfCoordinatesBetween(Coordinates a, Coordinates b) {
         List<Coordinates> lineList = new ArrayList<>();
 
-        Coordinates currentCoordinates = a;
-
         int horizontalChange = getHorizontalChange(a, b);
         int verticalChange = getVerticalChange(a, b);
 
-        while (currentCoordinates != b) {
-            currentCoordinates = currentCoordinates.coordinatesTo(horizontalChange, verticalChange);
+        Coordinates next = a.coordinatesTo(horizontalChange, verticalChange);
 
-            if (currentCoordinates != b) {
-                lineList.add(currentCoordinates);
-            }
+        while (next != b) {
+            lineList.add(next);
+            next = next.coordinatesTo(horizontalChange, verticalChange);
         }
 
         return lineList;
