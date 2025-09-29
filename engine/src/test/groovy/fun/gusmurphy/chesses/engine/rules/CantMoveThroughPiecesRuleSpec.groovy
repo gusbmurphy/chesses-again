@@ -3,6 +3,7 @@ package fun.gusmurphy.chesses.engine.rules
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
@@ -57,6 +58,10 @@ class CantMoveThroughPiecesRuleSpec extends Specification {
 
         expect:
         rule.evaluate(board, new Move(movingPiece.id(), D6)) == Legality.UNCONCERNED
+    }
+
+    @Ignore("Soon...")
+    def "a move to a non-obstructed position is legal"() {
     }
 
 }
