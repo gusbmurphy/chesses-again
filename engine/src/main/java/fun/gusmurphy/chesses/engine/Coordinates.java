@@ -59,49 +59,7 @@ public enum Coordinates {
     }
 
     public LineOfCoordinates lineTo(Coordinates other) {
-        if (other.sameFileAs(this)) {
-            return new LineOfCoordinates(createListOfCoordinatesInHorizontalLineTo(other));
-        }
-
-        return new LineOfCoordinates(createListOfCoordinatesInVerticalLineTo(other));
-    }
-
-    private List<Coordinates> createListOfCoordinatesInHorizontalLineTo(Coordinates other) {
-        List<Coordinates> lineList = new ArrayList<>();
-
-        Coordinates currentCoordinates = this;
-
-        int direction = currentCoordinates.rank.ordinal() < other.rank.ordinal() ? 1 : -1;
-
-        while (currentCoordinates != other) {
-            Rank newRank = Rank.values()[currentCoordinates.rank.ordinal() + direction];
-            currentCoordinates = Coordinates.with(this.file, newRank);
-
-            if (currentCoordinates != other) {
-                lineList.add(currentCoordinates);
-            }
-        }
-
-        return lineList;
-    }
-
-    private List<Coordinates> createListOfCoordinatesInVerticalLineTo(Coordinates other) {
-        List<Coordinates> lineList = new ArrayList<>();
-
-        Coordinates currentCoordinates = this;
-
-        int direction = currentCoordinates.file.ordinal() < other.file.ordinal() ? 1 : -1;
-
-        while (currentCoordinates != other) {
-            File newFile = File.values()[currentCoordinates.file.ordinal() + direction];
-            currentCoordinates = Coordinates.with(newFile, this.rank);
-
-            if (currentCoordinates != other) {
-                lineList.add(currentCoordinates);
-            }
-        }
-
-        return lineList;
+        return LineOfCoordinates.between(this, other);
     }
 
     @Override
