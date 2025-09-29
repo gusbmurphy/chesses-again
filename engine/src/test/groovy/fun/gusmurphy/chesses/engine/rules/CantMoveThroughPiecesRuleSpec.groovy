@@ -60,8 +60,17 @@ class CantMoveThroughPiecesRuleSpec extends Specification {
         rule.evaluate(board, new Move(movingPiece.id(), D6)) == Legality.UNCONCERNED
     }
 
-    @Ignore("Soon...")
     def "a move to a non-obstructed position is legal"() {
+        given:
+        def movingPiece = new Piece()
+        def occupyingPiece = new Piece()
+        def board = new BoardStateBuilder()
+            .addPieceAt(movingPiece, E4)
+            .addPieceAt(occupyingPiece, D6)
+            .build()
+
+        expect:
+        rule.evaluate(board, new Move(movingPiece.id(), B2)) == Legality.LEGAL
     }
 
 }

@@ -3,7 +3,11 @@ package fun.gusmurphy.chesses.engine.rules;
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
+import fun.gusmurphy.chesses.engine.coordinates.LineOfCoordinates;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
+
+import java.util.Optional;
 
 public class CantMoveThroughPiecesRule implements MoveRule {
     @Override
@@ -12,7 +16,23 @@ public class CantMoveThroughPiecesRule implements MoveRule {
             return Legality.UNCONCERNED;
         }
 
-        return Legality.ILLEGAL;
+        Coordinates currentPieceCoordinates = boardState.pieceOnBoardForId(move.pieceId()).coordinates();
+        Coordinates moveCoordinates = move.coordinates();
+        Optional<LineOfCoordinates> line = currentPieceCoordinates.lineTo(moveCoordinates);
+
+        if (line.isPresent()) {
+            for (Coordinates c : line.get().inOrder()) {
+                if (boardState
+                    .coordinateStates()
+                    .forCoordinates(c)
+                    .map(BoardCoordinateState::isOccupied)
+                    .orElse(false)) {
+                    return Legality.ILLEGAL;
+                }
+            }
+        }
+
+        return Legality.LEGAL;
     }
 
     @Override
