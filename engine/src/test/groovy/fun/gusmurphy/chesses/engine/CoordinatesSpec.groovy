@@ -30,4 +30,17 @@ class CoordinatesSpec extends Specification {
         D6 | D3 || [D5, D4]
     }
 
+    def "we can get all coordinates between two positions that are horizontal from each other"() {
+        given:
+        LineOfCoordinates line = a.lineTo(b)
+
+        expect:
+        line.inOrder() == expected
+
+        where:
+        a  | b  || expected
+        C2 | G2 || [D2, E2, F2]
+        H6 | D6 || [G6, F6, E6]
+    }
+
 }
