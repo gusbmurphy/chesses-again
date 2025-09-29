@@ -13,17 +13,17 @@ public class LineOfCoordinates {
 
     static LineOfCoordinates between(Coordinates a, Coordinates b) {
         if (a.sameFileAs(b)) {
-            return new LineOfCoordinates(createListOfCoordinatesInHorizontalBetween(a, b));
+            return new LineOfCoordinates(createListOfCoordinatesInHorizontalLineBetween(a, b));
         }
 
-        return new LineOfCoordinates(createListOfCoordinatesInVerticalBetween(a, b));
+        return new LineOfCoordinates(createListOfCoordinatesInVerticalLineBetween(a, b));
     }
 
     public List<Coordinates> inOrder() {
         return coordinates;
     }
 
-    private static List<Coordinates> createListOfCoordinatesInHorizontalBetween(Coordinates a, Coordinates b) {
+    private static List<Coordinates> createListOfCoordinatesInHorizontalLineBetween(Coordinates a, Coordinates b) {
         List<Coordinates> lineList = new ArrayList<>();
 
         Coordinates currentCoordinates = a;
@@ -42,7 +42,7 @@ public class LineOfCoordinates {
         return lineList;
     }
 
-    private static List<Coordinates> createListOfCoordinatesInVerticalBetween(Coordinates a, Coordinates b) {
+    private static List<Coordinates> createListOfCoordinatesInVerticalLineBetween(Coordinates a, Coordinates b) {
         List<Coordinates> lineList = new ArrayList<>();
 
         Coordinates currentCoordinates = a;
