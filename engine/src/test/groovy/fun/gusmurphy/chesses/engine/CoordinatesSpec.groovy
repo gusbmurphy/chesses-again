@@ -43,4 +43,19 @@ class CoordinatesSpec extends Specification {
         H6 | D6 || [G6, F6, E6]
     }
 
+    def "we can get all coordinates between two positions that are diagonal from each other"() {
+        given:
+        LineOfCoordinates line = a.lineTo(b)
+
+        expect:
+        line.inOrder() == expected
+
+        where:
+        a  | b  || expected
+        B4 | E7 || [C5, D6]
+        G7 | C3 || [F6, E5, D4]
+        D6 | G3 || [E5, F4]
+        F3 | C6 || [E4, D5]
+    }
+
 }
