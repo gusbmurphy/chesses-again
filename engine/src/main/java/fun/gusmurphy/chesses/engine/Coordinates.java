@@ -62,8 +62,11 @@ public enum Coordinates {
         List<Coordinates> lineList = new ArrayList<>();
 
         Coordinates currentCoordinates = this;
+
+        int direction = currentCoordinates.rank.ordinal() < other.rank.ordinal() ? 1 : -1;
+
         while (currentCoordinates != other) {
-            Rank newRank = Rank.values()[currentCoordinates.rank.ordinal() + 1];
+            Rank newRank = Rank.values()[currentCoordinates.rank.ordinal() + direction];
             currentCoordinates = Coordinates.with(this.file, newRank);
 
             if (currentCoordinates != other) {
