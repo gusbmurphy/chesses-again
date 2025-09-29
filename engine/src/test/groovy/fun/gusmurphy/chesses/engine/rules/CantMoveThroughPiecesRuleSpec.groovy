@@ -70,7 +70,10 @@ class CantMoveThroughPiecesRuleSpec extends Specification {
             .build()
 
         expect:
-        rule.evaluate(board, new Move(movingPiece.id(), B2)) == Legality.LEGAL
+        rule.evaluate(board, new Move(movingPiece.id(), moveCoordinates)) == Legality.LEGAL
+
+        where:
+        moveCoordinates << [B2, H8, G4]
     }
 
 }
