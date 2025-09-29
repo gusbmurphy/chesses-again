@@ -17,7 +17,7 @@ class CoordinatesSpec extends Specification {
         A1 | C2 || false
     }
 
-    def "we can get all coordinates between two positions that are horizontal from each other"() {
+    def "we can get all coordinates between two positions that are vertical from each other"() {
         given:
         LineOfCoordinates line = a.lineTo(b)
 
