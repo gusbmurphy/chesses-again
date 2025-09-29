@@ -19,7 +19,7 @@ class CoordinatesSpec extends Specification {
 
     def "we can get all coordinates between two positions that are vertical from each other"() {
         given:
-        LineOfCoordinates line = a.lineTo(b)
+        LineOfCoordinates line = a.lineTo(b).get()
 
         expect:
         line.inOrder() == expected
@@ -32,7 +32,7 @@ class CoordinatesSpec extends Specification {
 
     def "we can get all coordinates between two positions that are horizontal from each other"() {
         given:
-        LineOfCoordinates line = a.lineTo(b)
+        LineOfCoordinates line = a.lineTo(b).get()
 
         expect:
         line.inOrder() == expected
@@ -45,7 +45,7 @@ class CoordinatesSpec extends Specification {
 
     def "we can get all coordinates between two positions that are diagonal from each other"() {
         given:
-        LineOfCoordinates line = a.lineTo(b)
+        LineOfCoordinates line = a.lineTo(b).get()
 
         expect:
         line.inOrder() == expected
@@ -56,6 +56,17 @@ class CoordinatesSpec extends Specification {
         G7 | C3 || [F6, E5, D4]
         D6 | G3 || [E5, F4]
         F3 | C6 || [E4, D5]
+    }
+
+    def "if coordinates are not in the same rank, file, or are not diagonal from each other, no line is returned"() {
+        expect:
+        a.lineTo(b).isPresent() == false
+
+        where:
+        a  | b
+        F7 | G5
+        H7 | G4
+        B3 | D7
     }
 
 }

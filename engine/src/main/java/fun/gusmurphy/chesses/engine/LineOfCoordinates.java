@@ -2,6 +2,7 @@ package fun.gusmurphy.chesses.engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class LineOfCoordinates {
 
@@ -11,9 +12,13 @@ public class LineOfCoordinates {
         this.coordinates = coordinates;
     }
 
-    static LineOfCoordinates between(Coordinates a, Coordinates b) {
+    static Optional<LineOfCoordinates> between(Coordinates a, Coordinates b) {
+        if (!a.isDiagonalFrom(b) && !a.sameFileAs(b) && ! a.sameRankAs(b) ) {
+            return Optional.empty();
+        }
+
         List<Coordinates> coordinatesList = createListOfCoordinatesBetween(a, b);
-        return new LineOfCoordinates(coordinatesList);
+        return Optional.of(new LineOfCoordinates(coordinatesList));
     }
 
     public List<Coordinates> inOrder() {

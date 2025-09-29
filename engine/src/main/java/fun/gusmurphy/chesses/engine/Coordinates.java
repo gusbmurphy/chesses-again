@@ -3,6 +3,7 @@ package fun.gusmurphy.chesses.engine;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static fun.gusmurphy.chesses.engine.Rank.*;
 import static fun.gusmurphy.chesses.engine.File.*;
@@ -58,7 +59,7 @@ public enum Coordinates {
         return this.file.ordinal() - other.file.ordinal();
     }
 
-    public LineOfCoordinates lineTo(Coordinates other) {
+    public Optional<LineOfCoordinates> lineTo(Coordinates other) {
         return LineOfCoordinates.between(this, other);
     }
 
