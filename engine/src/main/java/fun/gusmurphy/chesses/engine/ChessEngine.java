@@ -26,11 +26,9 @@ public class ChessEngine implements RunsGame {
     public static ChessEngine defaultEngine(BoardState initialBoardState) {
         PlayerColor startingPlayerColor = PlayerColor.WHITE;
 
-        MoveRule pieceMovementRule = MoveRuleSuite.BASIC;
-
         return new ChessEngine(
             new MoveApplicator(new MoveEventDeriver(new TurnTracker(startingPlayerColor)), new BoardStateReducer()),
-            new MoveRuleSuite(pieceMovementRule, new PlayerTurnRule()),
+            MoveRuleSuite.BASIC,
             initialBoardState
         );
     }
