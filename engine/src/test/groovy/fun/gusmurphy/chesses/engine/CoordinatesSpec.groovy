@@ -17,4 +17,12 @@ class CoordinatesSpec extends Specification {
         A1 | C2 || false
     }
 
+    def "we can get all coordinates between two positions that are horizontal from each other"() {
+        given:
+        LineOfCoordinates line = C2.lineTo(C7)
+
+        expect:
+        line.inOrder() == [C3, C4, C5, C6]
+    }
+
 }

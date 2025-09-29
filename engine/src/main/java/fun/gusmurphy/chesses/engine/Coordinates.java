@@ -1,6 +1,8 @@
 package fun.gusmurphy.chesses.engine;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static fun.gusmurphy.chesses.engine.Rank.*;
 import static fun.gusmurphy.chesses.engine.File.*;
@@ -54,6 +56,22 @@ public enum Coordinates {
 
     public int fileDifferenceTo(Coordinates other) {
         return this.file.ordinal() - other.file.ordinal();
+    }
+
+    public LineOfCoordinates lineTo(Coordinates other) {
+        List<Coordinates> lineList = new ArrayList<>();
+
+        Coordinates currentCoordinates = this;
+        while (currentCoordinates != other) {
+            Rank newRank = Rank.values()[currentCoordinates.rank.ordinal() + 1];
+            currentCoordinates = Coordinates.with(this.file, newRank);
+
+            if (currentCoordinates != other) {
+                lineList.add(currentCoordinates);
+            }
+        }
+
+        return new LineOfCoordinates(lineList);
     }
 
     @Override
