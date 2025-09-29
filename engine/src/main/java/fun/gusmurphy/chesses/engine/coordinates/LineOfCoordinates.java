@@ -1,8 +1,5 @@
 package fun.gusmurphy.chesses.engine.coordinates;
 
-import fun.gusmurphy.chesses.engine.File;
-import fun.gusmurphy.chesses.engine.Rank;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,9 +34,7 @@ public class LineOfCoordinates {
         int verticalChange = getVerticalChange(a, b);
 
         while (currentCoordinates != b) {
-            Rank newRank = Rank.values()[currentCoordinates.rank.ordinal() + horizontalChange];
-            File newFile = File.values()[currentCoordinates.file.ordinal() + verticalChange];
-            currentCoordinates = Coordinates.with(newFile, newRank);
+            currentCoordinates = currentCoordinates.coordinatesTo(horizontalChange, verticalChange);
 
             if (currentCoordinates != b) {
                 lineList.add(currentCoordinates);
