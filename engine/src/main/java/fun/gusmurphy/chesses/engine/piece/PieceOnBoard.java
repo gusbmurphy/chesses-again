@@ -1,6 +1,6 @@
 package fun.gusmurphy.chesses.engine.piece;
 
-import fun.gusmurphy.chesses.engine.Coordinates;
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 
 public class PieceOnBoard extends Piece {
 

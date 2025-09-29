@@ -7,7 +7,7 @@ import spock.lang.Ignore
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
-import static fun.gusmurphy.chesses.engine.Coordinates.*
+import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 
 class CantMoveThroughPiecesRuleSpec extends Specification {
 

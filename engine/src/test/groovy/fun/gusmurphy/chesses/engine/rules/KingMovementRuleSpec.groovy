@@ -5,7 +5,7 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
 import spock.lang.Specification
 
-import static fun.gusmurphy.chesses.engine.Coordinates.*
+import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 import static fun.gusmurphy.chesses.engine.PlayerColor.WHITE
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 

@@ -1,6 +1,7 @@
 package fun.gusmurphy.chesses.engine
 
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceId
 import fun.gusmurphy.chesses.engine.piece.PieceType

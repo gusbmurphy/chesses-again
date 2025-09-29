@@ -1,4 +1,7 @@
-package fun.gusmurphy.chesses.engine;
+package fun.gusmurphy.chesses.engine.coordinates;
+
+import fun.gusmurphy.chesses.engine.File;
+import fun.gusmurphy.chesses.engine.Rank;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,7 @@
 package fun.gusmurphy.chesses.engine
 
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.events.BoardStateEvents
 import fun.gusmurphy.chesses.engine.doubles.DummyBoardStateEvent
 import fun.gusmurphy.chesses.engine.boardstate.ReducesBoardState

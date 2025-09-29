@@ -1,6 +1,6 @@
 package fun.gusmurphy.chesses.engine.boardstate;
 
-import fun.gusmurphy.chesses.engine.Coordinates;
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.File;
 import fun.gusmurphy.chesses.engine.Rank;
 import fun.gusmurphy.chesses.engine.piece.Piece;

@@ -1,10 +1,10 @@
 package fun.gusmurphy.chesses.engine.boardstate
 
-import fun.gusmurphy.chesses.engine.Coordinates
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.piece.PieceId
 import spock.lang.Specification
 
-import static fun.gusmurphy.chesses.engine.Coordinates.*
+import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 
 class BoardStateSpec extends Specification {
 

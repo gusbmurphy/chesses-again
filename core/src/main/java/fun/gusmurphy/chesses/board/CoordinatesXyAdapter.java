@@ -1,6 +1,6 @@
 package fun.gusmurphy.chesses.board;
 
-import fun.gusmurphy.chesses.engine.Coordinates;
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 
 import java.util.Arrays;
 
