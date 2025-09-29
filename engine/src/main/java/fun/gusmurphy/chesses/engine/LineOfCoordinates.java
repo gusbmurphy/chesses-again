@@ -12,32 +12,25 @@ public class LineOfCoordinates {
     }
 
     static LineOfCoordinates between(Coordinates a, Coordinates b) {
-        if (a.isDiagonalFrom(b)) {
-            return new LineOfCoordinates(createListOfCoordinatesInDiagonalLineBetween(a, b));
-        }
-
-        if (a.sameFileAs(b)) {
-            return new LineOfCoordinates(createListOfCoordinatesInHorizontalLineBetween(a, b));
-        }
-
-        return new LineOfCoordinates(createListOfCoordinatesInVerticalLineBetween(a, b));
+        List<Coordinates> coordinatesList = createListOfCoordinatesBetween(a, b);
+        return new LineOfCoordinates(coordinatesList);
     }
 
     public List<Coordinates> inOrder() {
         return coordinates;
     }
 
-    private static List<Coordinates> createListOfCoordinatesInDiagonalLineBetween(Coordinates a, Coordinates b) {
+    private static List<Coordinates> createListOfCoordinatesBetween(Coordinates a, Coordinates b) {
         List<Coordinates> lineList = new ArrayList<>();
 
         Coordinates currentCoordinates = a;
 
-        int horizontalDirection = currentCoordinates.rank.ordinal() < b.rank.ordinal() ? 1 : -1;
-        int verticalDirection = currentCoordinates.file.ordinal() < b.file.ordinal() ? 1 : -1;
+        int horizontalChange = getHorizontalChange(a, b);
+        int verticalChange = getVerticalChange(a, b);
 
         while (currentCoordinates != b) {
-            Rank newRank = Rank.values()[currentCoordinates.rank.ordinal() + horizontalDirection];
-            File newFile = File.values()[currentCoordinates.file.ordinal() + verticalDirection];
+            Rank newRank = Rank.values()[currentCoordinates.rank.ordinal() + horizontalChange];
+            File newFile = File.values()[currentCoordinates.file.ordinal() + verticalChange];
             currentCoordinates = Coordinates.with(newFile, newRank);
 
             if (currentCoordinates != b) {
@@ -48,44 +41,20 @@ public class LineOfCoordinates {
         return lineList;
     }
 
-
-    private static List<Coordinates> createListOfCoordinatesInHorizontalLineBetween(Coordinates a, Coordinates b) {
-        List<Coordinates> lineList = new ArrayList<>();
-
-        Coordinates currentCoordinates = a;
-
-        int direction = currentCoordinates.rank.ordinal() < b.rank.ordinal() ? 1 : -1;
-
-        while (currentCoordinates != b) {
-            Rank newRank = Rank.values()[currentCoordinates.rank.ordinal() + direction];
-            currentCoordinates = Coordinates.with(a.file, newRank);
-
-            if (currentCoordinates != b) {
-                lineList.add(currentCoordinates);
-            }
+    private static int getHorizontalChange(Coordinates a, Coordinates b) {
+        if (a.sameRankAs(b)) {
+            return 0;
         }
 
-        return lineList;
+        return a.rank.ordinal() < b.rank.ordinal() ? 1 : -1;
     }
 
-    private static List<Coordinates> createListOfCoordinatesInVerticalLineBetween(Coordinates a, Coordinates b) {
-        List<Coordinates> lineList = new ArrayList<>();
-
-        Coordinates currentCoordinates = a;
-
-        int direction = currentCoordinates.file.ordinal() < b.file.ordinal() ? 1 : -1;
-
-        while (currentCoordinates != b) {
-            File newFile = File.values()[currentCoordinates.file.ordinal() + direction];
-            currentCoordinates = Coordinates.with(newFile, a.rank);
-
-            if (currentCoordinates != b) {
-                lineList.add(currentCoordinates);
-            }
+    private static int getVerticalChange(Coordinates a, Coordinates b) {
+        if (a.sameFileAs(b)) {
+            return 0;
         }
 
-        return lineList;
+        return a.file.ordinal() < b.file.ordinal() ? 1 : -1;
     }
-
 
 }
