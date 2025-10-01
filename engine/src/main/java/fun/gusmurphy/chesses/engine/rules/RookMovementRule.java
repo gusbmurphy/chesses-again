@@ -20,10 +20,6 @@ public class RookMovementRule extends SinglePieceMovementRule {
         Coordinates pieceCoordinates = pieceOnBoard.coordinates();
         Coordinates moveCoordinates = move.coordinates();
 
-        if (pieceOnBoard.type() != PieceType.ROOK) {
-            return UNCONCERNED;
-        }
-
         if (moveCoordinates.sameRankAs(pieceCoordinates)) {
             return LEGAL;
         }

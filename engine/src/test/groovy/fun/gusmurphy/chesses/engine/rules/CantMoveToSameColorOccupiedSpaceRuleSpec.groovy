@@ -47,7 +47,7 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends Specification {
         def move = new Move(movingPiece.id(), Coordinates.B8)
 
         expect:
-        rule.evaluate(board, move) == Legality.UNCONCERNED
+        rule.evaluate(board, move) == Legality.LEGAL
     }
 
 }

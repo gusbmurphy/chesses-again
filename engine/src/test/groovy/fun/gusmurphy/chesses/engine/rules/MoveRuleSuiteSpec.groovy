@@ -70,23 +70,6 @@ class MoveRuleSuiteSpec extends Specification {
         result == ILLEGAL
     }
 
-    def "with two move evaluation rules, where one is unconcerned, the other rule decides the legality"() {
-        given:
-        MoveRule unconcerned = new UnconcernedAlwaysRule()
-        def suite = new MoveRuleSuite(unconcerned, otherRule)
-
-        when:
-        def result = suite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
-
-        then:
-        result == expected
-
-        where:
-        otherRule           | expected
-        ALWAYS_ILLEGAL_RULE | ILLEGAL
-        ALWAYS_LEGAL_RULE   | LEGAL
-    }
-
     def "only moves relevant for a the move's piece type are used"() {
         given:
         def pieceType = PieceType.PAWN

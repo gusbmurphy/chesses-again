@@ -16,10 +16,6 @@ public class KnightMovementRule extends SinglePieceMovementRule {
     public Legality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
 
-        if (pieceOnBoard.type() != PieceType.KNIGHT) {
-            return Legality.UNCONCERNED;
-        }
-
         Coordinates currentPieceCoordinates = pieceOnBoard.coordinates();
         Coordinates moveCoordinates = move.coordinates();
         int verticalChangeWithMove = Math.abs(currentPieceCoordinates.rankDifferenceTo(moveCoordinates));

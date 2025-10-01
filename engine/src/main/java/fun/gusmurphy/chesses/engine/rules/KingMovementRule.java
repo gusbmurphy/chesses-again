@@ -16,10 +16,6 @@ public class KingMovementRule extends SinglePieceMovementRule {
     public Legality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
 
-        if (pieceOnBoard.type() != PieceType.KING) {
-            return Legality.UNCONCERNED;
-        }
-
         Coordinates currentPieceCoordinates = pieceOnBoard.coordinates();
         Coordinates moveCoordinates = move.coordinates();
 

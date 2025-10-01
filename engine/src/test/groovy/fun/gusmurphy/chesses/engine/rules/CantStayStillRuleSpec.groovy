@@ -37,7 +37,7 @@ class CantStayStillRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.A7).build()
 
         expect:
-        rule.evaluate(board, new Move(piece.id(), piecePosition)) == Legality.UNCONCERNED
+        rule.evaluate(board, new Move(piece.id(), piecePosition)) == Legality.LEGAL
     }
 
 }

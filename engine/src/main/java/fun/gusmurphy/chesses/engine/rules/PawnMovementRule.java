@@ -17,10 +17,6 @@ public class PawnMovementRule extends SinglePieceMovementRule {
     public Legality evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
 
-        if (pieceOnBoard.type() != PieceType.PAWN) {
-            return Legality.UNCONCERNED;
-        }
-
         Coordinates currentCoordinates = pieceOnBoard.coordinates();
 
         if (moveIsGreaterThanOneSpotVertically(move, currentCoordinates)) {

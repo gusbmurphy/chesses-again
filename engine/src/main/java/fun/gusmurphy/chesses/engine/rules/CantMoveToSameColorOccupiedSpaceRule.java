@@ -17,6 +17,6 @@ public class CantMoveToSameColorOccupiedSpaceRule implements MoveRule {
             return Legality.ILLEGAL;
         }
 
-        return Legality.UNCONCERNED;
+        return Legality.LEGAL;
     }
 }

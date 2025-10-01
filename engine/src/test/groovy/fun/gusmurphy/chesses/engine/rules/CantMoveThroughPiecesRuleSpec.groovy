@@ -46,7 +46,6 @@ class CantMoveThroughPiecesRuleSpec extends Specification {
         F4               | G4
     }
 
-    // TODO: Seems like LEGAL would get us to the same place here, do we need UNCONCERNED at all?
     def "the rule is not concerned with moves to an occupied spice"() {
         given:
         def movingPiece = new Piece()
@@ -57,7 +56,7 @@ class CantMoveThroughPiecesRuleSpec extends Specification {
             .build()
 
         expect:
-        rule.evaluate(board, new Move(movingPiece.id(), D6)) == Legality.UNCONCERNED
+        rule.evaluate(board, new Move(movingPiece.id(), D6)) == Legality.LEGAL
     }
 
     def "a move to a non-obstructed position is legal"() {

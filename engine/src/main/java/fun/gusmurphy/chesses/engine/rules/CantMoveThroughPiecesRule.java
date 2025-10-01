@@ -12,10 +12,6 @@ import java.util.Optional;
 public class CantMoveThroughPiecesRule implements MoveRule {
     @Override
     public Legality evaluate(BoardState boardState, Move move) {
-        if (destinationIsOccupied(boardState, move)) {
-            return Legality.UNCONCERNED;
-        }
-
         Coordinates currentPieceCoordinates = boardState.pieceOnBoardForId(move.pieceId()).coordinates();
         Coordinates moveCoordinates = move.coordinates();
         Optional<LineOfCoordinates> line = currentPieceCoordinates.lineTo(moveCoordinates);
