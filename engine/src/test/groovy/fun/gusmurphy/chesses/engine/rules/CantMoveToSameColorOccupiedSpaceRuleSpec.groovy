@@ -1,5 +1,10 @@
 package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.PlayerColor
+import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates
+import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
 
@@ -13,6 +18,21 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends Specification {
 
         where:
         type << PieceType.values()
+    }
+
+    def "a move to a space that's occupied by a piece of the same color is illegal"() {
+        given:
+        def movingPiece = new Piece(PlayerColor.WHITE)
+        def occupyingPiece = new Piece(PlayerColor.WHITE)
+        def board = new BoardStateBuilder()
+            .addPieceAt(movingPiece, Coordinates.A7)
+            .addPieceAt(occupyingPiece, Coordinates.B8)
+            .build()
+
+        def move = new Move(movingPiece.id(), Coordinates.B8)
+
+        expect:
+        rule.evaluate(board, move) == Legality.ILLEGAL
     }
 
 }
