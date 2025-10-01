@@ -43,26 +43,28 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
     @Override
     public void onPieceReleased(PieceId pieceId, Vector2 screenPosition) {
-        if (selectedPieceId == pieceId) {
-            stopDraggingPiece(pieceId);
-            board.clearHighlights();
-
-            Optional<Coordinates> coordinatesForReleasePosition = board.getCoordinatesForScreenPosition(screenPosition);
-
-            if (!coordinatesForReleasePosition.isPresent()) {
-                return;
-            }
-
-            Move move = new Move(pieceId, coordinatesForReleasePosition.get());
-            engine.makeMove(move);
-            BoardState newBoardState = engine.currentBoardState();
-            board.updateBoardState(newBoardState);
-            pieceDrawables.forEach(pieceDrawable -> {
-                PieceOnBoard pieceOnBoard = newBoardState.pieceOnBoardForId(pieceDrawable.pieceId());
-                Coordinates updatedPieceCoordinates = pieceOnBoard.coordinates();
-                pieceDrawable.setPositionCenter(board.getScreenPositionForCenterOf(updatedPieceCoordinates));
-            });
+        if (selectedPieceId != pieceId) {
+            return;
         }
+
+        stopDraggingPiece(pieceId);
+        board.clearHighlights();
+
+        Optional<Coordinates> coordinatesForReleasePosition = board.getCoordinatesForScreenPosition(screenPosition);
+
+        if (!coordinatesForReleasePosition.isPresent()) {
+            return;
+        }
+
+        Move move = new Move(pieceId, coordinatesForReleasePosition.get());
+        engine.makeMove(move);
+        BoardState newBoardState = engine.currentBoardState();
+        board.updateBoardState(newBoardState);
+        pieceDrawables.forEach(pieceDrawable -> {
+            PieceOnBoard pieceOnBoard = newBoardState.pieceOnBoardForId(pieceDrawable.pieceId());
+            Coordinates updatedPieceCoordinates = pieceOnBoard.coordinates();
+            pieceDrawable.setPositionCenter(board.getScreenPositionForCenterOf(updatedPieceCoordinates));
+        });
     }
 
     private BoardDrawable setupBoard() {
