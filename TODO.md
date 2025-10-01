@@ -7,6 +7,6 @@
     - [x] Knight 
     - [x] King (no castling)
     - [x] Queen 
-- [ ] Disable moving to the same space as a piece of the same color
+- [x] Disable moving to the same space as a piece of the same color
 - [ ] Implement taking
 - [ ] Make selected piece render above other pieces
