@@ -35,4 +35,19 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends Specification {
         rule.evaluate(board, move) == Legality.ILLEGAL
     }
 
+    def "we're unconcerned with a move to a space occupied by the other color"() {
+        given:
+        def movingPiece = new Piece(PlayerColor.WHITE)
+        def occupyingPiece = new Piece(PlayerColor.BLACK)
+        def board = new BoardStateBuilder()
+            .addPieceAt(movingPiece, Coordinates.A7)
+            .addPieceAt(occupyingPiece, Coordinates.B8)
+            .build()
+
+        def move = new Move(movingPiece.id(), Coordinates.B8)
+
+        expect:
+        rule.evaluate(board, move) == Legality.UNCONCERNED
+    }
+
 }
