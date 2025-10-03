@@ -27,4 +27,9 @@ public class UnoccupiedCoordinateState implements BoardCoordinateState {
     public boolean isOccupied() {
         return false;
     }
+
+    @Override
+    public boolean isUnoccupied() {
+        return true;
+    }
 }

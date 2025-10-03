@@ -30,4 +30,8 @@ public class OccupiedCoordinateState implements BoardCoordinateState {
         return true;
     }
 
+    @Override
+    public boolean isUnoccupied() {
+        return false;
+    }
 }
