@@ -7,7 +7,7 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 class CantStayStillRule implements MoveRule {
     @Override
     public Legality evaluate(BoardState boardState, Move move) {
-        Coordinates currentPiecePosition = boardState.pieceOnBoardForId(move.pieceId()).coordinates();
+        Coordinates currentPiecePosition = boardState.pieceOnBoardForId(move.pieceId()).get().coordinates();
         Coordinates movePosition = move.coordinates();
 
         if (currentPiecePosition == movePosition) {

@@ -16,7 +16,7 @@ public class RookMovementRule extends SinglePieceMovementRule {
 
     @Override
     public Legality evaluate(BoardState boardState, Move move) {
-        PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
+        PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId()).get();
         Coordinates pieceCoordinates = pieceOnBoard.coordinates();
         Coordinates moveCoordinates = move.coordinates();
 

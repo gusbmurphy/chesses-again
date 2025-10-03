@@ -61,9 +61,12 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         BoardState newBoardState = engine.currentBoardState();
         board.updateBoardState(newBoardState);
         pieceDrawables.forEach(pieceDrawable -> {
-            PieceOnBoard pieceOnBoard = newBoardState.pieceOnBoardForId(pieceDrawable.pieceId());
-            Coordinates updatedPieceCoordinates = pieceOnBoard.coordinates();
-            pieceDrawable.setPositionCenter(board.getScreenPositionForCenterOf(updatedPieceCoordinates));
+            Optional<PieceOnBoard> pieceOnBoard = newBoardState.pieceOnBoardForId(pieceDrawable.pieceId());
+
+            if (pieceOnBoard.isPresent()) {
+                Coordinates updatedPieceCoordinates = pieceOnBoard.get().coordinates();
+                pieceDrawable.setPositionCenter(board.getScreenPositionForCenterOf(updatedPieceCoordinates));
+            }
         });
     }
 

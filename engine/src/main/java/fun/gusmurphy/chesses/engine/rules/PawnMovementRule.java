@@ -15,7 +15,7 @@ public class PawnMovementRule extends SinglePieceMovementRule {
 
     @Override
     public Legality evaluate(BoardState boardState, Move move) {
-        PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId());
+        PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId()).get();
 
         Coordinates currentCoordinates = pieceOnBoard.coordinates();
 

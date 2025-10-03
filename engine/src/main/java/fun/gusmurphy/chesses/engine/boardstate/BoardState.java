@@ -59,15 +59,17 @@ public class BoardState {
         return currentTurnColor;
     }
 
-    public PieceOnBoard pieceOnBoardForId(PieceId id) throws UnknownPieceException {
+    /* TODO: I'm not sure if returning an Optional is right here, we want to be able to account for the given piece
+     * not being there, but could there be another way that doesn't require "gets" everywhere? */
+    public Optional<PieceOnBoard> pieceOnBoardForId(PieceId id) {
         Optional<Piece> piece = pieces.stream().filter(p -> p.id() == id).findFirst();
 
         if (piece.isPresent()) {
             Coordinates coordinates = coordinatesForPieces.get(piece.get().id());
-            return new PieceOnBoard(piece.get(), coordinates);
+            return Optional.of(new PieceOnBoard(piece.get(), coordinates));
         }
 
-        throw new UnknownPieceException();
+        return Optional.empty();
     }
 
     public BoardCoordinateStates coordinateStates() {

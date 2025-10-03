@@ -8,15 +8,12 @@ import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 
 class BoardStateSpec extends Specification {
 
-    def "asking for an unknown piece ID throws an UnknownPieceException"() {
+    def "asking for an unknown piece ID returns an empty optional"() {
         given: "an empty board"
         BoardState boardState = new BoardStateBuilder().build()
 
-        when:
-        boardState.pieceOnBoardForId(new PieceId())
-
-        then:
-        thrown UnknownPieceException
+        expect:
+        boardState.pieceOnBoardForId(new PieceId()).isPresent() == false
     }
 
     def "by default, the board has the normal 8 by 8 dimensions"() {

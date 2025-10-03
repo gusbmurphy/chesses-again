@@ -30,6 +30,6 @@ public class QueenMovementRule extends SinglePieceMovementRule {
     }
 
     private static Coordinates getCurrentPiecePosition(BoardState boardState, Move move) {
-        return boardState.pieceOnBoardForId(move.pieceId()).coordinates();
+        return boardState.pieceOnBoardForId(move.pieceId()).get().coordinates();
     }
 }

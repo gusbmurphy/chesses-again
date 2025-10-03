@@ -19,7 +19,7 @@ public class CantMoveToSameColorOccupiedSpaceRule implements MoveRule {
         }
 
         PlayerColor occupyingColor = occupyingPiece.get().color();
-        Piece movingPiece = boardState.pieceOnBoardForId(move.pieceId());
+        Piece movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
 
         if (occupyingColor == movingPiece.color()) {
             return Legality.ILLEGAL;

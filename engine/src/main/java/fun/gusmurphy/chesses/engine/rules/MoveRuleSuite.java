@@ -41,7 +41,7 @@ public class MoveRuleSuite implements MoveRule {
     }
 
     private static PieceType getTypeOfMovingPiece(BoardState boardState, Move move) {
-        PieceOnBoard piece = boardState.pieceOnBoardForId(move.pieceId());
+        PieceOnBoard piece = boardState.pieceOnBoardForId(move.pieceId()).get();
         return piece.type();
     }
 
