@@ -16,6 +16,7 @@ import fun.gusmurphy.chesses.piece.PieceDrawable;
 import fun.gusmurphy.chesses.piece.PieceSelectionListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,6 +55,7 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         if (selectedPieceId == null) {
             dragPiece(pieceId);
             setHighlightedMovesFor(pieceId);
+            bringDrawableForPieceToFront(pieceId);
         }
     }
 
@@ -139,6 +141,16 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         }
 
         board.setCoordinatesToHighlight(coordinatesToHighlight.toArray(new Coordinates[0]));
+    }
+
+    private void bringDrawableForPieceToFront(PieceId pieceId) {
+        PieceDrawable drawable = pieceDrawables.stream()
+            .filter(piece -> piece.pieceId() == pieceId)
+            .findFirst()
+            .get();
+
+        int selectedDrawableIndex = drawables.indexOf(drawable);
+        Collections.swap(drawables, selectedDrawableIndex, drawables.size() - 1);
     }
 
     private void stopDraggingPiece(PieceId pieceId) {
