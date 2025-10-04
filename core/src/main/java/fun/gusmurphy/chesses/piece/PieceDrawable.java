@@ -65,6 +65,14 @@ public class PieceDrawable implements Drawable, InputProcessor {
         selectionListeners.add(listener);
     }
 
+    public void markForRemoval() {
+        state = new TombstoneState();
+    }
+
+    public boolean toBeRemoved() {
+        return state.toBeRemoved();
+    }
+
     protected void setState(PieceOnScreenState newState) {
         state = newState;
     }

@@ -18,6 +18,7 @@ import fun.gusmurphy.chesses.piece.PieceSelectionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
@@ -31,6 +32,21 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         engine = ChessEngine.defaultEngine();
         board = setupBoard();
         setupPieceDrawables();
+    }
+
+    @Override
+    public void render(float delta) {
+        removePiecesToBeRemoved();
+        super.render(delta);
+    }
+
+    private void removePiecesToBeRemoved() {
+        List<PieceDrawable> piecesToBeRemoved = pieceDrawables.stream().filter(PieceDrawable::toBeRemoved).collect(Collectors.toList());
+
+        // TODO: Why remove these from three different places?
+        pieceDrawables.removeAll(piecesToBeRemoved);
+        drawables.removeAll(piecesToBeRemoved);
+        inputProcessors.removeAll(piecesToBeRemoved);
     }
 
     @Override
@@ -63,9 +79,12 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         pieceDrawables.forEach(pieceDrawable -> {
             Optional<PieceOnBoard> pieceOnBoard = newBoardState.pieceOnBoardForId(pieceDrawable.pieceId());
 
+            // TODO: Feels like there's some sort of polymorphism missing here...
             if (pieceOnBoard.isPresent()) {
                 Coordinates updatedPieceCoordinates = pieceOnBoard.get().coordinates();
                 pieceDrawable.setPositionCenter(board.getScreenPositionForCenterOf(updatedPieceCoordinates));
+            } else {
+                pieceDrawable.markForRemoval();
             }
         });
     }
