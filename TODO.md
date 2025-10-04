@@ -9,5 +9,5 @@
     - [x] Queen 
 - [x] Disable moving to the same space as a piece of the same color
 - [ ] Don't allow putting pieces down off the board
-- [ ] Implement taking
+- [x] Implement taking
 - [ ] Make selected piece render above other pieces
