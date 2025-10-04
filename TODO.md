@@ -11,3 +11,9 @@
 - [ ] Don't allow putting pieces down off the board
 - [x] Implement taking
 - [x] Make selected piece render above other pieces
+- [ ] Use different color when highlighting taking moves
+- [ ] Allow pawns to move 2 spaces on their first move
+- [ ] Only allow pawns to take diagonally
+- [ ] Add en passant moves
+- [ ] Add castling
+- [ ] Add changing piece type when we reach the other side
