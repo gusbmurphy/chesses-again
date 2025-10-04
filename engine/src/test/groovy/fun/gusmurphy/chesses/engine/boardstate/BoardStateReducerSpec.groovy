@@ -1,5 +1,6 @@
 package fun.gusmurphy.chesses.engine.boardstate
 
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.events.BoardStateEvent
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent
 import fun.gusmurphy.chesses.engine.events.PieceRemovedEvent
@@ -14,6 +15,7 @@ import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 class BoardStateReducerSpec extends Specification {
 
     private static final Piece PIECE = new Piece(WHITE, BISHOP)
+    private static final PIECE_STARTING_POSITION = A7
     private static final BoardState BOARD = new BoardStateBuilder()
         .addPieceAt(PIECE, A7)
         .build()
@@ -64,6 +66,8 @@ class BoardStateReducerSpec extends Specification {
 
         then:
         result.pieceOnBoardForId(PIECE.id()).isPresent() == false
+        // TODO: Looking at some major train wrecks going on here...
+        result.coordinateStates().forCoordinates(PIECE_STARTING_POSITION).get().piece().isPresent() == false
     }
 
     def "removing a piece that is not on the board throws an exception"() {

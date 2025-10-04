@@ -39,6 +39,7 @@ public class BoardStateReducer implements ReducesBoardState {
 
         if (pieceToRemove.isPresent()) {
             boardState.pieces.remove(pieceToRemove.get());
+            boardState.coordinatesForPieces.remove(pieceId);
         } else {
             throw new UnknownPieceException();
         }
