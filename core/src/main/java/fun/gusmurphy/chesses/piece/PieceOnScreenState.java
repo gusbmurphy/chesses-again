@@ -10,6 +10,10 @@ public abstract class PieceOnScreenState {
         this.pieceDrawable = pieceDrawable;
     }
 
+    public boolean toBeRemoved() {
+        return false;
+    }
+
     public abstract void processInput(Vector2 cursorPosition);
 
     public abstract void setDragStatus(boolean isNowDragged);
