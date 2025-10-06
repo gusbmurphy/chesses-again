@@ -5,6 +5,11 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import static fun.gusmurphy.chesses.engine.rules.Legality.*;
 
 public class MoveRuleSuite implements MoveRule {
@@ -33,7 +38,17 @@ public class MoveRuleSuite implements MoveRule {
 
         for (MoveRule rule : rules) {
             if (ruleIsRelevantForPieceAndIllegal(boardState, move, rule, pieceType)) {
-                return true;
+                List<MoveRule> overridingRules = Arrays.stream(rules)
+                    .filter(r -> r.overrides(rule))
+                    .collect(Collectors.toList());
+
+                Optional<MoveRule> legalOverride = overridingRules.stream()
+                    .filter(r -> r.evaluate(boardState, move) == LEGAL)
+                    .findAny();
+
+                if (!legalOverride.isPresent()) {
+                    return true;
+                }
             }
         }
 
