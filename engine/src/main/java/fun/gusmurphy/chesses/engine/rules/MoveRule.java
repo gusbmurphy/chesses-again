@@ -7,8 +7,13 @@ import fun.gusmurphy.chesses.engine.piece.PieceType;
 public interface MoveRule {
 
     Legality evaluate(BoardState boardState, Move move);
+
     default boolean isRelevantForPieceType(PieceType pieceType) {
         return true;
+    }
+
+    default boolean overrides(MoveRule otherRule) {
+        return false;
     }
 
 }

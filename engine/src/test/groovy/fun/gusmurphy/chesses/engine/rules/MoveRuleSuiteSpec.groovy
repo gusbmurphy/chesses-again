@@ -102,4 +102,16 @@ class MoveRuleSuiteSpec extends Specification {
         suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == ILLEGAL
     }
 
+    def "if a rule is overridden by another, we use a illegal ruling from the override"() {
+        given:
+        def legalRule = new LegalAlwaysRule()
+        def overridingRule = new OverridingRule(new IllegalAlwaysRule(), legalRule)
+        def suite = new MoveRuleSuite(legalRule, overridingRule)
+        def piece = new Piece()
+        def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+
+        expect:
+        suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == ILLEGAL
+    }
+
 }
