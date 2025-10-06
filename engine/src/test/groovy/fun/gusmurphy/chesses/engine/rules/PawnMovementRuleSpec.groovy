@@ -83,4 +83,18 @@ class PawnMovementRuleSpec extends Specification {
         [color, moveCoordinates] << [[WHITE, BLACK], [C3, C4, C5, E4, E5, E6]].combinations()
     }
 
+    def "a pawn cannot move straight ahead to a space occupied by another piece"() {
+        given:
+        def pawn = new Piece(WHITE, PAWN)
+        def otherPiece = new Piece()
+        def board = new BoardStateBuilder()
+            .addPieceAt(pawn, D4)
+            .addPieceAt(otherPiece, D5)
+            .build()
+        def move = new Move(pawn.id(), D5)
+
+        expect:
+        PAWN_RULE.evaluate(board, move) == Legality.ILLEGAL
+    }
+
 }

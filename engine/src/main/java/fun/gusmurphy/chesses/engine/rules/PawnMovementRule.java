@@ -1,5 +1,6 @@
 package fun.gusmurphy.chesses.engine.rules;
 
+import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.PlayerColor;
@@ -19,6 +20,10 @@ public class PawnMovementRule extends SinglePieceMovementRule {
 
         Coordinates currentCoordinates = pieceOnBoard.coordinates();
 
+        if (moveCoordinatesAreOccupied(boardState, move)) {
+            return Legality.ILLEGAL;
+        }
+
         if (moveIsGreaterThanOneSpotVertically(move, currentCoordinates)) {
             return Legality.ILLEGAL;
         }
@@ -32,6 +37,12 @@ public class PawnMovementRule extends SinglePieceMovementRule {
         }
 
         return Legality.LEGAL;
+    }
+
+    private static boolean moveCoordinatesAreOccupied(BoardState boardState, Move move) {
+        BoardCoordinateState moveCoordinatesState = boardState.coordinateStates()
+            .forCoordinates(move.coordinates()).get();
+        return moveCoordinatesState.isOccupied();
     }
 
     private static boolean moveIsGreaterThanOneSpotVertically(Move move, Coordinates currentCoordinates) {
