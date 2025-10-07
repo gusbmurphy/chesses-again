@@ -35,14 +35,13 @@ public class MoveRuleSuite implements MoveRule {
         PieceType pieceType = getTypeOfMovingPiece(boardState, move);
 
         return Arrays.stream(rules).anyMatch(rule ->
-            ruleIsRelevantForPieceAndIllegal(boardState, move, rule, pieceType)
-                && noLegalOverrideExistsForRule(boardState, move, rule)
+            ruleSaysMoveIsIllegal(boardState, move, rule, pieceType)
         );
     }
 
-    private boolean noLegalOverrideExistsForRule(BoardState boardState, Move move, MoveRule rule) {
-        Optional<MoveRule> legalOverride = findOverrideWithLegalRuling(boardState, move, rule);
-        return !legalOverride.isPresent();
+    private boolean ruleSaysMoveIsIllegal(BoardState boardState, Move move, MoveRule rule, PieceType pieceType) {
+        return ruleIsRelevantForPieceAndIllegal(boardState, move, rule, pieceType)
+            && noLegalOverrideExistsForRule(boardState, move, rule);
     }
 
     private Optional<MoveRule> findOverrideWithLegalRuling(BoardState boardState, Move move, MoveRule rule) {
@@ -64,6 +63,11 @@ public class MoveRuleSuite implements MoveRule {
         PieceType pieceType
     ) {
         return rule.isRelevantForPieceType(pieceType) && rule.evaluate(boardState, move) == ILLEGAL;
+    }
+
+    private boolean noLegalOverrideExistsForRule(BoardState boardState, Move move, MoveRule rule) {
+        Optional<MoveRule> legalOverride = findOverrideWithLegalRuling(boardState, move, rule);
+        return !legalOverride.isPresent();
     }
 
     public static final MoveRuleSuite BASIC = new MoveRuleSuite(
