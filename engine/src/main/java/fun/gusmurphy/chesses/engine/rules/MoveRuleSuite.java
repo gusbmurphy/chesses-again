@@ -34,17 +34,15 @@ public class MoveRuleSuite implements MoveRule {
     private boolean anyRelevantRuleSaysMoveIsIllegal(BoardState boardState, Move move) {
         PieceType pieceType = getTypeOfMovingPiece(boardState, move);
 
-        for (MoveRule rule : rules) {
-            if (ruleIsRelevantForPieceAndIllegal(boardState, move, rule, pieceType)) {
-                Optional<MoveRule> legalOverride = findOverrideWithLegalRuling(boardState, move, rule);
+        return Arrays.stream(rules).anyMatch(rule ->
+            ruleIsRelevantForPieceAndIllegal(boardState, move, rule, pieceType)
+                && noLegalOverrideExistsForRule(boardState, move, rule)
+        );
+    }
 
-                if (!legalOverride.isPresent()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+    private boolean noLegalOverrideExistsForRule(BoardState boardState, Move move, MoveRule rule) {
+        Optional<MoveRule> legalOverride = findOverrideWithLegalRuling(boardState, move, rule);
+        return !legalOverride.isPresent();
     }
 
     private Optional<MoveRule> findOverrideWithLegalRuling(BoardState boardState, Move move, MoveRule rule) {
