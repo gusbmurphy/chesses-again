@@ -18,4 +18,12 @@ class PawnTakingRuleSpec extends Specification {
         rule.isRelevantForPieceType(PAWN)
     }
 
+    def "the rule is not relevant for non-pawns"() {
+        expect:
+        rule.isRelevantForPieceType(pieceType) == false
+
+        where:
+        pieceType << [KING, KNIGHT, QUEEN, BISHOP, ROOK]
+    }
+
 }
