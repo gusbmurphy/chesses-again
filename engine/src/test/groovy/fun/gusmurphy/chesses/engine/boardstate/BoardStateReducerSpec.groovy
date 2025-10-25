@@ -1,6 +1,5 @@
 package fun.gusmurphy.chesses.engine.boardstate
 
-import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.events.BoardStateEvent
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent
 import fun.gusmurphy.chesses.engine.events.PieceRemovedEvent
