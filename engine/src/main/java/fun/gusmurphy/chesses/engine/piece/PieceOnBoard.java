@@ -7,7 +7,7 @@ public class PieceOnBoard extends Piece {
     private final Coordinates coordinates;
 
     public PieceOnBoard(Piece piece, Coordinates coordinates) {
-        super(piece.color(), piece.type());
+        super(piece);
         this.coordinates = coordinates;
     }
 
@@ -15,7 +15,4 @@ public class PieceOnBoard extends Piece {
         return coordinates;
     }
 
-    public boolean hasMoved() {
-        return true;
-    }
 }

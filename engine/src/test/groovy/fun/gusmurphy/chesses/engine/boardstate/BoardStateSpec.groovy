@@ -1,6 +1,7 @@
 package fun.gusmurphy.chesses.engine.boardstate
 
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
+import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceId
 import spock.lang.Specification
 
@@ -65,6 +66,17 @@ class BoardStateSpec extends Specification {
         then:
         def exception = thrown IllegalArgumentException
         exception.message == "Board must have at least two coordinates"
+    }
+
+    def "at first, pieces do not say they've moved"() {
+        given:
+        def piece = new Piece()
+        def board = new BoardStateBuilder()
+            .addPieceAt(piece, C1)
+            .build()
+
+        expect:
+        board.pieceOnBoardForId(piece.id()).get().hasMoved() == false
     }
 
 }

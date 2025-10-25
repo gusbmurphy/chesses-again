@@ -25,11 +25,15 @@ public class BoardStateReducer implements ReducesBoardState {
 
     private static void handlePieceMovedEvent(PieceMovedEvent event, BoardState boardState) {
         PieceId pieceId = event.pieceId();
+        Optional<Piece> originalPiece = boardState.pieces.stream().filter(p -> p.id() == pieceId).findFirst();
 
-        if (boardState.pieces.stream().noneMatch(p -> p.id() == pieceId)) {
+        if (!originalPiece.isPresent()) {
             throw new UnknownPieceException();
         }
 
+        Piece movedPiece = originalPiece.get().afterMove();
+        boardState.pieces.remove(originalPiece.get());
+        boardState.pieces.add(movedPiece);
         boardState.coordinatesForPieces.put(pieceId, event.newCoordinates());
     }
 
