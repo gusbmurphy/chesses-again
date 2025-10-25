@@ -5,7 +5,6 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import spock.lang.Ignore
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
@@ -72,17 +71,16 @@ class PawnMovementRuleSpec extends Specification {
         BLACK | D5
     }
 
-    @Ignore
-    def "a pawn cannot move more than a single spot forward"() {
+    def "a pawn cannot move more than a single spot if it has already moved"() {
         given:
-        def pawn = new Piece(color, PAWN)
+        def pawn = new Piece(color, PAWN).afterMove()
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == Legality.ILLEGAL
+        PAWN_RULE.evaluate(board, new Move(pawn.id(), move)) == Legality.ILLEGAL
 
         where:
-        color | moveCoordinates
+        color | move
         WHITE | D6
         BLACK | D2
     }
