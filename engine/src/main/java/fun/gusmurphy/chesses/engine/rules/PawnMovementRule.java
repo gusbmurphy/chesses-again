@@ -24,7 +24,7 @@ public class PawnMovementRule extends SinglePieceMovementRule {
             return Legality.ILLEGAL;
         }
 
-        if (moveIsGreaterThanOneSpotVertically(move, currentCoordinates)) {
+        if (moveIsGreaterThanTwoSpotsVertically(move, currentCoordinates)) {
             return Legality.ILLEGAL;
         }
 
@@ -45,8 +45,8 @@ public class PawnMovementRule extends SinglePieceMovementRule {
         return moveCoordinatesState.isOccupied();
     }
 
-    private static boolean moveIsGreaterThanOneSpotVertically(Move move, Coordinates currentCoordinates) {
-        return Math.abs(currentCoordinates.rankDifferenceTo(move.coordinates())) > 1;
+    private static boolean moveIsGreaterThanTwoSpotsVertically(Move move, Coordinates currentCoordinates) {
+        return Math.abs(currentCoordinates.rankDifferenceTo(move.coordinates())) > 2;
     }
 
     private static boolean moveIsToDifferentFile(Move move, Coordinates currentCoordinates) {
