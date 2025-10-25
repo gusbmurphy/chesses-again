@@ -15,4 +15,7 @@ public class PieceOnBoard extends Piece {
         return coordinates;
     }
 
+    public boolean hasMoved() {
+        return true;
+    }
 }

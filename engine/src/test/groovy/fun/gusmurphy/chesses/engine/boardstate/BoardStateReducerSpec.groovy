@@ -21,7 +21,7 @@ class BoardStateReducerSpec extends Specification {
 
     private ReducesBoardState reducer = new BoardStateReducer()
 
-    def "a piece moved event will move the given piece on the board"() {
+    def "a piece moved event will move the given piece on the board, and mark it as having moved"() {
         given:
         BoardStateEvent event = new PieceMovedEvent(PIECE.id(), B6)
 
@@ -29,7 +29,9 @@ class BoardStateReducerSpec extends Specification {
         def result = reducer.reduce(BOARD, event)
 
         then:
-        result.pieceOnBoardForId(PIECE.id()).get().coordinates() == B6
+        def piece = result.pieceOnBoardForId(PIECE.id()).get()
+        piece.coordinates() == B6
+        piece.hasMoved()
     }
 
     def "the original board state is not modified"() {
