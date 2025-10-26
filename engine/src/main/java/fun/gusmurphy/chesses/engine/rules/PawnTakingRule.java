@@ -27,15 +27,17 @@ public class PawnTakingRule extends SinglePieceMovementRule {
         Coordinates currentPieceCoordinates = movingPiece.coordinates();
         Coordinates moveCoordinates = move.coordinates();
 
-        if (moveCoordinates.isDiagonalFrom(currentPieceCoordinates)) {
-            if (Math.abs(moveCoordinates.rankDifferenceTo(currentPieceCoordinates)) < 2) {
-                PlayerColor movingPieceColor = boardState.pieceOnBoardForId(move.pieceId()).get().color();
+        if (!moveCoordinates.isDiagonalFrom(currentPieceCoordinates)) {
+            return Legality.ILLEGAL;
+        }
 
-                int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
-                if ((verticalMovement > 0 && movingPieceColor == PlayerColor.WHITE)
-                    || (verticalMovement < 0 && movingPieceColor == PlayerColor.BLACK)) {
-                    return Legality.LEGAL;
-                }
+        if (Math.abs(moveCoordinates.rankDifferenceTo(currentPieceCoordinates)) < 2) {
+            PlayerColor movingPieceColor = boardState.pieceOnBoardForId(move.pieceId()).get().color();
+
+            int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
+            if ((verticalMovement > 0 && movingPieceColor == PlayerColor.WHITE)
+                || (verticalMovement < 0 && movingPieceColor == PlayerColor.BLACK)) {
+                return Legality.LEGAL;
             }
         }
 
