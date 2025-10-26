@@ -31,13 +31,12 @@ public class PawnTakingRule extends SinglePieceMovementRule {
             return Legality.ILLEGAL;
         }
 
-        if (Math.abs(moveCoordinates.rankDifferenceTo(currentPieceCoordinates)) > 1) {
+        int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
+        if (Math.abs(verticalMovement) > 1) {
             return Legality.ILLEGAL;
         }
 
-        PlayerColor movingPieceColor = boardState.pieceOnBoardForId(move.pieceId()).get().color();
-
-        int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
+        PlayerColor movingPieceColor = movingPiece.color();
         if ((verticalMovement > 0 && movingPieceColor == PlayerColor.WHITE)
             || (verticalMovement < 0 && movingPieceColor == PlayerColor.BLACK)) {
             return Legality.LEGAL;
