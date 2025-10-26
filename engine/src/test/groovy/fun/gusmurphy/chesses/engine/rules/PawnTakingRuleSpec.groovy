@@ -51,4 +51,25 @@ class PawnTakingRuleSpec extends Specification {
         BLACK       | E5
     }
 
+    def "a pawn can take a piece one spot diagonally from it"() {
+        given:
+        def pawn = new Piece(movingColor, PAWN)
+        def otherPiece = new Piece(movingColor.opposite())
+        def board = new BoardStateBuilder()
+            .addPieceAt(pawn, E6)
+            .addPieceAt(otherPiece, moveCoordinates)
+            .build()
+        def move = new Move(pawn.id(), moveCoordinates)
+
+        expect:
+        rule.evaluate(board, move) == LEGAL
+
+        where:
+        movingColor | moveCoordinates
+        WHITE       | D7
+        WHITE       | F7
+        BLACK       | D5
+        BLACK       | F5
+    }
+
 }
