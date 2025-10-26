@@ -37,8 +37,7 @@ public class PawnTakingRule extends SinglePieceMovementRule {
         }
 
         PlayerColor movingPieceColor = movingPiece.color();
-        if ((verticalMovement > 0 && movingPieceColor == PlayerColor.WHITE)
-            || (verticalMovement < 0 && movingPieceColor == PlayerColor.BLACK)) {
+        if (PawnMovementRule.verticalMovementDirectionIsOkayForColor(verticalMovement, movingPieceColor)) {
             return Legality.LEGAL;
         }
 

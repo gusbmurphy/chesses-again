@@ -31,6 +31,10 @@ public class PawnMovementRule extends SinglePieceMovementRule {
         return Legality.LEGAL;
     }
 
+    public static boolean verticalMovementDirectionIsOkayForColor(int rankDifference, PlayerColor color) {
+        return color == PlayerColor.WHITE ? rankDifference > 0 : rankDifference < 0;
+    }
+
     private static boolean moveCoordinatesAreOccupied(BoardState boardState, Move move) {
         BoardCoordinateState moveCoordinatesState = boardState.coordinateStates()
             .forCoordinates(move.coordinates()).get();
@@ -54,6 +58,9 @@ public class PawnMovementRule extends SinglePieceMovementRule {
     }
 
     private static boolean moveIsBackwards(Move move, Coordinates currentCoordinates, PlayerColor color) {
-        return currentCoordinates.rankDifferenceTo(move.coordinates()) == (color == PlayerColor.WHITE ? 1 : -1);
+        return verticalMovementDirectionIsOkayForColor(
+            currentCoordinates.rankDifferenceTo(move.coordinates()),
+            color
+        );
     }
 }
