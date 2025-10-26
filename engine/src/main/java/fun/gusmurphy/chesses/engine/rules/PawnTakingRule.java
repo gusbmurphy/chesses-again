@@ -5,6 +5,7 @@ import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
+import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 public class PawnTakingRule extends SinglePieceMovementRule {
@@ -19,21 +20,19 @@ public class PawnTakingRule extends SinglePieceMovementRule {
             .coordinateStates().forCoordinates(move.coordinates()).get();
 
         if (coordinateState.isOccupied()) {
-            Coordinates currentPieceCoordinates = boardState
-                .pieceOnBoardForId(move.pieceId())
-                .get()
-                .coordinates();
-
+            PieceOnBoard movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
+            Coordinates currentPieceCoordinates = movingPiece.coordinates();
             Coordinates moveCoordinates = move.coordinates();
 
-            if (moveCoordinates.isDiagonalFrom(currentPieceCoordinates)
-                && Math.abs(moveCoordinates.rankDifferenceTo(currentPieceCoordinates)) < 2) {
-                PlayerColor movingPieceColor = boardState.pieceOnBoardForId(move.pieceId()).get().color();
+            if (moveCoordinates.isDiagonalFrom(currentPieceCoordinates)) {
+                if (Math.abs(moveCoordinates.rankDifferenceTo(currentPieceCoordinates)) < 2) {
+                    PlayerColor movingPieceColor = boardState.pieceOnBoardForId(move.pieceId()).get().color();
 
-                int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
-                if ((verticalMovement > 0 && movingPieceColor == PlayerColor.WHITE)
-                    || (verticalMovement < 0 && movingPieceColor == PlayerColor.BLACK)) {
-                    return Legality.LEGAL;
+                    int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
+                    if ((verticalMovement > 0 && movingPieceColor == PlayerColor.WHITE)
+                        || (verticalMovement < 0 && movingPieceColor == PlayerColor.BLACK)) {
+                        return Legality.LEGAL;
+                    }
                 }
             }
         }
