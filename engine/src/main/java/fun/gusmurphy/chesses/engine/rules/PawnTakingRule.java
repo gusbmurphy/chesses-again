@@ -19,20 +19,22 @@ public class PawnTakingRule extends SinglePieceMovementRule {
         BoardCoordinateState coordinateState = boardState
             .coordinateStates().forCoordinates(move.coordinates()).get();
 
-        if (coordinateState.isOccupied()) {
-            PieceOnBoard movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
-            Coordinates currentPieceCoordinates = movingPiece.coordinates();
-            Coordinates moveCoordinates = move.coordinates();
+        if (coordinateState.isUnoccupied()) {
+            return Legality.ILLEGAL;
+        }
 
-            if (moveCoordinates.isDiagonalFrom(currentPieceCoordinates)) {
-                if (Math.abs(moveCoordinates.rankDifferenceTo(currentPieceCoordinates)) < 2) {
-                    PlayerColor movingPieceColor = boardState.pieceOnBoardForId(move.pieceId()).get().color();
+        PieceOnBoard movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
+        Coordinates currentPieceCoordinates = movingPiece.coordinates();
+        Coordinates moveCoordinates = move.coordinates();
 
-                    int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
-                    if ((verticalMovement > 0 && movingPieceColor == PlayerColor.WHITE)
-                        || (verticalMovement < 0 && movingPieceColor == PlayerColor.BLACK)) {
-                        return Legality.LEGAL;
-                    }
+        if (moveCoordinates.isDiagonalFrom(currentPieceCoordinates)) {
+            if (Math.abs(moveCoordinates.rankDifferenceTo(currentPieceCoordinates)) < 2) {
+                PlayerColor movingPieceColor = boardState.pieceOnBoardForId(move.pieceId()).get().color();
+
+                int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
+                if ((verticalMovement > 0 && movingPieceColor == PlayerColor.WHITE)
+                    || (verticalMovement < 0 && movingPieceColor == PlayerColor.BLACK)) {
+                    return Legality.LEGAL;
                 }
             }
         }
