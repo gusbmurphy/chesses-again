@@ -1,8 +1,14 @@
 package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.piece.Piece
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
+import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
+import static fun.gusmurphy.chesses.engine.PlayerColor.*
+import static fun.gusmurphy.chesses.engine.rules.Legality.*
 
 class PawnTakingRuleSpec extends Specification {
 
@@ -24,6 +30,20 @@ class PawnTakingRuleSpec extends Specification {
 
         where:
         pieceType << [KING, KNIGHT, QUEEN, BISHOP, ROOK]
+    }
+
+    def "a pawn cannot take a piece right in front of it"() {
+        given:
+        def pawn = new Piece(WHITE, PAWN)
+        def otherPiece = new Piece(BLACK)
+        def board = new BoardStateBuilder()
+            .addPieceAt(pawn, E6)
+            .addPieceAt(otherPiece, E7)
+            .build()
+        def move = new Move(pawn.id(), E7)
+
+        expect:
+        rule.evaluate(board, move) == ILLEGAL
     }
 
 }

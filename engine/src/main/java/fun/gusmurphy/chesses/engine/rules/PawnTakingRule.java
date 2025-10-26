@@ -4,6 +4,8 @@ import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
+import static fun.gusmurphy.chesses.engine.rules.Legality.*;
+
 public class PawnTakingRule extends SinglePieceMovementRule {
 
     public PawnTakingRule() {
@@ -12,7 +14,7 @@ public class PawnTakingRule extends SinglePieceMovementRule {
 
     @Override
     public Legality evaluate(BoardState boardState, Move move) {
-        return null;
+        return ILLEGAL;
     }
 
     @Override
