@@ -25,7 +25,8 @@ public class PawnTakingRule extends SinglePieceMovementRule {
 
             Coordinates moveCoordinates = move.coordinates();
 
-            if (moveCoordinates.isDiagonalFrom(currentPieceCoordinates)) {
+            if (moveCoordinates.isDiagonalFrom(currentPieceCoordinates)
+                && Math.abs(moveCoordinates.rankDifferenceTo(currentPieceCoordinates)) < 2) {
                 return Legality.LEGAL;
             }
         }
