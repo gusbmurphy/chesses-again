@@ -1,6 +1,7 @@
 package fun.gusmurphy.chesses.engine.rules;
 
 import fun.gusmurphy.chesses.engine.Move;
+import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
@@ -27,7 +28,13 @@ public class PawnTakingRule extends SinglePieceMovementRule {
 
             if (moveCoordinates.isDiagonalFrom(currentPieceCoordinates)
                 && Math.abs(moveCoordinates.rankDifferenceTo(currentPieceCoordinates)) < 2) {
-                return Legality.LEGAL;
+                PlayerColor movingPieceColor = boardState.pieceOnBoardForId(move.pieceId()).get().color();
+
+                int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
+                if ((verticalMovement > 0 && movingPieceColor == PlayerColor.WHITE)
+                    || (verticalMovement < 0 && movingPieceColor == PlayerColor.BLACK)) {
+                    return Legality.LEGAL;
+                }
             }
         }
 
