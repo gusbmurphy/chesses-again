@@ -20,23 +20,11 @@ public class PawnMovementRule extends SinglePieceMovementRule {
 
         Coordinates currentCoordinates = pieceOnBoard.coordinates();
 
-        if (moveCoordinatesAreOccupied(boardState, move)) {
-            return Legality.ILLEGAL;
-        }
-
-        if (pieceHasMovedAndMoveIsBeyondOneSpot(move, pieceOnBoard, currentCoordinates)) {
-            return Legality.ILLEGAL;
-        }
-
-        if (moveIsGreaterThanTwoSpotsVertically(move, currentCoordinates)) {
-            return Legality.ILLEGAL;
-        }
-
-        if (moveIsBackwards(move, currentCoordinates, pieceOnBoard.color())) {
-            return Legality.ILLEGAL;
-        }
-
-        if (moveIsToDifferentFile(move, currentCoordinates)) {
+        if (moveCoordinatesAreOccupied(boardState, move)
+            || pieceHasMovedAndMoveIsBeyondOneSpot(move, pieceOnBoard, currentCoordinates)
+            || moveIsGreaterThanTwoSpotsVertically(move, currentCoordinates)
+            || moveIsBackwards(move, currentCoordinates, pieceOnBoard.color())
+            || moveIsToDifferentFile(move, currentCoordinates)) {
             return Legality.ILLEGAL;
         }
 
