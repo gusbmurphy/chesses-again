@@ -1,5 +1,13 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    mavenLocal()
+  }
+}
+
 plugins {
   id 'groovy'
+  id 'info.solidsoft.pitest' version '1.19.0-rc.2'
 }
 
 dependencies {
@@ -10,4 +18,13 @@ dependencies {
 
 test {
   useJUnitPlatform()
+}
+
+pitest {
+  junit5PluginVersion = '1.2.3'
+  targetClasses = ['fun.gusmurphy.chesses.engine.*']
+  pitestVersion = '1.21.0'
+  threads = 4
+  outputFormats = ['HTML']
+  timestampedReports = false
 }
