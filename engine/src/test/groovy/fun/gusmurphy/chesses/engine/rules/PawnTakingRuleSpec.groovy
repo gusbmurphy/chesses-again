@@ -34,16 +34,21 @@ class PawnTakingRuleSpec extends Specification {
 
     def "a pawn cannot take a piece right in front of it"() {
         given:
-        def pawn = new Piece(WHITE, PAWN)
-        def otherPiece = new Piece(BLACK)
+        def pawn = new Piece(movingColor, PAWN)
+        def otherPiece = new Piece(movingColor.opposite())
         def board = new BoardStateBuilder()
             .addPieceAt(pawn, E6)
-            .addPieceAt(otherPiece, E7)
+            .addPieceAt(otherPiece, moveCoordinates)
             .build()
-        def move = new Move(pawn.id(), E7)
+        def move = new Move(pawn.id(), moveCoordinates)
 
         expect:
         rule.evaluate(board, move) == ILLEGAL
+
+        where:
+        movingColor | moveCoordinates
+        WHITE       | E7
+        BLACK       | E5
     }
 
 }
