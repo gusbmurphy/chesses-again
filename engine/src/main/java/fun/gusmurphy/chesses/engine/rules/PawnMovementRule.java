@@ -24,7 +24,7 @@ public class PawnMovementRule extends SinglePieceMovementRule {
             return Legality.ILLEGAL;
         }
 
-        if (pieceOnBoard.hasMoved() && moveIsGreaterThanOneSpotVertically(move, currentCoordinates)) {
+        if (pieceHasMovedAndMoveIsBeyondOneSpot(move, pieceOnBoard, currentCoordinates)) {
             return Legality.ILLEGAL;
         }
 
@@ -47,6 +47,10 @@ public class PawnMovementRule extends SinglePieceMovementRule {
         BoardCoordinateState moveCoordinatesState = boardState.coordinateStates()
             .forCoordinates(move.coordinates()).get();
         return moveCoordinatesState.isOccupied();
+    }
+
+    private static boolean pieceHasMovedAndMoveIsBeyondOneSpot(Move move, PieceOnBoard pieceOnBoard, Coordinates currentCoordinates) {
+        return pieceOnBoard.hasMoved() && moveIsGreaterThanOneSpotVertically(move, currentCoordinates);
     }
 
     private static boolean moveIsGreaterThanTwoSpotsVertically(Move move, Coordinates currentCoordinates) {
