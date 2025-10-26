@@ -6,7 +6,6 @@ import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysRule
 import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysRule
-import fun.gusmurphy.chesses.engine.doubles.UnconcernedAlwaysRule
 import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
