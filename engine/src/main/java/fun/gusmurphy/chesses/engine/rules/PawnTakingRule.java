@@ -20,7 +20,7 @@ public class PawnTakingRule extends SinglePieceMovementRule {
             .coordinateStates().forCoordinates(move.coordinates()).get();
 
         if (coordinateState.isUnoccupied()) {
-            return Legality.ILLEGAL;
+            return Legality.UNCONCERNED;
         }
 
         PieceOnBoard movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();

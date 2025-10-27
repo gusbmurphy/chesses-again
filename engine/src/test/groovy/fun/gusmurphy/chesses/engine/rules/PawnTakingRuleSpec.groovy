@@ -114,4 +114,19 @@ class PawnTakingRuleSpec extends Specification {
         BLACK       | G4
     }
 
+    def "the rule doesn't care about non-taking moves"() {
+        given:
+        def pawn = new Piece(WHITE, PAWN)
+        def board = new BoardStateBuilder()
+            .addPieceAt(pawn, E6)
+            .build()
+        def move = new Move(pawn.id(), moveCoordinates)
+
+        expect:
+        rule.evaluate(board, move) == UNCONCERNED
+
+        where:
+        moveCoordinates << [E5, H2, B3] // Just some random moves...
+    }
+
 }
