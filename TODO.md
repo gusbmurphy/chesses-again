@@ -12,8 +12,8 @@
 - [x] Implement taking
 - [x] Make selected piece render above other pieces
 - [ ] Use different color when highlighting taking moves
-- [ ] Allow pawns to move 2 spaces on their first move
-- [ ] Only allow pawns to take diagonally
+- [x] Allow pawns to move 2 spaces on their first move
+- [x] Only allow pawns to take diagonally
 - [ ] Add en passant moves
 - [ ] Add castling
 - [ ] Add changing piece type when we reach the other side

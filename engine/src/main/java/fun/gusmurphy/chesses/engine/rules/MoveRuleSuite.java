@@ -74,6 +74,7 @@ public class MoveRuleSuite implements MoveRule {
         new BishopMovementRule(),
         new RookMovementRule(),
         new PawnMovementRule(),
+        new PawnTakingRule(),
         new KingMovementRule(),
         new KnightMovementRule(),
         new QueenMovementRule(),
