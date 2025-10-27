@@ -6,6 +6,7 @@ import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysRule
 import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysRule
+import fun.gusmurphy.chesses.engine.doubles.UnconcernedAlwaysRule
 import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
 import spock.lang.Specification
@@ -117,4 +118,19 @@ class MoveRuleSuiteSpec extends Specification {
         new IllegalAlwaysRule() | new LegalAlwaysRule()   || LEGAL
     }
 
+    def "if a rule is overridden by another that is unconcerned, we still use that base ruling"() {
+        given:
+        def overridingRule = new OverridingRule(new UnconcernedAlwaysRule(), overriddenRule)
+        def suite = new MoveRuleSuite(overriddenRule, overridingRule)
+        def piece = new Piece()
+        def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+
+        expect:
+        suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == expected
+
+        where:
+        overriddenRule          | expected
+        new LegalAlwaysRule()   | LEGAL
+        new IllegalAlwaysRule() | ILLEGAL
+    }
 }
