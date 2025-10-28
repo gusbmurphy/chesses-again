@@ -5,13 +5,12 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
-class PawnMovementRuleSpec extends Specification {
+class PawnMovementRuleSpec extends MoveRuleSpecification {
 
     private static final MoveRule PAWN_RULE = new PawnMovementRule()
 
@@ -35,7 +34,8 @@ class PawnMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == Legality.LEGAL
+        def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates))
+        evaluationIsLegal(result)
 
         where:
         color | moveCoordinates
@@ -49,7 +49,8 @@ class PawnMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == Legality.LEGAL
+        def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates))
+        evaluationIsLegal(result)
 
         where:
         color | moveCoordinates
@@ -63,7 +64,8 @@ class PawnMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates)) == Legality.ILLEGAL
+        def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates))
+        evaluationIsIllegal(result)
 
         where:
         color | moveCoordinates
@@ -77,7 +79,8 @@ class PawnMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), move)) == Legality.ILLEGAL
+        def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), move))
+        evaluationIsIllegal(result)
 
         where:
         color | move
@@ -91,7 +94,8 @@ class PawnMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
 
         expect:
-        PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates as Coordinates)) == Legality.ILLEGAL
+        def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates as Coordinates))
+        evaluationIsIllegal(result)
 
         where:
         [color, moveCoordinates] << [[WHITE, BLACK], [C3, C4, C5, E4, E5, E6]].combinations()
@@ -108,7 +112,8 @@ class PawnMovementRuleSpec extends Specification {
         def move = new Move(pawn.id(), D5)
 
         expect:
-        PAWN_RULE.evaluate(board, move) == Legality.ILLEGAL
+        def result = PAWN_RULE.evaluate(board, move)
+        evaluationIsIllegal(result)
     }
 
 }

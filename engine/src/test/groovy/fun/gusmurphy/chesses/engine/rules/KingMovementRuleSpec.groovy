@@ -3,13 +3,12 @@ package fun.gusmurphy.chesses.engine.rules
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 import static fun.gusmurphy.chesses.engine.PlayerColor.WHITE
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
-class KingMovementRuleSpec extends Specification {
+class KingMovementRuleSpec extends MoveRuleSpecification {
 
     private static final MoveRule KING_RULE = new KingMovementRule()
 
@@ -37,7 +36,7 @@ class KingMovementRuleSpec extends Specification {
         def result = KING_RULE.evaluate(board, move)
 
         then:
-        result == Legality.LEGAL
+        evaluationIsLegal(result)
 
         where:
         moveCoordinates << [C5, D5, E5, E4, E3, D3, C3, C4]
@@ -53,7 +52,7 @@ class KingMovementRuleSpec extends Specification {
         def result = KING_RULE.evaluate(board, move)
 
         then:
-        result == Legality.ILLEGAL
+        evaluationIsIllegal(result)
 
         where:
         moveCoordinates << [D6, D2, F6, F5, B4]

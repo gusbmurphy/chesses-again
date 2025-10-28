@@ -3,13 +3,12 @@ package fun.gusmurphy.chesses.engine.rules
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import spock.lang.Ignore
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 
-class CantMoveThroughPiecesRuleSpec extends Specification {
+class CantMoveThroughPiecesRuleSpec extends MoveRuleSpecification {
 
     static rule = new CantMoveThroughPiecesRule()
 
@@ -37,7 +36,8 @@ class CantMoveThroughPiecesRuleSpec extends Specification {
             .build()
 
         expect:
-        rule.evaluate(board, new Move(movingPiece.id(), moveCoordinates)) == Legality.ILLEGAL
+        def result = rule.evaluate(board, new Move(movingPiece.id(), moveCoordinates))
+        evaluationIsIllegal(result)
 
         where:
         blockingPosition | moveCoordinates
@@ -56,7 +56,8 @@ class CantMoveThroughPiecesRuleSpec extends Specification {
             .build()
 
         expect:
-        rule.evaluate(board, new Move(movingPiece.id(), D6)) == Legality.LEGAL
+        def result = rule.evaluate(board, new Move(movingPiece.id(), D6))
+        evaluationIsLegal(result)
     }
 
     def "a move to a non-obstructed position is legal"() {
@@ -69,7 +70,8 @@ class CantMoveThroughPiecesRuleSpec extends Specification {
             .build()
 
         expect:
-        rule.evaluate(board, new Move(movingPiece.id(), moveCoordinates)) == Legality.LEGAL
+        def result = rule.evaluate(board, new Move(movingPiece.id(), moveCoordinates))
+        evaluationIsLegal(result)
 
         where:
         moveCoordinates << [B2, H8, G4]

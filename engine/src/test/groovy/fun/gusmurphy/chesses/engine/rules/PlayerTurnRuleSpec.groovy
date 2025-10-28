@@ -6,9 +6,8 @@ import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import spock.lang.Specification
 
-class PlayerTurnRuleSpec extends Specification {
+class PlayerTurnRuleSpec extends MoveRuleSpecification {
 
     def "a move for a piece of the same color as the current turn is legal"() {
         given:
@@ -22,7 +21,8 @@ class PlayerTurnRuleSpec extends Specification {
         Move move = new Move(piece.id(), Coordinates.A1)
 
         expect:
-        rule.evaluate(board, move) == Legality.LEGAL
+        def result = rule.evaluate(board, move)
+        evaluationIsLegal(result)
 
         where:
         color << [PlayerColor.WHITE, PlayerColor.BLACK]
@@ -40,7 +40,8 @@ class PlayerTurnRuleSpec extends Specification {
         Move move = new Move(piece.id(), Coordinates.A1)
 
         expect:
-        rule.evaluate(board, move) == Legality.ILLEGAL
+        def result = rule.evaluate(board, move)
+        evaluationIsIllegal(result)
 
         where:
         pieceColor << [PlayerColor.WHITE, PlayerColor.BLACK]

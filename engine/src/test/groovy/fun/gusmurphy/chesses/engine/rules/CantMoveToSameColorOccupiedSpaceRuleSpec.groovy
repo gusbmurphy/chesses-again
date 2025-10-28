@@ -6,9 +6,8 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
-import spock.lang.Specification
 
-class CantMoveToSameColorOccupiedSpaceRuleSpec extends Specification {
+class CantMoveToSameColorOccupiedSpaceRuleSpec extends MoveRuleSpecification {
 
     static MoveRule rule = new CantMoveToSameColorOccupiedSpaceRule()
 
@@ -32,7 +31,8 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends Specification {
         def move = new Move(movingPiece.id(), Coordinates.B8)
 
         expect:
-        rule.evaluate(board, move) == Legality.ILLEGAL
+        def result = rule.evaluate(board, move)
+        evaluationIsIllegal(result)
     }
 
     def "we're unconcerned with a move to a space occupied by the other color"() {
@@ -47,7 +47,8 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends Specification {
         def move = new Move(movingPiece.id(), Coordinates.B8)
 
         expect:
-        rule.evaluate(board, move) == Legality.LEGAL
+        def result = rule.evaluate(board, move)
+        evaluationIsLegal(result)
     }
 
     def "we're unconcerned with a move to an unoccupied space"() {
@@ -62,7 +63,8 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends Specification {
         def move = new Move(movingPiece.id(), Coordinates.C3)
 
         expect:
-        rule.evaluate(board, move) == Legality.LEGAL
+        def result = rule.evaluate(board, move)
+        evaluationIsLegal(result)
     }
 
 }

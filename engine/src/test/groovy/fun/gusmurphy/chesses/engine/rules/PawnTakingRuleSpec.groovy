@@ -3,14 +3,13 @@ package fun.gusmurphy.chesses.engine.rules
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
 import static fun.gusmurphy.chesses.engine.rules.Legality.*
 
-class PawnTakingRuleSpec extends Specification {
+class PawnTakingRuleSpec extends MoveRuleSpecification {
 
     static rule = new PawnTakingRule()
 
@@ -43,7 +42,8 @@ class PawnTakingRuleSpec extends Specification {
         def move = new Move(pawn.id(), moveCoordinates)
 
         expect:
-        rule.evaluate(board, move) == ILLEGAL
+        def result = rule.evaluate(board, move)
+        evaluationIsIllegal(result)
 
         where:
         movingColor | moveCoordinates
@@ -62,7 +62,8 @@ class PawnTakingRuleSpec extends Specification {
         def move = new Move(pawn.id(), moveCoordinates)
 
         expect:
-        rule.evaluate(board, move) == LEGAL
+        def result = rule.evaluate(board, move)
+        evaluationIsLegal(result)
 
         where:
         movingColor | moveCoordinates
@@ -83,7 +84,8 @@ class PawnTakingRuleSpec extends Specification {
         def move = new Move(pawn.id(), moveCoordinates)
 
         expect:
-        rule.evaluate(board, move) == ILLEGAL
+        def result = rule.evaluate(board, move)
+        evaluationIsIllegal(result)
 
         where:
         movingColor | moveCoordinates
@@ -104,7 +106,8 @@ class PawnTakingRuleSpec extends Specification {
         def move = new Move(pawn.id(), moveCoordinates)
 
         expect:
-        rule.evaluate(board, move) == ILLEGAL
+        def result = rule.evaluate(board, move)
+        evaluationIsIllegal(result)
 
         where:
         movingColor | moveCoordinates
@@ -123,7 +126,8 @@ class PawnTakingRuleSpec extends Specification {
         def move = new Move(pawn.id(), moveCoordinates)
 
         expect:
-        rule.evaluate(board, move) == UNCONCERNED
+        def result = rule.evaluate(board, move)
+        evaluationIsUnconcerned(result)
 
         where:
         moveCoordinates << [E5, H2, B3] // Just some random moves...

@@ -5,13 +5,12 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 import static Legality.*
 
-class QueenMovementRuleSpec extends Specification {
+class QueenMovementRuleSpec extends MoveRuleSpecification {
 
     static queen = new Piece(PlayerColor.WHITE, QUEEN)
     static queenPosition = D5
@@ -33,7 +32,8 @@ class QueenMovementRuleSpec extends Specification {
 
     def "queens can move to any spot in the same file or rank, or diagonally"() {
         expect:
-        new QueenMovementRule().evaluate(board, new Move(queen.id(), coordinates)) == LEGAL
+        def result = new QueenMovementRule().evaluate(board, new Move(queen.id(), coordinates))
+        evaluationIsLegal(result)
 
         where:
         coordinates << [coordinatesInSameRankOrFileAsQueen(), coordinatesDiagonalFromQueen()].flatten()
@@ -41,7 +41,8 @@ class QueenMovementRuleSpec extends Specification {
 
     def "queens cannot move anywhere else"() {
         expect:
-        new QueenMovementRule().evaluate(board, new Move(queen.id(), coordinates)) == ILLEGAL
+        def result = new QueenMovementRule().evaluate(board, new Move(queen.id(), coordinates))
+        evaluationIsIllegal(result)
 
         where:
         coordinates << allIllegalCoordinates()

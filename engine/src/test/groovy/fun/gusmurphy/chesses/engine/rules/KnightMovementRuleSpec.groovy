@@ -10,7 +10,7 @@ import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 
-class KnightMovementRuleSpec extends Specification {
+class KnightMovementRuleSpec extends MoveRuleSpecification {
 
     private static final MoveRule KNIGHT_RULE = new KnightMovementRule()
     private static final KNIGHT_POSITION = D5
@@ -36,7 +36,8 @@ class KnightMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(piece, KNIGHT_POSITION).build()
 
         expect:
-        KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates)) == Legality.LEGAL
+        def result = KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates))
+        evaluationIsLegal(result)
 
         where:
         coordinates << L_COORDINATES
@@ -48,7 +49,8 @@ class KnightMovementRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(piece, KNIGHT_POSITION).build()
 
         expect:
-        KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates as Coordinates)) == Legality.ILLEGAL
+        def result = KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates as Coordinates))
+        evaluationIsIllegal(result)
 
         where:
         coordinates << Arrays.asList(Coordinates.values()) - L_COORDINATES

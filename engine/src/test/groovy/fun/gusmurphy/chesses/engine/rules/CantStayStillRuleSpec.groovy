@@ -6,9 +6,8 @@ import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
-import spock.lang.Specification
 
-class CantStayStillRuleSpec extends Specification {
+class CantStayStillRuleSpec extends MoveRuleSpecification {
 
     static rule = new CantStayStillRule()
 
@@ -27,7 +26,8 @@ class CantStayStillRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(piece, piecePosition).build()
 
         expect:
-        rule.evaluate(board, new Move(piece.id(), piecePosition)) == Legality.ILLEGAL
+        def result = rule.evaluate(board, new Move(piece.id(), piecePosition))
+        evaluationIsIllegal(result)
     }
 
     def "for any other move, we are unconcerned"() {
@@ -37,7 +37,8 @@ class CantStayStillRuleSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.A7).build()
 
         expect:
-        rule.evaluate(board, new Move(piece.id(), piecePosition)) == Legality.LEGAL
+        def result = rule.evaluate(board, new Move(piece.id(), piecePosition))
+        evaluationIsLegal(result)
     }
 
 }

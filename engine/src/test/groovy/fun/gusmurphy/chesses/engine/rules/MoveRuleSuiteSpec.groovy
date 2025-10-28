@@ -9,12 +9,8 @@ import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysRule
 import fun.gusmurphy.chesses.engine.doubles.UnconcernedAlwaysRule
 import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
-import spock.lang.Specification
 
-import static Legality.ILLEGAL
-import static Legality.LEGAL
-
-class MoveRuleSuiteSpec extends Specification {
+class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
     private static final TEST_PIECE = new Piece(PlayerColor.WHITE, PieceType.KING)
     private static final DUMMY_BOARD = new BoardStateBuilder().addPieceAt(TEST_PIECE, Coordinates.A7).build()
@@ -27,23 +23,22 @@ class MoveRuleSuiteSpec extends Specification {
         MoveRuleSuite ruleSuite = new MoveRuleSuite()
 
         expect:
-        ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE) == LEGAL
+        def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
+        evaluationIsLegal(result)
     }
 
     def "with just one move evaluation rule, a move is legal or illegal based on just that one"() {
         given:
         MoveRuleSuite ruleSuite = new MoveRuleSuite(rule)
 
-        when:
+        expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
-
-        then:
-        result == expected
+        assertion(result)
 
         where:
-        rule                    | expected
-        new IllegalAlwaysRule() | ILLEGAL
-        new LegalAlwaysRule()   | LEGAL
+        rule                    | assertion
+        new IllegalAlwaysRule() | { evaluationIsIllegal(it) }
+        new LegalAlwaysRule()   | { evaluationIsLegal(it) }
     }
 
     def "with two move evaluation rules, a move is legal if both allow it"() {
@@ -52,22 +47,18 @@ class MoveRuleSuiteSpec extends Specification {
         def ruleTwo = new LegalAlwaysRule()
         MoveRuleSuite ruleSuite = new MoveRuleSuite(ruleOne, ruleTwo)
 
-        when:
+        expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
-
-        then:
-        result == LEGAL
+        evaluationIsLegal(result)
     }
 
     def "with two move evaluation rules, a move is illegal if one does not allow it"() {
         given:
         MoveRuleSuite ruleSuite = new MoveRuleSuite(ALWAYS_LEGAL_RULE, ALWAYS_ILLEGAL_RULE)
 
-        when:
+        expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
-
-        then:
-        result == ILLEGAL
+        evaluationIsIllegal(result)
     }
 
     def "only moves relevant for a the move's piece type are used"() {
@@ -83,7 +74,8 @@ class MoveRuleSuiteSpec extends Specification {
         def suite = new MoveRuleSuite(legalRule, illegalRule)
 
         expect:
-        suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == LEGAL
+        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        evaluationIsLegal(result)
     }
 
     def "if the second rule says something is illegal, but the first is not relevant to the piece, the move is still illegal"() {
@@ -99,7 +91,8 @@ class MoveRuleSuiteSpec extends Specification {
         def suite = new MoveRuleSuite(legalRule, illegalRule)
 
         expect:
-        suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == ILLEGAL
+        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        evaluationIsIllegal(result)
     }
 
     def "if a rule is overridden by another, we use an illegal or legal ruling from the override"() {
@@ -110,12 +103,13 @@ class MoveRuleSuiteSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
 
         expect:
-        suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == expected
+        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        assertion(result)
 
         where:
-        overriddenRule          | baseOverridingRule      || expected
-        new LegalAlwaysRule()   | new IllegalAlwaysRule() || ILLEGAL
-        new IllegalAlwaysRule() | new LegalAlwaysRule()   || LEGAL
+        overriddenRule          | baseOverridingRule      || assertion
+        new LegalAlwaysRule()   | new IllegalAlwaysRule() || { evaluationIsIllegal(it) }
+        new IllegalAlwaysRule() | new LegalAlwaysRule()   || { evaluationIsLegal(it) }
     }
 
     def "if a rule is overridden by another that is unconcerned, we still use that base ruling"() {
@@ -126,11 +120,12 @@ class MoveRuleSuiteSpec extends Specification {
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
 
         expect:
-        suite.evaluate(board, new Move(piece.id(), Coordinates.E4)) == expected
+        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        assertion(result)
 
         where:
-        overriddenRule          | expected
-        new LegalAlwaysRule()   | LEGAL
-        new IllegalAlwaysRule() | ILLEGAL
+        overriddenRule          | assertion
+        new LegalAlwaysRule()   | { evaluationIsLegal(it) }
+        new IllegalAlwaysRule() | { evaluationIsIllegal(it) }
     }
 }
