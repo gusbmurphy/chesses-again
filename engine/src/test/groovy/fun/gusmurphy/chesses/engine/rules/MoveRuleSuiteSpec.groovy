@@ -27,18 +27,22 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         evaluationIsLegal(result)
     }
 
-    def "with just one move evaluation rule, a move is legal or illegal based on just that one"() {
+    def "with just one legal rule, a move is always legal"() {
         given:
-        MoveRuleSuite ruleSuite = new MoveRuleSuite(rule)
+        MoveRuleSuite ruleSuite = new MoveRuleSuite(new LegalAlwaysRule())
 
         expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
-        assertion(result)
+        evaluationIsLegal(result)
+    }
 
-        where:
-        rule                    | assertion
-        new IllegalAlwaysRule() | { evaluationIsIllegal(it) }
-        new LegalAlwaysRule()   | { evaluationIsLegal(it) }
+    def "with just one illegal rule, a move is always illegal"() {
+        given:
+        MoveRuleSuite ruleSuite = new MoveRuleSuite(new IllegalAlwaysRule())
+
+        expect:
+        def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
+        evaluationIsIllegal(result)
     }
 
     def "with two move evaluation rules, a move is legal if both allow it"() {
@@ -95,25 +99,35 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         evaluationIsIllegal(result)
     }
 
-    def "if a rule is overridden by another, we use an illegal or legal ruling from the override"() {
+    def "if a legal rule is overridden by an illegal ruling, we use the illegal ruling"() {
         given:
-        def overridingRule = new OverridingRule(baseOverridingRule, overriddenRule)
+        def overriddenRule = new LegalAlwaysRule()
+        def overridingRule = new OverridingRule(new IllegalAlwaysRule(), overriddenRule)
         def suite = new MoveRuleSuite(overriddenRule, overridingRule)
         def piece = new Piece()
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
 
         expect:
         def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
-        assertion(result)
-
-        where:
-        overriddenRule          | baseOverridingRule      || assertion
-        new LegalAlwaysRule()   | new IllegalAlwaysRule() || { evaluationIsIllegal(it) }
-        new IllegalAlwaysRule() | new LegalAlwaysRule()   || { evaluationIsLegal(it) }
+        evaluationIsIllegal(result)
     }
 
-    def "if a rule is overridden by another that is unconcerned, we still use that base ruling"() {
+    def "if an illegal rule is overridden by a legal ruling, we use the legal ruling"() {
         given:
+        def overriddenRule = new IllegalAlwaysRule()
+        def overridingRule = new OverridingRule(new LegalAlwaysRule(), overriddenRule)
+        def suite = new MoveRuleSuite(overriddenRule, overridingRule)
+        def piece = new Piece()
+        def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+
+        expect:
+        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        evaluationIsLegal(result)
+    }
+
+    def "if a legal rule is overridden by an unconcerned ruling, we use the legal ruling"() {
+        given:
+        def overriddenRule = new LegalAlwaysRule()
         def overridingRule = new OverridingRule(new UnconcernedAlwaysRule(), overriddenRule)
         def suite = new MoveRuleSuite(overriddenRule, overridingRule)
         def piece = new Piece()
@@ -121,11 +135,19 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
-        assertion(result)
+        evaluationIsLegal(result)
+    }
 
-        where:
-        overriddenRule          | assertion
-        new LegalAlwaysRule()   | { evaluationIsLegal(it) }
-        new IllegalAlwaysRule() | { evaluationIsIllegal(it) }
+    def "if an illegal rule is overridden by a legal ruling, we use the legal ruling"() {
+        given:
+        def overriddenRule = new IllegalAlwaysRule()
+        def overridingRule = new OverridingRule(new UnconcernedAlwaysRule(), overriddenRule)
+        def suite = new MoveRuleSuite(overriddenRule, overridingRule)
+        def piece = new Piece()
+        def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+
+        expect:
+        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        evaluationIsIllegal(result)
     }
 }
