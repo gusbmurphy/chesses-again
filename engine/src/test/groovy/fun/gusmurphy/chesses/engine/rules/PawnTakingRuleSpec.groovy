@@ -126,7 +126,7 @@ class PawnTakingRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsUnconcerned(result)
+        evaluationIsUnconcernedWithNoEffects(result)
 
         where:
         moveCoordinates << [E5, H2, B3] // Just some random moves...

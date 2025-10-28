@@ -13,8 +13,9 @@ class MoveRuleSpecification extends Specification {
         assert evaluation.effects().areNone()
     }
 
-    protected static void evaluationIsUnconcerned(RuleEvaluation evaluation) {
+    protected static void evaluationIsUnconcernedWithNoEffects(RuleEvaluation evaluation) {
         assert evaluation.legality() == RuleEvaluation.Legality.UNCONCERNED
+        assert evaluation.effects().areNone()
     }
 
 }
