@@ -47,7 +47,7 @@ public class ChessEngine implements RunsGame {
     public void makeMove(Move move) {
         RuleEvaluation ruleEvaluation = moveRule.evaluate(boardState, move);
 
-        if (ruleEvaluation == RuleEvaluation.LEGAL) {
+        if (ruleEvaluation.legality() == RuleEvaluation.Legality.LEGAL) {
             boardState = moveApplicator.applyMoveToBoard(move, boardState);
         }
     }

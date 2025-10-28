@@ -17,10 +17,10 @@ public class QueenMovementRule extends SinglePieceMovementRule {
         Coordinates movePosition = move.coordinates();
 
         if (moveIsLegal(movePosition, currentPosition)) {
-            return RuleEvaluation.LEGAL;
+            return RuleEvaluation.legal();
         }
 
-        return RuleEvaluation.ILLEGAL;
+        return RuleEvaluation.illegal();
     }
 
     private static boolean moveIsLegal(Coordinates movePosition, Coordinates currentPosition) {

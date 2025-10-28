@@ -21,14 +21,14 @@ public class MoveRuleSuite implements MoveRule {
     @Override
     public RuleEvaluation evaluate(BoardState boardState, Move move) {
         if (rules.length < 1) {
-            return LEGAL;
+            return RuleEvaluation.legal();
         }
 
         if (anyRelevantRuleSaysMoveIsIllegal(boardState, move)) {
-            return ILLEGAL;
+            return RuleEvaluation.illegal();
         }
 
-        return LEGAL;
+        return RuleEvaluation.legal();
     }
 
     private boolean anyRelevantRuleSaysMoveIsIllegal(BoardState boardState, Move move) {
@@ -47,7 +47,7 @@ public class MoveRuleSuite implements MoveRule {
     private Optional<MoveRule> findOverrideWithLegalRuling(BoardState boardState, Move move, MoveRule rule) {
         return Arrays.stream(rules)
             .filter(r -> r.overrides(rule))
-            .filter(r -> r.evaluate(boardState, move) == LEGAL)
+            .filter(r -> r.evaluate(boardState, move).legality() == Legality.LEGAL)
             .findAny();
     }
 
@@ -62,7 +62,7 @@ public class MoveRuleSuite implements MoveRule {
         MoveRule rule,
         PieceType pieceType
     ) {
-        return rule.isRelevantForPieceType(pieceType) && rule.evaluate(boardState, move) == ILLEGAL;
+        return rule.isRelevantForPieceType(pieceType) && rule.evaluate(boardState, move).legality() == Legality.ILLEGAL;
     }
 
     private boolean noLegalOverrideExistsForRule(BoardState boardState, Move move, MoveRule rule) {

@@ -4,17 +4,17 @@ public class RuleEvaluation {
     private final Legality legality;
     private final Effects effects;
 
-    public final static RuleEvaluation ILLEGAL = new RuleEvaluation(
+    private final static RuleEvaluation ILLEGAL_EVALUATION = new RuleEvaluation(
         Legality.ILLEGAL,
         Effects.emptyEffects()
     );
 
-    public final static RuleEvaluation LEGAL = new RuleEvaluation(
+    private final static RuleEvaluation LEGAL_EVALUATION = new RuleEvaluation(
         Legality.LEGAL,
         Effects.emptyEffects()
     );
 
-    public final static RuleEvaluation UNCONCERNED = new RuleEvaluation(
+    private final static RuleEvaluation UNCONCERNED_EVALUATION = new RuleEvaluation(
         Legality.UNCONCERNED,
         Effects.emptyEffects()
     );
@@ -22,6 +22,22 @@ public class RuleEvaluation {
     private RuleEvaluation(Legality legality, Effects effects) {
         this.legality = legality;
         this.effects = effects;
+    }
+
+    public static RuleEvaluation legal() {
+        return LEGAL_EVALUATION;
+    }
+
+    public static RuleEvaluation illegal() {
+        return ILLEGAL_EVALUATION;
+    }
+
+    public static RuleEvaluation unconcerned() {
+        return UNCONCERNED_EVALUATION;
+    }
+
+    public Legality legality() {
+        return legality;
     }
 
     public Effects effects() {

@@ -21,16 +21,16 @@ public class KnightMovementRule extends SinglePieceMovementRule {
         int verticalChangeWithMove = Math.abs(currentPieceCoordinates.rankDifferenceTo(moveCoordinates));
 
         if (verticalChangeWithMove > 2 || verticalChangeWithMove == 0) {
-            return RuleEvaluation.ILLEGAL;
+            return RuleEvaluation.illegal();
         }
 
         int requiredHorizontalMove = verticalChangeWithMove == 2 ? 1 : 2;
         int horizontalChangeWithMove = Math.abs(currentPieceCoordinates.fileDifferenceTo(moveCoordinates));
         if (horizontalChangeWithMove != requiredHorizontalMove) {
-            return RuleEvaluation.ILLEGAL;
+            return RuleEvaluation.illegal();
         }
 
-        return RuleEvaluation.LEGAL;
+        return RuleEvaluation.legal();
     }
 
 }

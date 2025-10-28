@@ -11,9 +11,9 @@ class CantStayStillRule implements MoveRule {
         Coordinates movePosition = move.coordinates();
 
         if (currentPiecePosition == movePosition) {
-            return RuleEvaluation.ILLEGAL;
+            return RuleEvaluation.illegal();
         }
 
-        return RuleEvaluation.LEGAL;
+        return RuleEvaluation.legal();
     }
 }

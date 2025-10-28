@@ -23,12 +23,12 @@ public class CantMoveThroughPiecesRule implements MoveRule {
                     .forCoordinates(c)
                     .map(BoardCoordinateState::isOccupied)
                     .orElse(false)) {
-                    return RuleEvaluation.ILLEGAL;
+                    return RuleEvaluation.illegal();
                 }
             }
         }
 
-        return RuleEvaluation.LEGAL;
+        return RuleEvaluation.legal();
     }
 
     @Override

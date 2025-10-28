@@ -8,6 +8,6 @@ import fun.gusmurphy.chesses.engine.rules.MoveRule
 class UnconcernedAlwaysRule implements MoveRule {
     @Override
     RuleEvaluation evaluate(BoardState boardState, Move move) {
-        return RuleEvaluation.UNCONCERNED
+        return RuleEvaluation.UNCONCERNED_EVALUATION
     }
 }

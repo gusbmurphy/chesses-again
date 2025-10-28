@@ -20,17 +20,17 @@ public class BishopMovementRule extends SinglePieceMovementRule {
         Coordinates moveCoordinates = move.coordinates();
 
         if (moveCoordinates.sameRankAs(pieceOnBoard.coordinates())) {
-            return ILLEGAL;
+            return RuleEvaluation.illegal();
         }
 
         if (moveCoordinates.sameFileAs(pieceOnBoard.coordinates())) {
-            return ILLEGAL;
+            return RuleEvaluation.illegal();
         }
 
         if (!moveCoordinates.isDiagonalFrom(pieceOnBoard.coordinates())) {
-            return ILLEGAL;
+            return RuleEvaluation.illegal();
         }
 
-        return LEGAL;
+        return RuleEvaluation.legal();
     }
 }

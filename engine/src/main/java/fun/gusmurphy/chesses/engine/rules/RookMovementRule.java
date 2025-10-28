@@ -21,13 +21,13 @@ public class RookMovementRule extends SinglePieceMovementRule {
         Coordinates moveCoordinates = move.coordinates();
 
         if (moveCoordinates.sameRankAs(pieceCoordinates)) {
-            return LEGAL;
+            return RuleEvaluation.legal();
         }
 
         if (moveCoordinates.sameFileAs(pieceCoordinates)) {
-            return LEGAL;
+            return RuleEvaluation.legal();
         }
 
-        return ILLEGAL;
+        return RuleEvaluation.illegal();
     }
 }

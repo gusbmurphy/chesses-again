@@ -20,13 +20,13 @@ public class KingMovementRule extends SinglePieceMovementRule {
         Coordinates moveCoordinates = move.coordinates();
 
         if (Math.abs(currentPieceCoordinates.fileDifferenceTo(moveCoordinates)) > 1) {
-            return RuleEvaluation.ILLEGAL;
+            return RuleEvaluation.illegal();
         }
 
         if (Math.abs(currentPieceCoordinates.rankDifferenceTo(moveCoordinates)) > 1) {
-            return RuleEvaluation.ILLEGAL;
+            return RuleEvaluation.illegal();
         }
 
-        return RuleEvaluation.LEGAL;
+        return RuleEvaluation.legal();
     }
 }

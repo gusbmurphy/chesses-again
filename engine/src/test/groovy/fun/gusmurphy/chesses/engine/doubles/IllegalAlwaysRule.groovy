@@ -20,7 +20,7 @@ class IllegalAlwaysRule implements MoveRule {
 
     @Override
     RuleEvaluation evaluate(BoardState boardState, Move move) {
-        return RuleEvaluation.ILLEGAL
+        return RuleEvaluation.ILLEGAL_EVALUATION
     }
 
     @Override

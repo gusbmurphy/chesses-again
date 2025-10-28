@@ -5,16 +5,16 @@ import spock.lang.Specification
 class MoveRuleSpecification extends Specification {
 
     protected static void evaluationIsLegal(RuleEvaluation evaluation) {
-        assert evaluation == RuleEvaluation.LEGAL
+        assert evaluation.legality() == RuleEvaluation.Legality.LEGAL
     }
 
     protected static void evaluationIsIllegalWithNoEffects(RuleEvaluation evaluation) {
-        assert evaluation == RuleEvaluation.ILLEGAL
+        assert evaluation.legality() == RuleEvaluation.Legality.ILLEGAL
         assert evaluation.effects().areNone()
     }
 
     protected static void evaluationIsUnconcerned(RuleEvaluation evaluation) {
-        assert evaluation == RuleEvaluation.UNCONCERNED
+        assert evaluation.legality() == RuleEvaluation.Legality.UNCONCERNED
     }
 
 }

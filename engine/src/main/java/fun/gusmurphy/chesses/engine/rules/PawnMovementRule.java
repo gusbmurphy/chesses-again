@@ -25,10 +25,10 @@ public class PawnMovementRule extends SinglePieceMovementRule {
             || moveIsGreaterThanTwoSpotsVertically(move, currentCoordinates)
             || moveIsBackwards(move, currentCoordinates, pieceOnBoard.color())
             || moveIsToDifferentFile(move, currentCoordinates)) {
-            return RuleEvaluation.ILLEGAL;
+            return RuleEvaluation.illegal();
         }
 
-        return RuleEvaluation.LEGAL;
+        return RuleEvaluation.legal();
     }
 
     public static boolean verticalMovementDirectionIsOkayForColor(int rankDifference, PlayerColor color) {
