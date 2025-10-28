@@ -22,7 +22,7 @@ class PlayerTurnRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsLegal(result)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
 
         where:
         color << [PlayerColor.WHITE, PlayerColor.BLACK]

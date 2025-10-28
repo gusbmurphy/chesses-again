@@ -32,10 +32,11 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
         given:
         def pawn = new Piece(color, PAWN)
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
+        def move = new Move(pawn.id(), moveCoordinates)
 
         expect:
-        def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates))
-        evaluationIsLegal(result)
+        def result = PAWN_RULE.evaluate(board, move)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
 
         where:
         color | moveCoordinates
@@ -47,10 +48,11 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
         given:
         def pawn = new Piece(color, PAWN)
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
+        def move = new Move(pawn.id(), moveCoordinates)
 
         expect:
-        def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates))
-        evaluationIsLegal(result)
+        def result = PAWN_RULE.evaluate(board, move)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
 
         where:
         color | moveCoordinates

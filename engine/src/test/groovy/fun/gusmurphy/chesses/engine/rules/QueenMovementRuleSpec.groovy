@@ -31,8 +31,9 @@ class QueenMovementRuleSpec extends MoveRuleSpecification {
 
     def "queens can move to any spot in the same file or rank, or diagonally"() {
         expect:
-        def result = new QueenMovementRule().evaluate(board, new Move(queen.id(), coordinates))
-        evaluationIsLegal(result)
+        def move = new Move(queen.id(), coordinates)
+        def result = new QueenMovementRule().evaluate(board, move)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
 
         where:
         coordinates << [coordinatesInSameRankOrFileAsQueen(), coordinatesDiagonalFromQueen()].flatten()

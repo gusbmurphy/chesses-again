@@ -35,10 +35,11 @@ class CantStayStillRuleSpec extends MoveRuleSpecification {
         def piece = new Piece(PlayerColor.WHITE, PieceType.PAWN)
         def piecePosition = Coordinates.D5
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.A7).build()
+        def move = new Move(piece.id(), piecePosition)
 
         expect:
-        def result = rule.evaluate(board, new Move(piece.id(), piecePosition))
-        evaluationIsLegal(result)
+        def result = rule.evaluate(board, move)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
     }
 
 }

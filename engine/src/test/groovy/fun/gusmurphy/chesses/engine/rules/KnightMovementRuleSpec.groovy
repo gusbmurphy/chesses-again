@@ -33,10 +33,11 @@ class KnightMovementRuleSpec extends MoveRuleSpecification {
         given:
         def piece = new Piece(BLACK, KNIGHT)
         def board = new BoardStateBuilder().addPieceAt(piece, KNIGHT_POSITION).build()
+        def move = new Move(piece.id(), coordinates)
 
         expect:
-        def result = KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates))
-        evaluationIsLegal(result)
+        def result = KNIGHT_RULE.evaluate(board, move)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
 
         where:
         coordinates << L_COORDINATES

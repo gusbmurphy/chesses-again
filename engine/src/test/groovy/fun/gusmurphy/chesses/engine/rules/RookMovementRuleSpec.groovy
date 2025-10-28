@@ -38,7 +38,7 @@ class RookMovementRuleSpec extends MoveRuleSpecification {
         def result = ROOK_RULE.evaluate(TEST_BOARD, move)
 
         then:
-        evaluationIsLegal(result)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
 
         where:
         moveCoordinates << [D1, D2, D3, D5, D6, D7, D8]
@@ -52,7 +52,7 @@ class RookMovementRuleSpec extends MoveRuleSpecification {
         def result = ROOK_RULE.evaluate(TEST_BOARD, move)
 
         then:
-        evaluationIsLegal(result)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
 
         where:
         moveCoordinates << [A4, B4, C4, E4, F4, G4, H4]

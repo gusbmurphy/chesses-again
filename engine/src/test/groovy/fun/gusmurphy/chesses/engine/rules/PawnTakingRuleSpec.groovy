@@ -62,7 +62,7 @@ class PawnTakingRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsLegal(result)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
 
         where:
         movingColor | moveCoordinates

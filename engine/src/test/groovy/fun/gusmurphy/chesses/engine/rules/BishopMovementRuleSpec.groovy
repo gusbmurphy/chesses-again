@@ -23,7 +23,7 @@ class BishopMovementRuleSpec extends MoveRuleSpecification {
         def result = BISHOP_RULE.evaluate(TEST_BOARD, move)
 
         then:
-        evaluationIsLegal(result)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
 
         where:
         moveCoordinates << [E5, C5, C3, E3, B2, B6, F6]

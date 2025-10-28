@@ -48,7 +48,7 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsLegal(result)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
     }
 
     def "we're unconcerned with a move to an unoccupied space"() {
@@ -64,7 +64,7 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsLegal(result)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
     }
 
 }

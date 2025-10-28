@@ -1,5 +1,14 @@
 package fun.gusmurphy.chesses.engine.rules;
 
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
+import fun.gusmurphy.chesses.engine.events.BoardStateEvent;
+import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
+import fun.gusmurphy.chesses.engine.piece.PieceId;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class RuleEvaluation {
     private final Legality legality;
     private final Effects effects;
@@ -11,7 +20,7 @@ public class RuleEvaluation {
 
     private final static RuleEvaluation LEGAL_EVALUATION = new RuleEvaluation(
         Legality.LEGAL,
-        Effects.emptyEffects()
+        new Effects(new PieceMovedEvent(new PieceId(), Coordinates.A1))
     );
 
     private final static RuleEvaluation UNCONCERNED_EVALUATION = new RuleEvaluation(
@@ -45,10 +54,21 @@ public class RuleEvaluation {
     }
 
     public enum Legality {
-        LEGAL, ILLEGAL, UNCONCERNED;
+        LEGAL, ILLEGAL, UNCONCERNED
     }
 
     public static class Effects {
+        private final List<BoardStateEvent> eventList;
+
+        private Effects(BoardStateEvent... events) {
+            eventList = new ArrayList<>();
+            eventList.addAll(Arrays.asList(events));
+        }
+
+        public BoardStateEvent next() {
+            return eventList.get(0);
+        }
+
         protected static Effects emptyEffects() {
             return new Effects();
         }

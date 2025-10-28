@@ -53,10 +53,11 @@ class CantMoveThroughPiecesRuleSpec extends MoveRuleSpecification {
             .addPieceAt(movingPiece, E4)
             .addPieceAt(occupyingPiece, D6)
             .build()
+        def move = new Move(movingPiece.id(), D6)
 
         expect:
-        def result = rule.evaluate(board, new Move(movingPiece.id(), D6))
-        evaluationIsLegal(result)
+        def result = rule.evaluate(board, move)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
     }
 
     def "a move to a non-obstructed position is legal"() {
@@ -67,10 +68,11 @@ class CantMoveThroughPiecesRuleSpec extends MoveRuleSpecification {
             .addPieceAt(movingPiece, E4)
             .addPieceAt(occupyingPiece, D6)
             .build()
+        def move = new Move(movingPiece.id(), moveCoordinates)
 
         expect:
-        def result = rule.evaluate(board, new Move(movingPiece.id(), moveCoordinates))
-        evaluationIsLegal(result)
+        def result = rule.evaluate(board, move)
+        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
 
         where:
         moveCoordinates << [B2, H8, G4]
