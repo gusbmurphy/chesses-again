@@ -135,7 +135,7 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
             Move possibleMove = new Move(pieceId, coordinates);
             RuleEvaluation ruleEvaluation = engine.checkLegalityOf(possibleMove);
 
-            if (ruleEvaluation == RuleEvaluation.LEGAL) {
+            if (ruleEvaluation.legality() == RuleEvaluation.Legality.LEGAL) {
                 coordinatesToHighlight.add(coordinates);
             }
         }
