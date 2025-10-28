@@ -10,21 +10,21 @@ import java.util.Optional;
 
 public class CantMoveToSameColorOccupiedSpaceRule implements MoveRule {
     @Override
-    public Legality evaluate(BoardState boardState, Move move) {
+    public RuleEvaluation evaluate(BoardState boardState, Move move) {
         Optional<Piece> occupyingPiece = boardState
             .coordinateStates().forCoordinates(move.coordinates()).flatMap(BoardCoordinateState::piece);
 
         if (!occupyingPiece.isPresent()) {
-            return Legality.LEGAL;
+            return RuleEvaluation.LEGAL;
         }
 
         PlayerColor occupyingColor = occupyingPiece.get().color();
         Piece movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
 
         if (occupyingColor == movingPiece.color()) {
-            return Legality.ILLEGAL;
+            return RuleEvaluation.ILLEGAL;
         }
 
-        return Legality.LEGAL;
+        return RuleEvaluation.LEGAL;
     }
 }

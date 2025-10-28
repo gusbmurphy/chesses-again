@@ -15,7 +15,7 @@ public class PawnMovementRule extends SinglePieceMovementRule {
     }
 
     @Override
-    public Legality evaluate(BoardState boardState, Move move) {
+    public RuleEvaluation evaluate(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId()).get();
 
         Coordinates currentCoordinates = pieceOnBoard.coordinates();
@@ -25,10 +25,10 @@ public class PawnMovementRule extends SinglePieceMovementRule {
             || moveIsGreaterThanTwoSpotsVertically(move, currentCoordinates)
             || moveIsBackwards(move, currentCoordinates, pieceOnBoard.color())
             || moveIsToDifferentFile(move, currentCoordinates)) {
-            return Legality.ILLEGAL;
+            return RuleEvaluation.ILLEGAL;
         }
 
-        return Legality.LEGAL;
+        return RuleEvaluation.LEGAL;
     }
 
     public static boolean verticalMovementDirectionIsOkayForColor(int rankDifference, PlayerColor color) {

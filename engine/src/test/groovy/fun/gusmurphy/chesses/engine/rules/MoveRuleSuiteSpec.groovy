@@ -42,7 +42,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
     }
 
     def "with two move evaluation rules, a move is legal if both allow it"() {
@@ -62,7 +62,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
     }
 
     def "only moves relevant for a the move's piece type are used"() {
@@ -96,7 +96,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
     }
 
     def "if a legal rule is overridden by an illegal ruling, we use the illegal ruling"() {
@@ -109,7 +109,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
     }
 
     def "if an illegal rule is overridden by a legal ruling, we use the legal ruling"() {
@@ -148,6 +148,6 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
     }
 }

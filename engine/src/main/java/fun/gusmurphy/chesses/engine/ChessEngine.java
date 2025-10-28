@@ -39,15 +39,15 @@ public class ChessEngine implements RunsGame {
     }
 
     @Override
-    public Legality checkLegalityOf(Move move) {
+    public RuleEvaluation checkLegalityOf(Move move) {
         return moveRule.evaluate(boardState, move);
     }
 
     @Override
     public void makeMove(Move move) {
-        Legality legality = moveRule.evaluate(boardState, move);
+        RuleEvaluation ruleEvaluation = moveRule.evaluate(boardState, move);
 
-        if (legality == Legality.LEGAL) {
+        if (ruleEvaluation == RuleEvaluation.LEGAL) {
             boardState = moveApplicator.applyMoveToBoard(move, boardState);
         }
     }

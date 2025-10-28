@@ -8,14 +8,14 @@ import fun.gusmurphy.chesses.engine.piece.PieceType;
 public class PlayerTurnRule implements MoveRule {
 
     @Override
-    public Legality evaluate(BoardState boardState, Move move) {
+    public RuleEvaluation evaluate(BoardState boardState, Move move) {
         Piece piece = boardState.pieceOnBoardForId(move.pieceId()).get();
 
         if (piece.color() == boardState.currentTurnColor()) {
-            return Legality.LEGAL;
+            return RuleEvaluation.LEGAL;
         }
 
-        return Legality.ILLEGAL;
+        return RuleEvaluation.ILLEGAL;
     }
 
     @Override

@@ -11,7 +11,7 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
-import fun.gusmurphy.chesses.engine.rules.Legality;
+import fun.gusmurphy.chesses.engine.rules.RuleEvaluation;
 import fun.gusmurphy.chesses.piece.PieceDrawable;
 import fun.gusmurphy.chesses.piece.PieceSelectionListener;
 
@@ -133,9 +133,9 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         List<Coordinates> coordinatesToHighlight = new ArrayList<>();
         for (Coordinates coordinates : Coordinates.values()) {
             Move possibleMove = new Move(pieceId, coordinates);
-            Legality legality = engine.checkLegalityOf(possibleMove);
+            RuleEvaluation ruleEvaluation = engine.checkLegalityOf(possibleMove);
 
-            if (legality == Legality.LEGAL) {
+            if (ruleEvaluation == RuleEvaluation.LEGAL) {
                 coordinatesToHighlight.add(coordinates);
             }
         }

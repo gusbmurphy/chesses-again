@@ -37,7 +37,7 @@ class BishopMovementRuleSpec extends MoveRuleSpecification {
         def result = BISHOP_RULE.evaluate(TEST_BOARD, move)
 
         then:
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         moveCoordinates << [D5, C4, D3, E4]
@@ -51,7 +51,7 @@ class BishopMovementRuleSpec extends MoveRuleSpecification {
         def result = BISHOP_RULE.evaluate(TEST_BOARD, move)
 
         then:
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         moveCoordinates << [C2, E2, F3, F5, E6, C6, B5, B3]

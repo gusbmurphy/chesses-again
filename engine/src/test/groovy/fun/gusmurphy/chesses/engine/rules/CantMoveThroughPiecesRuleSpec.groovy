@@ -3,7 +3,6 @@ package fun.gusmurphy.chesses.engine.rules
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
@@ -37,7 +36,7 @@ class CantMoveThroughPiecesRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, new Move(movingPiece.id(), moveCoordinates))
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         blockingPosition | moveCoordinates

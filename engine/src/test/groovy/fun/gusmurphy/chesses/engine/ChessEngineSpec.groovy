@@ -5,7 +5,7 @@ import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceId
 import fun.gusmurphy.chesses.engine.piece.PieceType
-import fun.gusmurphy.chesses.engine.rules.Legality
+import fun.gusmurphy.chesses.engine.rules.RuleEvaluation
 import fun.gusmurphy.chesses.engine.rules.MoveRule
 import spock.lang.Specification
 
@@ -26,8 +26,8 @@ class ChessEngineSpec extends Specification {
         def result = engine.checkLegalityOf(DUMMY_MOVE)
 
         then:
-        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> Legality.LEGAL
-        result == Legality.LEGAL
+        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.LEGAL
+        result == RuleEvaluation.LEGAL
     }
 
     def "when a move is made, the move applier is used if the move is legal"() {
@@ -40,7 +40,7 @@ class ChessEngineSpec extends Specification {
         engine.makeMove(DUMMY_MOVE)
 
         then:
-        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> Legality.LEGAL
+        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.LEGAL
         1 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, INITIAL_BOARD) >> newBoardState
 
         and: "we can retrieve the new board state"
@@ -52,7 +52,7 @@ class ChessEngineSpec extends Specification {
         engine.makeMove(DUMMY_MOVE)
 
         then:
-        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> Legality.ILLEGAL
+        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.ILLEGAL
         0 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, INITIAL_BOARD)
 
         and: "the board state remains the same"

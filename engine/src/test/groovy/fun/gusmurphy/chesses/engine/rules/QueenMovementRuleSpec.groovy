@@ -8,7 +8,6 @@ import fun.gusmurphy.chesses.engine.piece.Piece
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
-import static Legality.*
 
 class QueenMovementRuleSpec extends MoveRuleSpecification {
 
@@ -42,7 +41,7 @@ class QueenMovementRuleSpec extends MoveRuleSpecification {
     def "queens cannot move anywhere else"() {
         expect:
         def result = new QueenMovementRule().evaluate(board, new Move(queen.id(), coordinates))
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         coordinates << allIllegalCoordinates()

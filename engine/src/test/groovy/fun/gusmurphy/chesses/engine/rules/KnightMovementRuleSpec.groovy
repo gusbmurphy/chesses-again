@@ -4,7 +4,6 @@ import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.piece.Piece
-import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
@@ -50,7 +49,7 @@ class KnightMovementRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates as Coordinates))
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         coordinates << Arrays.asList(Coordinates.values()) - L_COORDINATES

@@ -8,7 +8,7 @@ import fun.gusmurphy.chesses.engine.piece.PieceType;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static fun.gusmurphy.chesses.engine.rules.Legality.*;
+import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.*;
 
 public class MoveRuleSuite implements MoveRule {
 
@@ -19,7 +19,7 @@ public class MoveRuleSuite implements MoveRule {
     }
 
     @Override
-    public Legality evaluate(BoardState boardState, Move move) {
+    public RuleEvaluation evaluate(BoardState boardState, Move move) {
         if (rules.length < 1) {
             return LEGAL;
         }

@@ -27,7 +27,7 @@ class CantStayStillRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, new Move(piece.id(), piecePosition))
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
     }
 
     def "for any other move, we are unconcerned"() {

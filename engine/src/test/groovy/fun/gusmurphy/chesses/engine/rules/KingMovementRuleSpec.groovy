@@ -52,7 +52,7 @@ class KingMovementRuleSpec extends MoveRuleSpecification {
         def result = KING_RULE.evaluate(board, move)
 
         then:
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         moveCoordinates << [D6, D2, F6, F5, B4]

@@ -7,7 +7,6 @@ import fun.gusmurphy.chesses.engine.piece.Piece
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
-import static fun.gusmurphy.chesses.engine.rules.Legality.*
 
 class PawnTakingRuleSpec extends MoveRuleSpecification {
 
@@ -43,7 +42,7 @@ class PawnTakingRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         movingColor | moveCoordinates
@@ -85,7 +84,7 @@ class PawnTakingRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         movingColor | moveCoordinates
@@ -107,7 +106,7 @@ class PawnTakingRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         movingColor | moveCoordinates

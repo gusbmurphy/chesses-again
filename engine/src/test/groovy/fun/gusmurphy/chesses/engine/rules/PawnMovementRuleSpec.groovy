@@ -65,7 +65,7 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates))
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         color | moveCoordinates
@@ -80,7 +80,7 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), move))
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         color | move
@@ -95,7 +95,7 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates as Coordinates))
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
 
         where:
         [color, moveCoordinates] << [[WHITE, BLACK], [C3, C4, C5, E4, E5, E6]].combinations()
@@ -113,7 +113,7 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = PAWN_RULE.evaluate(board, move)
-        evaluationIsIllegal(result)
+        evaluationIsIllegalWithNoEffects(result)
     }
 
 }

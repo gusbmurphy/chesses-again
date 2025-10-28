@@ -15,12 +15,12 @@ public class PawnTakingRule extends SinglePieceMovementRule {
     }
 
     @Override
-    public Legality evaluate(BoardState boardState, Move move) {
+    public RuleEvaluation evaluate(BoardState boardState, Move move) {
         BoardCoordinateState coordinateState = boardState
             .coordinateStates().forCoordinates(move.coordinates()).get();
 
         if (coordinateState.isUnoccupied()) {
-            return Legality.UNCONCERNED;
+            return RuleEvaluation.UNCONCERNED;
         }
 
         PieceOnBoard movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
@@ -28,20 +28,20 @@ public class PawnTakingRule extends SinglePieceMovementRule {
         Coordinates moveCoordinates = move.coordinates();
 
         if (!moveCoordinates.isDiagonalFrom(currentPieceCoordinates)) {
-            return Legality.ILLEGAL;
+            return RuleEvaluation.ILLEGAL;
         }
 
         int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
         if (Math.abs(verticalMovement) > 1) {
-            return Legality.ILLEGAL;
+            return RuleEvaluation.ILLEGAL;
         }
 
         PlayerColor movingPieceColor = movingPiece.color();
         if (PawnMovementRule.verticalMovementDirectionIsOkayForColor(verticalMovement, movingPieceColor)) {
-            return Legality.LEGAL;
+            return RuleEvaluation.LEGAL;
         }
 
-        return Legality.ILLEGAL;
+        return RuleEvaluation.ILLEGAL;
     }
 
     @Override

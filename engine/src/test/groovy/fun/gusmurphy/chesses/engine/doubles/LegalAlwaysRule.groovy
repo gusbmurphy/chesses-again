@@ -4,7 +4,7 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.piece.PieceType
 import fun.gusmurphy.chesses.engine.rules.MoveRule
-import fun.gusmurphy.chesses.engine.rules.Legality
+import fun.gusmurphy.chesses.engine.rules.RuleEvaluation
 
 class LegalAlwaysRule implements MoveRule {
 
@@ -19,8 +19,8 @@ class LegalAlwaysRule implements MoveRule {
     }
 
     @Override
-    Legality evaluate(BoardState boardState, Move move) {
-        return Legality.LEGAL
+    RuleEvaluation evaluate(BoardState boardState, Move move) {
+        return RuleEvaluation.LEGAL
     }
 
     @Override

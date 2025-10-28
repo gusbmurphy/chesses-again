@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class CantMoveThroughPiecesRule implements MoveRule {
     @Override
-    public Legality evaluate(BoardState boardState, Move move) {
+    public RuleEvaluation evaluate(BoardState boardState, Move move) {
         Coordinates currentPieceCoordinates = boardState.pieceOnBoardForId(move.pieceId()).get().coordinates();
         Coordinates moveCoordinates = move.coordinates();
         Optional<LineOfCoordinates> line = currentPieceCoordinates.lineTo(moveCoordinates);
@@ -23,12 +23,12 @@ public class CantMoveThroughPiecesRule implements MoveRule {
                     .forCoordinates(c)
                     .map(BoardCoordinateState::isOccupied)
                     .orElse(false)) {
-                    return Legality.ILLEGAL;
+                    return RuleEvaluation.ILLEGAL;
                 }
             }
         }
 
-        return Legality.LEGAL;
+        return RuleEvaluation.LEGAL;
     }
 
     @Override

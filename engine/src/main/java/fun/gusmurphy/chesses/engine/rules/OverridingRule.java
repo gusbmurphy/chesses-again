@@ -16,7 +16,7 @@ public class OverridingRule implements MoveRule {
     }
 
     @Override
-    public Legality evaluate(BoardState boardState, Move move) {
+    public RuleEvaluation evaluate(BoardState boardState, Move move) {
         return baseRule.evaluate(boardState, move);
     }
 
