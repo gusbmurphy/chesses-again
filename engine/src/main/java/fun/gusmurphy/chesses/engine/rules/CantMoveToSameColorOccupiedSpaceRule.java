@@ -15,7 +15,7 @@ public class CantMoveToSameColorOccupiedSpaceRule implements MoveRule {
             .coordinateStates().forCoordinates(move.coordinates()).flatMap(BoardCoordinateState::piece);
 
         if (!occupyingPiece.isPresent()) {
-            return RuleEvaluation.legal();
+            return RuleEvaluation.legalWithNoEffects();
         }
 
         PlayerColor occupyingColor = occupyingPiece.get().color();
@@ -25,6 +25,6 @@ public class CantMoveToSameColorOccupiedSpaceRule implements MoveRule {
             return RuleEvaluation.illegal();
         }
 
-        return RuleEvaluation.legal();
+        return RuleEvaluation.legalWithNoEffects();
     }
 }

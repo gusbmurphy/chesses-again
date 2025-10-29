@@ -8,19 +8,20 @@ import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
+import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.Legality.*;
+
 public class PawnTakingRule extends SinglePieceMovementRule {
 
     public PawnTakingRule() {
-        super(PieceType.PAWN);
+        super(PieceType.PAWN, PawnTakingRule::legality);
     }
 
-    @Override
-    public RuleEvaluation evaluate(BoardState boardState, Move move) {
+    static RuleEvaluation.Legality legality(BoardState boardState, Move move) {
         BoardCoordinateState coordinateState = boardState
             .coordinateStates().forCoordinates(move.coordinates()).get();
 
         if (coordinateState.isUnoccupied()) {
-            return RuleEvaluation.unconcerned();
+            return UNCONCERNED;
         }
 
         PieceOnBoard movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
@@ -28,20 +29,20 @@ public class PawnTakingRule extends SinglePieceMovementRule {
         Coordinates moveCoordinates = move.coordinates();
 
         if (!moveCoordinates.isDiagonalFrom(currentPieceCoordinates)) {
-            return RuleEvaluation.illegal();
+            return ILLEGAL;
         }
 
         int verticalMovement = moveCoordinates.rankDifferenceTo(currentPieceCoordinates);
         if (Math.abs(verticalMovement) > 1) {
-            return RuleEvaluation.illegal();
+            return ILLEGAL;
         }
 
         PlayerColor movingPieceColor = movingPiece.color();
         if (PawnMovementRule.verticalMovementDirectionIsOkayForColor(verticalMovement, movingPieceColor)) {
-            return RuleEvaluation.legal();
+            return LEGAL;
         }
 
-        return RuleEvaluation.illegal();
+        return ILLEGAL;
     }
 
     @Override

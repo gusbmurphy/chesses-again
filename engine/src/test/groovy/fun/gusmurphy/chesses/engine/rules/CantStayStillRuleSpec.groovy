@@ -39,7 +39,7 @@ class CantStayStillRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
+        evaluationIsLegalWithNoEffects(result)
     }
 
 }

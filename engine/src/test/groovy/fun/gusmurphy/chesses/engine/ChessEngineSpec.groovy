@@ -26,8 +26,8 @@ class ChessEngineSpec extends Specification {
         def result = engine.checkLegalityOf(DUMMY_MOVE)
 
         then:
-        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.LEGAL_EVALUATION
-        result == RuleEvaluation.LEGAL_EVALUATION
+        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.LEGAL_EVALUATION_WITH_NO_EFFECTS
+        result == RuleEvaluation.LEGAL_EVALUATION_WITH_NO_EFFECTS
     }
 
     def "when a move is made, the move applier is used if the move is legal"() {
@@ -40,7 +40,7 @@ class ChessEngineSpec extends Specification {
         engine.makeMove(DUMMY_MOVE)
 
         then:
-        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.LEGAL_EVALUATION
+        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.LEGAL_EVALUATION_WITH_NO_EFFECTS
         1 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, INITIAL_BOARD) >> newBoardState
 
         and: "we can retrieve the new board state"

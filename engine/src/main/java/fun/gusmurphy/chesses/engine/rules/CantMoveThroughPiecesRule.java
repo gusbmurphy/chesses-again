@@ -28,7 +28,7 @@ public class CantMoveThroughPiecesRule implements MoveRule {
             }
         }
 
-        return RuleEvaluation.legal();
+        return RuleEvaluation.legalWithNoEffects();
     }
 
     @Override

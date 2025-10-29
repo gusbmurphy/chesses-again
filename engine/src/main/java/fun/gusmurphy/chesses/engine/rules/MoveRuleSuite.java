@@ -21,14 +21,14 @@ public class MoveRuleSuite implements MoveRule {
     @Override
     public RuleEvaluation evaluate(BoardState boardState, Move move) {
         if (rules.length < 1) {
-            return RuleEvaluation.legal();
+            return RuleEvaluation.legalWithNoEffects();
         }
 
         if (anyRelevantRuleSaysMoveIsIllegal(boardState, move)) {
             return RuleEvaluation.illegal();
         }
 
-        return RuleEvaluation.legal();
+        return RuleEvaluation.legalWithNoEffects();
     }
 
     private boolean anyRelevantRuleSaysMoveIsIllegal(BoardState boardState, Move move) {

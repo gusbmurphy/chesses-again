@@ -6,31 +6,30 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.*;
+import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.Legality.*;
 
 public class BishopMovementRule extends SinglePieceMovementRule {
 
     public BishopMovementRule() {
-        super(PieceType.BISHOP);
+        super(PieceType.BISHOP, BishopMovementRule::legality);
     }
 
-    @Override
-    public RuleEvaluation evaluate(BoardState boardState, Move move) {
+    static RuleEvaluation.Legality legality(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId()).get();
         Coordinates moveCoordinates = move.coordinates();
 
         if (moveCoordinates.sameRankAs(pieceOnBoard.coordinates())) {
-            return RuleEvaluation.illegal();
+            return ILLEGAL;
         }
 
         if (moveCoordinates.sameFileAs(pieceOnBoard.coordinates())) {
-            return RuleEvaluation.illegal();
+            return ILLEGAL;
         }
 
         if (!moveCoordinates.isDiagonalFrom(pieceOnBoard.coordinates())) {
-            return RuleEvaluation.illegal();
+            return ILLEGAL;
         }
 
-        return RuleEvaluation.legal();
+        return LEGAL;
     }
 }

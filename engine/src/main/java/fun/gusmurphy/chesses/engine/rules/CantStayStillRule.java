@@ -14,6 +14,6 @@ class CantStayStillRule implements MoveRule {
             return RuleEvaluation.illegal();
         }
 
-        return RuleEvaluation.legal();
+        return RuleEvaluation.legalWithNoEffects();
     }
 }

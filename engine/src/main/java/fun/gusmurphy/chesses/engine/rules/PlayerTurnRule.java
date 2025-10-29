@@ -12,7 +12,7 @@ public class PlayerTurnRule implements MoveRule {
         Piece piece = boardState.pieceOnBoardForId(move.pieceId()).get();
 
         if (piece.color() == boardState.currentTurnColor()) {
-            return RuleEvaluation.legal();
+            return RuleEvaluation.legalWithNoEffects();
         }
 
         return RuleEvaluation.illegal();

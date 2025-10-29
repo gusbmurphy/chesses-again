@@ -45,6 +45,7 @@ class CantMoveThroughPiecesRuleSpec extends MoveRuleSpecification {
         F4               | G4
     }
 
+    // TODO: Should this actually be "unconcerned"?
     def "the rule is not concerned with moves to an occupied spice"() {
         given:
         def movingPiece = new Piece()
@@ -57,7 +58,7 @@ class CantMoveThroughPiecesRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
+        evaluationIsLegalWithNoEffects(result)
     }
 
     def "a move to a non-obstructed position is legal"() {
@@ -72,7 +73,7 @@ class CantMoveThroughPiecesRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsLegalAndHasSimpleMoveEffect(result, move)
+        evaluationIsLegalWithNoEffects(result)
 
         where:
         moveCoordinates << [B2, H8, G4]

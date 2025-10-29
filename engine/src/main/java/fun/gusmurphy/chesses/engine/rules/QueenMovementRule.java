@@ -5,22 +5,23 @@ import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
+import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.Legality.*;
+
 public class QueenMovementRule extends SinglePieceMovementRule {
 
     public QueenMovementRule() {
-        super(PieceType.QUEEN);
+        super(PieceType.QUEEN, QueenMovementRule::legality);
     }
 
-    @Override
-    public RuleEvaluation evaluate(BoardState boardState, Move move) {
+    static RuleEvaluation.Legality legality(BoardState boardState, Move move) {
         Coordinates currentPosition = getCurrentPiecePosition(boardState, move);
         Coordinates movePosition = move.coordinates();
 
         if (moveIsLegal(movePosition, currentPosition)) {
-            return RuleEvaluation.legal();
+            return LEGAL;
         }
 
-        return RuleEvaluation.illegal();
+        return ILLEGAL;
     }
 
     private static boolean moveIsLegal(Coordinates movePosition, Coordinates currentPosition) {

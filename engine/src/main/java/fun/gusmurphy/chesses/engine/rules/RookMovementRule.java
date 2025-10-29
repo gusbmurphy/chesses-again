@@ -6,28 +6,27 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.*;
+import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.Legality.*;
 
 public class RookMovementRule extends SinglePieceMovementRule {
 
     public RookMovementRule() {
-        super(PieceType.ROOK);
+        super(PieceType.ROOK, RookMovementRule::legality);
     }
 
-    @Override
-    public RuleEvaluation evaluate(BoardState boardState, Move move) {
+    static RuleEvaluation.Legality legality(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId()).get();
         Coordinates pieceCoordinates = pieceOnBoard.coordinates();
         Coordinates moveCoordinates = move.coordinates();
 
         if (moveCoordinates.sameRankAs(pieceCoordinates)) {
-            return RuleEvaluation.legal();
+            return LEGAL;
         }
 
         if (moveCoordinates.sameFileAs(pieceCoordinates)) {
-            return RuleEvaluation.legal();
+            return LEGAL;
         }
 
-        return RuleEvaluation.illegal();
+        return ILLEGAL;
     }
 }

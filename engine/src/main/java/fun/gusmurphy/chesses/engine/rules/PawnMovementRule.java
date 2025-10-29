@@ -11,11 +11,10 @@ import fun.gusmurphy.chesses.engine.piece.PieceType;
 public class PawnMovementRule extends SinglePieceMovementRule {
 
     public PawnMovementRule() {
-        super(PieceType.PAWN);
+        super(PieceType.PAWN, PawnMovementRule::legality);
     }
 
-    @Override
-    public RuleEvaluation evaluate(BoardState boardState, Move move) {
+    static RuleEvaluation.Legality legality(BoardState boardState, Move move) {
         PieceOnBoard pieceOnBoard = boardState.pieceOnBoardForId(move.pieceId()).get();
 
         Coordinates currentCoordinates = pieceOnBoard.coordinates();
@@ -25,10 +24,10 @@ public class PawnMovementRule extends SinglePieceMovementRule {
             || moveIsGreaterThanTwoSpotsVertically(move, currentCoordinates)
             || moveIsBackwards(move, currentCoordinates, pieceOnBoard.color())
             || moveIsToDifferentFile(move, currentCoordinates)) {
-            return RuleEvaluation.illegal();
+            return RuleEvaluation.Legality.ILLEGAL;
         }
 
-        return RuleEvaluation.legal();
+        return RuleEvaluation.Legality.LEGAL;
     }
 
     public static boolean verticalMovementDirectionIsOkayForColor(int rankDifference, PlayerColor color) {

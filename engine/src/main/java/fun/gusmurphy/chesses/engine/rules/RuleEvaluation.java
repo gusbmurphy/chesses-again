@@ -1,9 +1,8 @@
 package fun.gusmurphy.chesses.engine.rules;
 
-import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
+import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.events.BoardStateEvent;
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
-import fun.gusmurphy.chesses.engine.piece.PieceId;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,9 +17,9 @@ public class RuleEvaluation {
         Effects.emptyEffects()
     );
 
-    private final static RuleEvaluation LEGAL_EVALUATION = new RuleEvaluation(
+    private final static RuleEvaluation LEGAL_EVALUATION_WITH_NO_EFFECTS = new RuleEvaluation(
         Legality.LEGAL,
-        new Effects(new PieceMovedEvent(new PieceId(), Coordinates.A1))
+        Effects.emptyEffects()
     );
 
     private final static RuleEvaluation UNCONCERNED_EVALUATION = new RuleEvaluation(
@@ -33,8 +32,16 @@ public class RuleEvaluation {
         this.effects = effects;
     }
 
-    public static RuleEvaluation legal() {
-        return LEGAL_EVALUATION;
+    public static RuleEvaluation legalWithMove(Move move) {
+        PieceMovedEvent event = new PieceMovedEvent(move.pieceId(), move.coordinates());
+        return new RuleEvaluation(
+            Legality.LEGAL,
+            new Effects(event)
+        );
+    }
+
+    public static RuleEvaluation legalWithNoEffects() {
+        return LEGAL_EVALUATION_WITH_NO_EFFECTS;
     }
 
     public static RuleEvaluation illegal() {

@@ -20,7 +20,7 @@ class LegalAlwaysRule implements MoveRule {
 
     @Override
     RuleEvaluation evaluate(BoardState boardState, Move move) {
-        return RuleEvaluation.LEGAL_EVALUATION
+        return RuleEvaluation.legalWithNoEffects()
     }
 
     @Override
