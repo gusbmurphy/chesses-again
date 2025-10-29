@@ -6,6 +6,7 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.piece.Piece
+import spock.lang.PendingFeature
 
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
@@ -42,6 +43,22 @@ class CastlingRuleSpec extends MoveRuleSpecification {
 
         where:
         moveCoordinates << [G5, C3, E8]
+    }
+
+    @PendingFeature
+    def "the rule only applies to kings"() {
+    }
+
+    @PendingFeature
+    def "regular king rules are overridden"() {
+    }
+
+    @PendingFeature
+    def "castling cannot happen if the king has moved"() {
+    }
+
+    @PendingFeature
+    def "castling cannot happen if the relevant rook has moved"() {
     }
 
     private static setupBoard(PlayerColor color, Coordinates kingPosition, Coordinates rookPosition) {
