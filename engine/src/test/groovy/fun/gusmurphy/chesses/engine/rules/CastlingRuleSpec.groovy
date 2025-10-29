@@ -1,7 +1,10 @@
 package fun.gusmurphy.chesses.engine.rules
 
 import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.PlayerColor
+import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.piece.Piece
 
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
@@ -15,12 +18,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
 
     def "castling moves the king and rook in one move"() {
         given:
-        def king = new Piece(color, KING)
-        def rook = new Piece(color, ROOK)
-        def board = new BoardStateBuilder()
-            .addPieceAt(king, kingPosition)
-            .addPieceAt(rook, rookPosition)
-            .build()
+        def (board, king) = setupBoard(color, kingPosition, rookPosition)
         def move = new Move(king.id(), moveCoordinates)
 
         expect:
@@ -34,4 +32,26 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         BLACK | E8           | H8           | G8
     }
 
+    def "the rule is unconcerned with basically any other move"() {
+        given:
+        def (board, king) = setupBoard(WHITE, E1, A1)
+        def move = new Move(king.id(), moveCoordinates)
+
+        expect:
+        rule.evaluate(board, move).legality() == UNCONCERNED
+
+        where:
+        moveCoordinates << [G5, C3, E8]
+    }
+
+    private static setupBoard(PlayerColor color, Coordinates kingPosition, Coordinates rookPosition) {
+        def king = new Piece(color, KING)
+        def rook = new Piece(color, ROOK)
+        def board = new BoardStateBuilder()
+            .addPieceAt(king, kingPosition)
+            .addPieceAt(rook, rookPosition)
+            .build()
+
+        return [board, king]
+    }
 }
