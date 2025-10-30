@@ -9,7 +9,7 @@ public interface MoveRule {
     RuleEvaluation evaluate(BoardState boardState, Move move);
 
     default boolean isRelevantForPieceType(PieceType pieceType) {
-        return pieceType == PieceType.KING;
+        return true;
     }
 
     default boolean overrides(MoveRule otherRule) {
