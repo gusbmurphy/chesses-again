@@ -4,6 +4,7 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
+import fun.gusmurphy.chesses.engine.events.PieceMovedEvent
 import fun.gusmurphy.chesses.engine.piece.Piece
 
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
@@ -17,12 +18,29 @@ class CastlingRuleSpec extends MoveRuleSpecification {
 
     def "castling moves the king and rook in one move"() {
         given:
-        def (color, kingPosition, rookPosition, moveCoordinates) = colorAndPositions
-        def (board, king) = setupBoard(color, kingPosition, rookPosition)
+        def (
+            color,
+            kingPosition,
+            rookPosition,
+            moveCoordinates,
+            finalRookPosition
+        ) = colorAndPositions
+        def (board, king, rook) = setupBoard(color, kingPosition, rookPosition)
         def move = new Move(king.id(), moveCoordinates)
 
         expect:
-        rule.evaluate(board, move).legality() == LEGAL
+        def evaluation = rule.evaluate(board, move)
+        evaluation.legality() == LEGAL
+
+        and:
+        def effects = evaluation.effects()
+        def firstEffect = effects.next()
+        (firstEffect as PieceMovedEvent).pieceId() == king.id()
+        (firstEffect as PieceMovedEvent).newCoordinates() == moveCoordinates
+
+        def secondEffect = effects.next()
+        (secondEffect as PieceMovedEvent).pieceId() == rook.id()
+        (secondEffect as PieceMovedEvent).newCoordinates() == finalRookPosition
 
         where:
         colorAndPositions << legalCastlingMoves()
@@ -95,6 +113,9 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         colorAndPositions << legalCastlingMoves()
     }
 
+    /**
+     * @return an array of the board, king, and rook
+     */
     private static setupBoard(PlayerColor color, Coordinates kingPosition, Coordinates rookPosition) {
         def king = new Piece(color, KING)
         def rook = new Piece(color, ROOK)
@@ -103,15 +124,19 @@ class CastlingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(rook, rookPosition)
             .build()
 
-        return [board, king]
+        return [board, king, rook]
     }
 
+    /**
+     * @return an array of the color, starting king position, starting rook position,
+     * move coordinates, and the final rook position
+     */
     private static legalCastlingMoves() {
         [
-            [WHITE, E1, A1, C1],
-            [WHITE, E1, H1, G1],
-            [BLACK, E8, A8, C8],
-            [BLACK, E8, H8, G8]
+            [WHITE, E1, A1, C1, D1],
+            [WHITE, E1, H1, G1, F1],
+            [BLACK, E8, A8, C8, D8],
+            [BLACK, E8, H8, G8, F8]
         ]
     }
 }

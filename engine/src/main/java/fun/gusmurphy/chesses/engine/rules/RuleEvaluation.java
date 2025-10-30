@@ -40,6 +40,13 @@ public class RuleEvaluation {
         );
     }
 
+    public static RuleEvaluation legalWithEffectsFromEvents(BoardStateEvent... events) {
+        return new RuleEvaluation(
+            Legality.LEGAL,
+            new Effects(events)
+        );
+    }
+
     public static RuleEvaluation legalWithNoEffects() {
         return LEGAL_EVALUATION_WITH_NO_EFFECTS;
     }
@@ -66,6 +73,7 @@ public class RuleEvaluation {
 
     public static class Effects {
         private final List<BoardStateEvent> eventList;
+        private int nextEffectIndex = 0;
 
         private Effects(BoardStateEvent... events) {
             eventList = new ArrayList<>();
@@ -73,7 +81,7 @@ public class RuleEvaluation {
         }
 
         public BoardStateEvent next() {
-            return eventList.get(0);
+            return eventList.get(nextEffectIndex++);
         }
 
         protected static Effects emptyEffects() {
