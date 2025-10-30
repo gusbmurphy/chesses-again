@@ -8,6 +8,7 @@ import fun.gusmurphy.chesses.engine.events.PieceMovedEvent
 import fun.gusmurphy.chesses.engine.piece.Piece
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam
+import spock.lang.PendingFeature
 
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
@@ -198,6 +199,11 @@ class CastlingRuleSpec extends MoveRuleSpecification {
 
         where:
         colorAndPositions << legalCastlingMoves()
+    }
+
+    @PendingFeature
+    // TODO: Is this a real rule?
+    def "castling cannot happen if king would move through a threatened space"() {
     }
 
     /**
