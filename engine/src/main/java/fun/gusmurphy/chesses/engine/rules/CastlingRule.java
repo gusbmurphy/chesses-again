@@ -18,4 +18,8 @@ public class CastlingRule implements MoveRule {
         return RuleEvaluation.unconcerned();
     }
 
+    @Override
+    public boolean overrides(MoveRule otherRule) {
+        return otherRule instanceof KingMovementRule;
+    }
 }

@@ -59,8 +59,9 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         PAWN      | false
     }
 
-    @PendingFeature
     def "regular king rules are overridden"() {
+        expect:
+        rule.overrides(new KingMovementRule())
     }
 
     @PendingFeature
