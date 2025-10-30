@@ -78,8 +78,22 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         colorAndPositions << legalCastlingMoves()
     }
 
-    @PendingFeature
     def "castling cannot happen if the relevant rook has moved"() {
+        given:
+        def (color, kingPosition, rookPosition, moveCoordinates) = colorAndPositions
+        def king = new Piece(color, KING)
+        def rook = new Piece(color, ROOK).afterMove()
+        def board = new BoardStateBuilder()
+            .addPieceAt(king, kingPosition)
+            .addPieceAt(rook, rookPosition)
+            .build()
+        def move = new Move(king.id(), moveCoordinates)
+
+        expect:
+        evaluationIsIllegalWithNoEffects(rule.evaluate(board, move))
+
+        where:
+        colorAndPositions << legalCastlingMoves()
     }
 
     private static setupBoard(PlayerColor color, Coordinates kingPosition, Coordinates rookPosition) {
