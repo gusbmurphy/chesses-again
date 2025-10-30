@@ -1,13 +1,11 @@
 package fun.gusmurphy.chesses.engine.rules;
 
 import fun.gusmurphy.chesses.engine.Move;
-import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.coordinates.LineOfCoordinates;
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
 import fun.gusmurphy.chesses.engine.piece.Piece;
-import fun.gusmurphy.chesses.engine.piece.PieceId;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
@@ -45,12 +43,15 @@ public class CastlingRule implements MoveRule {
             return RuleEvaluation.illegal();
         }
 
+        return legalEvaluationWithMoveEffects(move, rook.get());
+    }
+
+    private static RuleEvaluation legalEvaluationWithMoveEffects(Move move, Piece rook) {
         Coordinates newKingPosition = move.coordinates();
         PieceMovedEvent kingMove = new PieceMovedEvent(move.pieceId(), newKingPosition);
 
         Coordinates newRookPosition = newRookPositionBasedOnKingMove(move);
-        PieceId rookId = board.coordinateStates().forCoordinates(relevantRookPosition).get().piece().get().id();
-        PieceMovedEvent rookMove = new PieceMovedEvent(rookId, newRookPosition);
+        PieceMovedEvent rookMove = new PieceMovedEvent(rook.id(), newRookPosition);
 
         return RuleEvaluation.legalWithEffectsFromEvents(kingMove, rookMove);
     }
