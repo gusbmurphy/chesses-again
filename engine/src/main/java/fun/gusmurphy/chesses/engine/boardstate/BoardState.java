@@ -3,6 +3,7 @@ package fun.gusmurphy.chesses.engine.boardstate;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.File;
 import fun.gusmurphy.chesses.engine.Rank;
+import fun.gusmurphy.chesses.engine.coordinates.LineOfCoordinates;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
@@ -80,6 +81,12 @@ public class BoardState {
             .flatMap(id -> pieces.stream().filter(p -> p.id() == id)
             .findFirst()
             .map(piece -> new PieceOnBoard(piece, coordinates)));
+    }
+
+    public boolean anyPartOfLineIsOccupied(LineOfCoordinates line) {
+        return line.inOrder()
+            .stream()
+            .anyMatch(c -> coordinateStates().forCoordinates(c).get().isOccupied());
     }
 
     public BoardCoordinateStates coordinateStates() {

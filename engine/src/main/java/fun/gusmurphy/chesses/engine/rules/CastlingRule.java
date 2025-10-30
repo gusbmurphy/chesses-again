@@ -48,11 +48,7 @@ public class CastlingRule implements MoveRule {
         }
 
         LineOfCoordinates lineBetweenKingAndRook = relevantRookPosition.lineTo(king.coordinates()).get();
-        BoardCoordinateStates boardCoordinateStates = board.coordinateStates();
-        boolean lineIsBlocked = lineBetweenKingAndRook.inOrder()
-            .stream()
-            .anyMatch(c -> boardCoordinateStates.forCoordinates(c).get().isOccupied());
-        if (lineIsBlocked) {
+        if (board.anyPartOfLineIsOccupied(lineBetweenKingAndRook)) {
             return RuleEvaluation.illegal();
         }
 
