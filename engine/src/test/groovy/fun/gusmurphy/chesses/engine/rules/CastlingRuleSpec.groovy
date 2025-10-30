@@ -6,6 +6,8 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent
 import fun.gusmurphy.chesses.engine.piece.Piece
+import groovy.transform.stc.ClosureParams
+import groovy.transform.stc.FirstParam
 
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
@@ -104,6 +106,33 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         colorAndPositions << legalCastlingMoves()
     }
 
+    def "castling cannot happen if any of the spaces between are occupied"() {
+        given:
+        def (
+            color,
+            kingPosition,
+            rookPosition,
+            moveCoordinates,
+            blockingCoordinates
+        ) = colorAndPositions
+        def king = new Piece(color, KING)
+        def rook = new Piece(color, ROOK)
+        def someOtherPiece = new Piece()
+        def board = new BoardStateBuilder()
+            .addPieceAt(king, kingPosition)
+            .addPieceAt(rook, rookPosition)
+            .addPieceAt(someOtherPiece, blockingCoordinates)
+            .build()
+        def move = new Move(king.id(), moveCoordinates)
+
+        expect:
+        def evaluation = rule.evaluate(board, move)
+        evaluationIsIllegalWithNoEffects(evaluation)
+
+        where:
+        colorAndPositions << legalCastlingMovesWithABlockingPosition()
+    }
+
     def "the rule is unconcerned with basically any other move"() {
         given:
         def (board, king) = setupBoard(WHITE, E1, A1)
@@ -190,6 +219,19 @@ class CastlingRuleSpec extends MoveRuleSpecification {
      * move coordinates, and the final rook position
      */
     private static legalCastlingMoves() {
+        [
+            [WHITE, E1, A1, C1, D1],
+            [WHITE, E1, H1, G1, F1],
+            [BLACK, E8, A8, C8, D8],
+            [BLACK, E8, H8, G8, F8]
+        ]
+    }
+
+    /**
+     * @return an array of the color, starting king position, starting rook position,
+     * move coordinates, and a coordinate that would block castling
+     */
+    private static legalCastlingMovesWithABlockingPosition() {
         [
             [WHITE, E1, A1, C1, D1],
             [WHITE, E1, H1, G1, F1],

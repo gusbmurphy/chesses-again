@@ -1,11 +1,14 @@
 package fun.gusmurphy.chesses.engine.rules;
 
 import fun.gusmurphy.chesses.engine.Move;
+import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
+import fun.gusmurphy.chesses.engine.coordinates.LineOfCoordinates;
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
+import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 import java.util.Arrays;
@@ -21,7 +24,7 @@ public class CastlingRule implements MoveRule {
             return RuleEvaluation.unconcerned();
         }
 
-        Piece king = board.pieceOnBoardForId(move.pieceId()).get();
+        PieceOnBoard king = board.pieceOnBoardForId(move.pieceId()).get();
         if (king.hasMoved()) {
             return RuleEvaluation.illegal();
         }
@@ -41,6 +44,15 @@ public class CastlingRule implements MoveRule {
         }
 
         if (rook.get().hasMoved()) {
+            return RuleEvaluation.illegal();
+        }
+
+        LineOfCoordinates lineBetweenKingAndRook = relevantRookPosition.lineTo(king.coordinates()).get();
+        BoardCoordinateStates boardCoordinateStates = board.coordinateStates();
+        boolean lineIsBlocked = lineBetweenKingAndRook.inOrder()
+            .stream()
+            .anyMatch(c -> boardCoordinateStates.forCoordinates(c).get().isOccupied());
+        if (lineIsBlocked) {
             return RuleEvaluation.illegal();
         }
 
