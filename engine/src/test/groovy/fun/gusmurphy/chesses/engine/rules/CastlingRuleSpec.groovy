@@ -46,6 +46,24 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         colorAndPositions << legalCastlingMoves()
     }
 
+    def "castling cannot happen if the relevant rook does not exist"() {
+        given:
+        def (color, kingPosition, _, moveCoordinates) = colorAndPositions
+        def king = new Piece(color, KING)
+        def board = new BoardStateBuilder()
+            .addPieceAt(king, kingPosition)
+            .build()
+
+        def move = new Move(king.id(), moveCoordinates)
+
+        expect:
+        def evaluation = rule.evaluate(board, move)
+        evaluationIsIllegalWithNoEffects(evaluation)
+
+        where:
+        colorAndPositions << legalCastlingMoves()
+    }
+
     def "the rule is unconcerned with basically any other move"() {
         given:
         def (board, king) = setupBoard(WHITE, E1, A1)

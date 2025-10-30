@@ -9,6 +9,7 @@ import fun.gusmurphy.chesses.engine.piece.PieceId;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*;
 
@@ -25,8 +26,12 @@ public class CastlingRule implements MoveRule {
         }
 
         Coordinates relevantRookPosition = findRelevantRookPosition(move);
-        Piece rook = board.coordinateStates().forCoordinates(relevantRookPosition).get().piece().get(); // TODO: Yikes!
-        if (rook.hasMoved()) {
+        Optional<Piece> rook = board.coordinateStates().forCoordinates(relevantRookPosition).get().piece(); // TODO: Yikes!
+        if (!rook.isPresent()) {
+            return RuleEvaluation.illegal();
+        }
+
+        if (rook.get().hasMoved()) {
             return RuleEvaluation.illegal();
         }
 
