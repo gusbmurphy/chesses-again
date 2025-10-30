@@ -2,7 +2,6 @@ package fun.gusmurphy.chesses.engine.rules
 
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
-import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.piece.Piece
@@ -19,6 +18,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
 
     def "castling moves the king and rook in one move"() {
         given:
+        def (color, kingPosition, rookPosition, moveCoordinates) = colorAndPositions
         def (board, king) = setupBoard(color, kingPosition, rookPosition)
         def move = new Move(king.id(), moveCoordinates)
 
@@ -26,11 +26,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         rule.evaluate(board, move).legality() == LEGAL
 
         where:
-        color | kingPosition | rookPosition | moveCoordinates
-        WHITE | E1           | A1           | C1
-        WHITE | E1           | H1           | G1
-        BLACK | E8           | A8           | C8
-        BLACK | E8           | H8           | G8
+        colorAndPositions << legalCastlingMoves()
     }
 
     def "the rule is unconcerned with basically any other move"() {
@@ -64,8 +60,22 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         rule.overrides(new KingMovementRule())
     }
 
-    @PendingFeature
     def "castling cannot happen if the king has moved"() {
+        given:
+        def (color, kingPosition, rookPosition, moveCoordinates) = colorAndPositions
+        def king = new Piece(color, KING).afterMove()
+        def rook = new Piece(color, ROOK)
+        def board = new BoardStateBuilder()
+            .addPieceAt(king, kingPosition)
+            .addPieceAt(rook, rookPosition)
+            .build()
+        def move = new Move(king.id(), moveCoordinates)
+
+        expect:
+        evaluationIsIllegalWithNoEffects(rule.evaluate(board, move))
+
+        where:
+        colorAndPositions << legalCastlingMoves()
     }
 
     @PendingFeature
@@ -81,5 +91,14 @@ class CastlingRuleSpec extends MoveRuleSpecification {
             .build()
 
         return [board, king]
+    }
+
+    private static legalCastlingMoves() {
+        [
+            [WHITE, E1, A1, C1],
+            [WHITE, E1, H1, G1],
+            [BLACK, E8, A8, C8],
+            [BLACK, E8, H8, G8]
+        ]
     }
 }
