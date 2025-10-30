@@ -17,7 +17,7 @@ public class CastlingRule implements MoveRule {
 
     @Override
     public RuleEvaluation evaluate(BoardState boardState, Move move) {
-        if (!Arrays.asList(C1, G1, C8, G8).contains(move.coordinates())) {
+        if (moveIsNotToAValidCastlingPosition(move)) {
             return RuleEvaluation.unconcerned();
         }
 
@@ -40,6 +40,10 @@ public class CastlingRule implements MoveRule {
         PieceMovedEvent rookMove = new PieceMovedEvent(rookId, newRookPosition);
 
         return RuleEvaluation.legalWithEffectsFromEvents(kingMove, rookMove);
+    }
+
+    private static boolean moveIsNotToAValidCastlingPosition(Move move) {
+        return !Arrays.asList(C1, G1, C8, G8).contains(move.coordinates());
     }
 
     private static Coordinates findRelevantRookPosition(Move move) {
