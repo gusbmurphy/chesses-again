@@ -30,20 +30,13 @@ public class CastlingRule implements MoveRule {
         }
 
         Coordinates relevantRookPosition = findRelevantRookPosition(move);
+
         Optional<PieceOnBoard> rook = board.pieceAtCoordinates(relevantRookPosition);
         if (!rook.isPresent()) {
             return RuleEvaluation.illegal();
         }
 
-        if (rook.get().type() != PieceType.ROOK) {
-            return RuleEvaluation.illegal();
-        }
-
-        if (rook.get().color() != king.color()) {
-            return RuleEvaluation.illegal();
-        }
-
-        if (rook.get().hasMoved()) {
+        if (pieceIsNotValidPairForCastling(rook.get(), king)) {
             return RuleEvaluation.illegal();
         }
 
@@ -64,6 +57,12 @@ public class CastlingRule implements MoveRule {
 
     private static boolean moveIsNotToAValidCastlingPosition(Move move) {
         return !Arrays.asList(C1, G1, C8, G8).contains(move.coordinates());
+    }
+
+    private static boolean pieceIsNotValidPairForCastling(Piece piece, Piece king) {
+        return piece.type() != PieceType.ROOK
+            || piece.color() != king.color()
+            || piece.hasMoved();
     }
 
     private static Coordinates findRelevantRookPosition(Move move) {
