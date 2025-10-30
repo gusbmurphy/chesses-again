@@ -30,7 +30,7 @@ public class CastlingRule implements MoveRule {
         }
 
         Coordinates relevantRookPosition = findRelevantRookPosition(move);
-        Optional<Piece> rook = board.coordinateStates().forCoordinates(relevantRookPosition).get().piece(); // TODO: Yikes!
+        Optional<PieceOnBoard> rook = board.pieceAtCoordinates(relevantRookPosition);
         if (!rook.isPresent()) {
             return RuleEvaluation.illegal();
         }

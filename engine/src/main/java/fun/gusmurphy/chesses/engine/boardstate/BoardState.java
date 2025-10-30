@@ -72,6 +72,16 @@ public class BoardState {
         return Optional.empty();
     }
 
+    public Optional<PieceOnBoard> pieceAtCoordinates(Coordinates coordinates) {
+        return coordinatesForPieces.entrySet().stream()
+            .filter(set -> set.getValue() == coordinates)
+            .map(Map.Entry::getKey)
+            .findFirst()
+            .flatMap(id -> pieces.stream().filter(p -> p.id() == id)
+            .findFirst()
+            .map(piece -> new PieceOnBoard(piece, coordinates)));
+    }
+
     public BoardCoordinateStates coordinateStates() {
         List<BoardCoordinateState> statesList = new ArrayList<>();
 
