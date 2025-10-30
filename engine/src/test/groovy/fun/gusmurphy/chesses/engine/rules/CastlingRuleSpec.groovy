@@ -45,8 +45,18 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         moveCoordinates << [G5, C3, E8]
     }
 
-    @PendingFeature
     def "the rule only applies to kings"() {
+        expect:
+        rule.isRelevantForPieceType(pieceType) == expected
+
+        where:
+        pieceType | expected
+        BISHOP    | false
+        ROOK      | false
+        KNIGHT    | false
+        KING      | true
+        QUEEN     | false
+        PAWN      | false
     }
 
     @PendingFeature
