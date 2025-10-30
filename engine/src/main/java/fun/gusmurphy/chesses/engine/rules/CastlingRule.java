@@ -16,18 +16,17 @@ import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*;
 public class CastlingRule implements MoveRule {
 
     @Override
-    public RuleEvaluation evaluate(BoardState boardState, Move move) {
+    public RuleEvaluation evaluate(BoardState board, Move move) {
         if (moveIsNotToAValidCastlingPosition(move)) {
             return RuleEvaluation.unconcerned();
         }
 
-        PieceOnBoard movingKing = boardState.pieceOnBoardForId(move.pieceId()).get();
-        if (movingKing.hasMoved()) {
+        if (kingHasMoved(board, move)) {
             return RuleEvaluation.illegal();
         }
 
         Coordinates relevantRookPosition = findRelevantRookPosition(move);
-        Piece rook = boardState.coordinateStates().forCoordinates(relevantRookPosition).get().piece().get(); // TODO: Yikes!
+        Piece rook = board.coordinateStates().forCoordinates(relevantRookPosition).get().piece().get(); // TODO: Yikes!
         if (rook.hasMoved()) {
             return RuleEvaluation.illegal();
         }
@@ -36,10 +35,15 @@ public class CastlingRule implements MoveRule {
         PieceMovedEvent kingMove = new PieceMovedEvent(move.pieceId(), newKingPosition);
 
         Coordinates newRookPosition = newRookPositionBasedOnKingMove(move);
-        PieceId rookId = boardState.coordinateStates().forCoordinates(relevantRookPosition).get().piece().get().id();
+        PieceId rookId = board.coordinateStates().forCoordinates(relevantRookPosition).get().piece().get().id();
         PieceMovedEvent rookMove = new PieceMovedEvent(rookId, newRookPosition);
 
         return RuleEvaluation.legalWithEffectsFromEvents(kingMove, rookMove);
+    }
+
+    private static boolean kingHasMoved(BoardState board, Move move) {
+        Piece king = board.pieceOnBoardForId(move.pieceId()).get();
+        return king.hasMoved();
     }
 
     private static boolean moveIsNotToAValidCastlingPosition(Move move) {
