@@ -64,6 +64,26 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         colorAndPositions << legalCastlingMoves()
     }
 
+    def "castling cannot happen if there is a non-rook at the relevant position"() {
+        given:
+        def (color, kingPosition, rookPosition, moveCoordinates) = colorAndPositions
+        def king = new Piece(color, KING)
+        def nonRook = new Piece(color, PAWN)
+        def board = new BoardStateBuilder()
+            .addPieceAt(king, kingPosition)
+            .addPieceAt(nonRook, rookPosition)
+            .build()
+
+        def move = new Move(king.id(), moveCoordinates)
+
+        expect:
+        def evaluation = rule.evaluate(board, move)
+        evaluationIsIllegalWithNoEffects(evaluation)
+
+        where:
+        colorAndPositions << legalCastlingMoves()
+    }
+
     def "the rule is unconcerned with basically any other move"() {
         given:
         def (board, king) = setupBoard(WHITE, E1, A1)

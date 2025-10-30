@@ -31,6 +31,10 @@ public class CastlingRule implements MoveRule {
             return RuleEvaluation.illegal();
         }
 
+        if (rook.get().type() != PieceType.ROOK) {
+            return RuleEvaluation.illegal();
+        }
+
         if (rook.get().hasMoved()) {
             return RuleEvaluation.illegal();
         }
