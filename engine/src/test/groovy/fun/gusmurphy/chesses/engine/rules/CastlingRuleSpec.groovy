@@ -84,6 +84,26 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         colorAndPositions << legalCastlingMoves()
     }
 
+    def "castling cannot happen if the rook is the opposite color"() {
+        given:
+        def (color, kingPosition, rookPosition, moveCoordinates) = colorAndPositions
+        def king = new Piece(color, KING)
+        def rookOfOppositeColor = new Piece(color.opposite(), ROOK)
+        def board = new BoardStateBuilder()
+            .addPieceAt(king, kingPosition)
+            .addPieceAt(rookOfOppositeColor, rookPosition)
+            .build()
+
+        def move = new Move(king.id(), moveCoordinates)
+
+        expect:
+        def evaluation = rule.evaluate(board, move)
+        evaluationIsIllegalWithNoEffects(evaluation)
+
+        where:
+        colorAndPositions << legalCastlingMoves()
+    }
+
     def "the rule is unconcerned with basically any other move"() {
         given:
         def (board, king) = setupBoard(WHITE, E1, A1)

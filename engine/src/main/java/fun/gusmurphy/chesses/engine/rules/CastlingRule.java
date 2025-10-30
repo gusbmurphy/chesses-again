@@ -21,7 +21,8 @@ public class CastlingRule implements MoveRule {
             return RuleEvaluation.unconcerned();
         }
 
-        if (kingHasMoved(board, move)) {
+        Piece king = board.pieceOnBoardForId(move.pieceId()).get();
+        if (king.hasMoved()) {
             return RuleEvaluation.illegal();
         }
 
@@ -32,6 +33,10 @@ public class CastlingRule implements MoveRule {
         }
 
         if (rook.get().type() != PieceType.ROOK) {
+            return RuleEvaluation.illegal();
+        }
+
+        if (rook.get().color() != king.color()) {
             return RuleEvaluation.illegal();
         }
 
@@ -47,11 +52,6 @@ public class CastlingRule implements MoveRule {
         PieceMovedEvent rookMove = new PieceMovedEvent(rookId, newRookPosition);
 
         return RuleEvaluation.legalWithEffectsFromEvents(kingMove, rookMove);
-    }
-
-    private static boolean kingHasMoved(BoardState board, Move move) {
-        Piece king = board.pieceOnBoardForId(move.pieceId()).get();
-        return king.hasMoved();
     }
 
     private static boolean moveIsNotToAValidCastlingPosition(Move move) {
