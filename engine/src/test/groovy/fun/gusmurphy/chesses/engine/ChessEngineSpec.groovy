@@ -23,11 +23,11 @@ class ChessEngineSpec extends Specification {
 
     def "the engine asks its move rule for rule legality"() {
         when:
-        def result = engine.checkLegalityOf(DUMMY_MOVE)
+        RuleEvaluation.Legality result = engine.checkLegalityOf(DUMMY_MOVE)
 
         then:
         1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.LEGAL_EVALUATION_WITH_NO_EFFECTS
-        result == RuleEvaluation.LEGAL_EVALUATION_WITH_NO_EFFECTS
+        result == RuleEvaluation.Legality.LEGAL
     }
 
     def "when a move is made, the move applier is used if the move is legal"() {

@@ -20,7 +20,7 @@ public class ChessEngine implements RunsGame {
     }
 
     public static ChessEngine defaultEngine() {
-        return defaultEngine(BoardStateBuilder.defaultBoard());
+        return defaultEngine(BoardStateBuilder.justCastling());
     }
 
     public static ChessEngine defaultEngine(BoardState initialBoardState) {
@@ -39,8 +39,8 @@ public class ChessEngine implements RunsGame {
     }
 
     @Override
-    public RuleEvaluation checkLegalityOf(Move move) {
-        return moveRule.evaluate(boardState, move);
+    public RuleEvaluation.Legality checkLegalityOf(Move move) {
+        return moveRule.evaluate(boardState, move).legality();
     }
 
     @Override
