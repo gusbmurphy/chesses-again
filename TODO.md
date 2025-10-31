@@ -17,3 +17,4 @@
 - [ ] Add en passant moves
 - [ ] Add castling
 - [ ] Add changing piece type when we reach the other side
+- [ ] Add taking effects to moves (now that we have those in the effects of an evaluation)
