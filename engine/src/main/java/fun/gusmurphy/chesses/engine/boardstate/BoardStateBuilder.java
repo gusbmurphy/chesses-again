@@ -64,6 +64,18 @@ public class BoardStateBuilder {
         }
     }
 
+    public static BoardState justCastling() {
+        return new BoardStateBuilder()
+            .currentTurnColor(WHITE)
+            .addPieceAt(new Piece(WHITE, KING), Coordinates.E1)
+            .addPieceAt(new Piece(BLACK, KING), Coordinates.E8)
+            .addPieceAt(new Piece(WHITE, ROOK), Coordinates.A1)
+            .addPieceAt(new Piece(WHITE, ROOK), Coordinates.H1)
+            .addPieceAt(new Piece(BLACK, ROOK), Coordinates.A8)
+            .addPieceAt(new Piece(BLACK, ROOK), Coordinates.H8)
+            .build();
+    }
+
     public static BoardState defaultBoard() {
         BoardStateBuilder builder = new BoardStateBuilder()
             .currentTurnColor(WHITE);
