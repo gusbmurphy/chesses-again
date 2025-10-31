@@ -72,8 +72,8 @@ public class BoardStateBuilder {
             new AbstractMap.SimpleEntry<>(File.A, ROOK),
             new AbstractMap.SimpleEntry<>(File.B, KNIGHT),
             new AbstractMap.SimpleEntry<>(File.C, BISHOP),
-            new AbstractMap.SimpleEntry<>(File.D, KING),
-            new AbstractMap.SimpleEntry<>(File.E, QUEEN),
+            new AbstractMap.SimpleEntry<>(File.D, QUEEN),
+            new AbstractMap.SimpleEntry<>(File.E, KING),
             new AbstractMap.SimpleEntry<>(File.F, BISHOP),
             new AbstractMap.SimpleEntry<>(File.G, KNIGHT),
             new AbstractMap.SimpleEntry<>(File.H, ROOK)
