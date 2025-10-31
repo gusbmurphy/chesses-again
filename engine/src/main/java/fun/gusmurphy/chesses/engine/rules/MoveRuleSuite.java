@@ -77,6 +77,7 @@ public class MoveRuleSuite implements MoveRule {
         new PawnTakingRule(),
         new KingMovementRule(),
         new KnightMovementRule(),
+        new CastlingRule(),
         new QueenMovementRule(),
         new PlayerTurnRule(),
         new CantStayStillRule(),
