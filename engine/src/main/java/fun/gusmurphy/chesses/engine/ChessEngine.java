@@ -3,18 +3,20 @@ package fun.gusmurphy.chesses.engine;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder;
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateReducer;
-import fun.gusmurphy.chesses.engine.events.MoveEventDeriver;
-import fun.gusmurphy.chesses.engine.events.TurnTracker;
+import fun.gusmurphy.chesses.engine.boardstate.ReducesBoardState;
+import fun.gusmurphy.chesses.engine.events.BoardStateEvent;
 import fun.gusmurphy.chesses.engine.rules.*;
+
+import java.util.Optional;
 
 public class ChessEngine implements RunsGame {
 
-    private final AppliesMoves moveApplicator;
+    private final ReducesBoardState boardStateReducer;
     private final MoveRule moveRule;
     private BoardState boardState;
 
-    public ChessEngine(AppliesMoves moveApplicator, MoveRule moveRule, BoardState boardState) {
-        this.moveApplicator = moveApplicator;
+    public ChessEngine(ReducesBoardState boardStateReducer, MoveRule moveRule, BoardState boardState) {
+        this.boardStateReducer = boardStateReducer;
         this.moveRule = moveRule;
         this.boardState = boardState;
     }
@@ -24,10 +26,8 @@ public class ChessEngine implements RunsGame {
     }
 
     public static ChessEngine defaultEngine(BoardState initialBoardState) {
-        PlayerColor startingPlayerColor = PlayerColor.WHITE;
-
         return new ChessEngine(
-            new MoveApplicator(new MoveEventDeriver(new TurnTracker(startingPlayerColor)), new BoardStateReducer()),
+            new BoardStateReducer(),
             MoveRuleSuite.BASIC,
             initialBoardState
         );
@@ -47,8 +47,14 @@ public class ChessEngine implements RunsGame {
     public void makeMove(Move move) {
         RuleEvaluation ruleEvaluation = moveRule.evaluate(boardState, move);
 
-        if (ruleEvaluation.legality() == RuleEvaluation.Legality.LEGAL) {
-            boardState = moveApplicator.applyMoveToBoard(move, boardState);
+        if (ruleEvaluation.legality() != RuleEvaluation.Legality.LEGAL) {
+            return;
+        }
+
+        for (Optional<BoardStateEvent> event = ruleEvaluation.effects().next();
+             event.isPresent();
+             event = ruleEvaluation.effects().next()) {
+            boardState = boardStateReducer.reduce(boardState, event.get());
         }
     }
 

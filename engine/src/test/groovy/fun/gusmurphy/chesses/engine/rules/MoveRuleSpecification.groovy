@@ -9,7 +9,7 @@ class MoveRuleSpecification extends Specification {
     protected static void evaluationIsLegalAndHasSimpleMoveEffect(RuleEvaluation evaluation, Move move) {
         assert evaluation.legality() == RuleEvaluation.Legality.LEGAL
 
-        def effect = evaluation.effects().next()
+        def effect = evaluation.effects().next().get()
         assert (effect instanceof PieceMovedEvent)
         assert effect.newCoordinates() == move.coordinates()
         assert effect.pieceId() == move.pieceId()

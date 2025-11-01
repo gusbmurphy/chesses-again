@@ -7,6 +7,7 @@ import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class RuleEvaluation {
     private final Legality legality;
@@ -80,8 +81,11 @@ public class RuleEvaluation {
             eventList.addAll(Arrays.asList(events));
         }
 
-        public BoardStateEvent next() {
-            return eventList.get(nextEffectIndex++);
+        public Optional<BoardStateEvent> next() {
+            if (nextEffectIndex >= eventList.size()) {
+                return Optional.empty();
+            }
+            return Optional.of(eventList.get(nextEffectIndex++));
         }
 
         protected static Effects emptyEffects() {

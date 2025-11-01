@@ -37,11 +37,11 @@ class CastlingRuleSpec extends MoveRuleSpecification {
 
         and:
         def effects = evaluation.effects()
-        def firstEffect = effects.next()
+        def firstEffect = effects.next().get()
         (firstEffect as PieceMovedEvent).pieceId() == king.id()
         (firstEffect as PieceMovedEvent).newCoordinates() == moveCoordinates
 
-        def secondEffect = effects.next()
+        def secondEffect = effects.next().get()
         (secondEffect as PieceMovedEvent).pieceId() == rook.id()
         (secondEffect as PieceMovedEvent).newCoordinates() == finalRookPosition
 

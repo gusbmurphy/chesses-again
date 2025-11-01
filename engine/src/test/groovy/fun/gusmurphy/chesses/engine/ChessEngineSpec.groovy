@@ -1,7 +1,9 @@
 package fun.gusmurphy.chesses.engine
 
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.boardstate.ReducesBoardState
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
+import fun.gusmurphy.chesses.engine.doubles.DummyBoardStateEvent
 import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceId
 import fun.gusmurphy.chesses.engine.piece.PieceType
@@ -11,14 +13,24 @@ import spock.lang.Specification
 
 class ChessEngineSpec extends Specification {
 
-    private static final INITIAL_BOARD = new BoardStateBuilder().build()
-    private static final DUMMY_MOVE = new Move(new PieceId(), Coordinates.A1)
-    private final AppliesMoves moveApplicator = Mock(AppliesMoves)
     private final MoveRule moveRule = Mock(MoveRule)
+    private ReducesBoardState boardStateReducer = Mock(ReducesBoardState)
     private RunsGame engine
 
+    private static final INITIAL_BOARD = new BoardStateBuilder().build()
+    private static final DUMMY_MOVE = new Move(new PieceId(), Coordinates.A1)
+
+    private static final FIRST_EVENT = new DummyBoardStateEvent()
+    private static final SECOND_EVENT = new DummyBoardStateEvent()
+    private static final FIRST_REDUCED_BOARD = new BoardStateBuilder().addPieceAt(
+        new Piece(PlayerColor.WHITE, PieceType.ROOK), Coordinates.A1
+    ).build()
+    private static final SECOND_REDUCED_BOARD = new BoardStateBuilder().addPieceAt(
+        new Piece(PlayerColor.WHITE, PieceType.ROOK), Coordinates.A3
+    ).build()
+
     def setup() {
-        engine = new ChessEngine(moveApplicator, moveRule, INITIAL_BOARD)
+        engine = new ChessEngine(boardStateReducer, moveRule, INITIAL_BOARD)
     }
 
     def "the engine asks its move rule for rule legality"() {
@@ -26,37 +38,27 @@ class ChessEngineSpec extends Specification {
         RuleEvaluation.Legality result = engine.checkLegalityOf(DUMMY_MOVE)
 
         then:
-        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.LEGAL_EVALUATION_WITH_NO_EFFECTS
+        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.legalWithNoEffects()
         result == RuleEvaluation.Legality.LEGAL
     }
 
-    def "when a move is made, the move applier is used if the move is legal"() {
+    def "when a legal move is made, its effects are applied to the board with the reducer"() {
         given:
-        def newBoardState = new BoardStateBuilder()
-            .addPieceAt(new Piece(PlayerColor.WHITE, PieceType.ROOK), Coordinates.A1)
-            .build()
+        def evaluationWithEffects = RuleEvaluation.legalWithEffectsFromEvents(
+            FIRST_EVENT,
+            SECOND_EVENT
+        )
 
         when:
         engine.makeMove(DUMMY_MOVE)
 
         then:
-        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.LEGAL_EVALUATION_WITH_NO_EFFECTS
-        1 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, INITIAL_BOARD) >> newBoardState
+        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> evaluationWithEffects
+        1 * boardStateReducer.reduce(INITIAL_BOARD, FIRST_EVENT) >> FIRST_REDUCED_BOARD
+        1 * boardStateReducer.reduce(FIRST_REDUCED_BOARD, SECOND_EVENT) >> SECOND_REDUCED_BOARD
 
-        and: "we can retrieve the new board state"
-        engine.currentBoardState() == newBoardState
-    }
-
-    def "when a move is made, the move applier is NOT invoked if the move is NOT legal"() {
-        when:
-        engine.makeMove(DUMMY_MOVE)
-
-        then:
-        1 * moveRule.evaluate(INITIAL_BOARD, DUMMY_MOVE) >> RuleEvaluation.ILLEGAL_EVALUATION
-        0 * moveApplicator.applyMoveToBoard(DUMMY_MOVE, INITIAL_BOARD)
-
-        and: "the board state remains the same"
-        engine.currentBoardState() == INITIAL_BOARD
+        and:
+        engine.currentBoardState() == SECOND_REDUCED_BOARD
     }
 
 }
