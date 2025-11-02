@@ -26,9 +26,7 @@ class DraggedState extends PieceOnScreenState {
     }
 
     private void notifyListenersOfRelease(Vector2 cursorPosition) {
-        pieceDrawable.selectionListeners.forEach(listener ->
-            listener.onPieceReleased(pieceDrawable.pieceId(), cursorPosition)
-        );
+        pieceDrawable.selectionListeners.forEach(
+                listener -> listener.onPieceReleased(pieceDrawable.pieceId(), cursorPosition));
     }
-
 }

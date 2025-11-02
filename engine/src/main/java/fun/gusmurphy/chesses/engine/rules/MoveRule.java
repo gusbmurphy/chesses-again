@@ -15,5 +15,4 @@ public interface MoveRule {
     default boolean overrides(MoveRule otherRule) {
         return false;
     }
-
 }

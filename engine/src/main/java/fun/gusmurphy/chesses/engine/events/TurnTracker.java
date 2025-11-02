@@ -15,5 +15,4 @@ public class TurnTracker implements TracksTurns {
         currentTurnColor = currentTurnColor.opposite();
         return new TurnChangeEvent(currentTurnColor);
     }
-
 }

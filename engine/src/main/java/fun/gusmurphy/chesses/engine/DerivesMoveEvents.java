@@ -6,5 +6,4 @@ import fun.gusmurphy.chesses.engine.events.BoardStateEvents;
 public interface DerivesMoveEvents {
 
     BoardStateEvents deriveEventsFrom(Move move, BoardState boardState);
-
 }

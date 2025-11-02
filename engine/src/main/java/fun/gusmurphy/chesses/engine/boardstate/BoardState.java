@@ -1,14 +1,13 @@
 package fun.gusmurphy.chesses.engine.boardstate;
 
-import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.File;
+import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.Rank;
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.coordinates.LineOfCoordinates;
 import fun.gusmurphy.chesses.engine.piece.Piece;
-import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
-
 import java.util.*;
 
 public class BoardState {
@@ -21,11 +20,10 @@ public class BoardState {
 
     // TODO: Throw an exception if two pieces are at the same coordinates.
     protected BoardState(
-        PlayerColor currentTurnColor,
-        HashMap<Coordinates, Piece> piecesAtCoordinates,
-        Set<Rank> ranks,
-        Set<File> files
-    ) {
+            PlayerColor currentTurnColor,
+            HashMap<Coordinates, Piece> piecesAtCoordinates,
+            Set<Rank> ranks,
+            Set<File> files) {
         this.currentTurnColor = currentTurnColor;
 
         Set<Coordinates> coordinatesOnBoard = new HashSet<>();
@@ -75,18 +73,20 @@ public class BoardState {
 
     public Optional<PieceOnBoard> pieceAtCoordinates(Coordinates coordinates) {
         return coordinatesForPieces.entrySet().stream()
-            .filter(set -> set.getValue() == coordinates)
-            .map(Map.Entry::getKey)
-            .findFirst()
-            .flatMap(id -> pieces.stream().filter(p -> p.id() == id)
-            .findFirst()
-            .map(piece -> new PieceOnBoard(piece, coordinates)));
+                .filter(set -> set.getValue() == coordinates)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .flatMap(
+                        id ->
+                                pieces.stream()
+                                        .filter(p -> p.id() == id)
+                                        .findFirst()
+                                        .map(piece -> new PieceOnBoard(piece, coordinates)));
     }
 
     public boolean anyPartOfLineIsOccupied(LineOfCoordinates line) {
-        return line.inOrder()
-            .stream()
-            .anyMatch(c -> coordinateStates().forCoordinates(c).get().isOccupied());
+        return line.inOrder().stream()
+                .anyMatch(c -> coordinateStates().forCoordinates(c).get().isOccupied());
     }
 
     public BoardCoordinateStates coordinateStates() {
@@ -101,20 +101,20 @@ public class BoardState {
 
     private BoardCoordinateState getStateFor(Coordinates coordinates) {
         Optional<Map.Entry<PieceId, Coordinates>> coordinatesForPieceId =
-            coordinatesForPieces.entrySet().stream()
-                .filter(e -> e.getValue() == coordinates)
-                .findFirst();
+                coordinatesForPieces.entrySet().stream()
+                        .filter(e -> e.getValue() == coordinates)
+                        .findFirst();
 
         if (coordinatesForPieceId.isPresent()) {
-            Piece piece = pieces.stream()
-                .filter(p -> p.id() == coordinatesForPieceId.get().getKey())
-                .findFirst()
-                .get();
+            Piece piece =
+                    pieces.stream()
+                            .filter(p -> p.id() == coordinatesForPieceId.get().getKey())
+                            .findFirst()
+                            .get();
 
             return new OccupiedCoordinateState(coordinates, piece);
         }
 
         return new UnoccupiedCoordinateState(coordinates);
     }
-
 }

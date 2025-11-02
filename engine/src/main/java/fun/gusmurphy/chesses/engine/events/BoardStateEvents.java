@@ -11,5 +11,4 @@ public class BoardStateEvents {
     public BoardStateEvent[] inOrder() {
         return events;
     }
-
 }

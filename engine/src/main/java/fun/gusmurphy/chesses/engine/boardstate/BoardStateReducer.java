@@ -3,7 +3,6 @@ package fun.gusmurphy.chesses.engine.boardstate;
 import fun.gusmurphy.chesses.engine.events.*;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
-
 import java.util.Optional;
 
 public class BoardStateReducer implements ReducesBoardState {
@@ -25,7 +24,8 @@ public class BoardStateReducer implements ReducesBoardState {
 
     private static void handlePieceMovedEvent(PieceMovedEvent event, BoardState boardState) {
         PieceId pieceId = event.pieceId();
-        Optional<Piece> originalPiece = boardState.pieces.stream().filter(p -> p.id() == pieceId).findFirst();
+        Optional<Piece> originalPiece =
+                boardState.pieces.stream().filter(p -> p.id() == pieceId).findFirst();
 
         if (!originalPiece.isPresent()) {
             throw new UnknownPieceException();
@@ -39,7 +39,8 @@ public class BoardStateReducer implements ReducesBoardState {
 
     private static void handlePieceRemovedEvent(PieceRemovedEvent event, BoardState boardState) {
         PieceId pieceId = event.pieceId();
-        Optional<Piece> pieceToRemove = boardState.pieces.stream().filter(p -> p.id() == pieceId).findFirst();
+        Optional<Piece> pieceToRemove =
+                boardState.pieces.stream().filter(p -> p.id() == pieceId).findFirst();
 
         if (pieceToRemove.isPresent()) {
             boardState.pieces.remove(pieceToRemove.get());
@@ -52,5 +53,4 @@ public class BoardStateReducer implements ReducesBoardState {
     private static void handleTurnChangeEvent(TurnChangeEvent event, BoardState boardState) {
         boardState.currentTurnColor = event.newTurnColor();
     }
-
 }

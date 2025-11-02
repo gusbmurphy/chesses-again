@@ -9,16 +9,13 @@ public class TombstoneState extends PieceOnScreenState {
     }
 
     @Override
-    public void processInput(Vector2 cursorPosition) {
-    }
+    public void processInput(Vector2 cursorPosition) {}
 
     @Override
-    public void setDragStatus(boolean isNowDragged) {
-    }
+    public void setDragStatus(boolean isNowDragged) {}
 
     @Override
     public boolean toBeRemoved() {
         return true;
     }
-
 }

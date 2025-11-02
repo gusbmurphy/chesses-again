@@ -6,5 +6,4 @@ import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 public interface CoordinateToScreenSpaceTranslator {
 
     Vector2 getScreenPositionForCenterOf(Coordinates coordinates);
-
 }

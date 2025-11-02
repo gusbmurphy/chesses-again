@@ -24,14 +24,11 @@ class DefaultState extends PieceOnScreenState {
     }
 
     private boolean pieceWasJustClicked(Vector2 cursorPosition) {
-        return Gdx.input.justTouched()
-            && pieceDrawable.bounds.contains(cursorPosition);
+        return Gdx.input.justTouched() && pieceDrawable.bounds.contains(cursorPosition);
     }
 
     private void notifySelectionListeners() {
         pieceDrawable.selectionListeners.forEach(
-            listener -> listener.onPieceSelected(pieceDrawable.pieceId())
-        );
+                listener -> listener.onPieceSelected(pieceDrawable.pieceId()));
     }
-
 }

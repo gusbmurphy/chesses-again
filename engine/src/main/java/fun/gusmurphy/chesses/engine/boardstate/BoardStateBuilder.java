@@ -1,18 +1,17 @@
 package fun.gusmurphy.chesses.engine.boardstate;
 
-import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
-import fun.gusmurphy.chesses.engine.File;
-import fun.gusmurphy.chesses.engine.Rank;
-import fun.gusmurphy.chesses.engine.piece.Piece;
-import fun.gusmurphy.chesses.engine.PlayerColor;
-import fun.gusmurphy.chesses.engine.piece.PieceType;
+import static fun.gusmurphy.chesses.engine.PlayerColor.*;
+import static fun.gusmurphy.chesses.engine.piece.PieceType.*;
 
+import fun.gusmurphy.chesses.engine.File;
+import fun.gusmurphy.chesses.engine.PlayerColor;
+import fun.gusmurphy.chesses.engine.Rank;
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
+import fun.gusmurphy.chesses.engine.piece.Piece;
+import fun.gusmurphy.chesses.engine.piece.PieceType;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static fun.gusmurphy.chesses.engine.piece.PieceType.*;
-import static fun.gusmurphy.chesses.engine.PlayerColor.*;
 
 public class BoardStateBuilder {
 
@@ -21,8 +20,7 @@ public class BoardStateBuilder {
     private int width = 8;
     private int height = 8;
 
-    public BoardStateBuilder() {
-    }
+    public BoardStateBuilder() {}
 
     public BoardStateBuilder currentTurnColor(PlayerColor color) {
         currentTurnColor = color;
@@ -50,12 +48,7 @@ public class BoardStateBuilder {
         Set<Rank> ranks = new HashSet<>(Arrays.asList(Rank.values()).subList(0, height));
         Set<File> files = new HashSet<>(Arrays.asList(File.values()).subList(0, width));
 
-        return new BoardState(
-            currentTurnColor,
-            piecesByCoordinates,
-            ranks,
-            files
-        );
+        return new BoardState(currentTurnColor, piecesByCoordinates, ranks, files);
     }
 
     private void validateBoardSize() {
@@ -66,30 +59,30 @@ public class BoardStateBuilder {
 
     public static BoardState justCastling() {
         return new BoardStateBuilder()
-            .currentTurnColor(WHITE)
-            .addPieceAt(new Piece(WHITE, KING), Coordinates.E1)
-            .addPieceAt(new Piece(BLACK, KING), Coordinates.E8)
-            .addPieceAt(new Piece(WHITE, ROOK), Coordinates.A1)
-            .addPieceAt(new Piece(WHITE, ROOK), Coordinates.H1)
-            .addPieceAt(new Piece(BLACK, ROOK), Coordinates.A8)
-            .addPieceAt(new Piece(BLACK, ROOK), Coordinates.H8)
-            .build();
+                .currentTurnColor(WHITE)
+                .addPieceAt(new Piece(WHITE, KING), Coordinates.E1)
+                .addPieceAt(new Piece(BLACK, KING), Coordinates.E8)
+                .addPieceAt(new Piece(WHITE, ROOK), Coordinates.A1)
+                .addPieceAt(new Piece(WHITE, ROOK), Coordinates.H1)
+                .addPieceAt(new Piece(BLACK, ROOK), Coordinates.A8)
+                .addPieceAt(new Piece(BLACK, ROOK), Coordinates.H8)
+                .build();
     }
 
     public static BoardState defaultBoard() {
-        BoardStateBuilder builder = new BoardStateBuilder()
-            .currentTurnColor(WHITE);
+        BoardStateBuilder builder = new BoardStateBuilder().currentTurnColor(WHITE);
 
-        Map<File, PieceType> backRankPieceTypesByFile = Stream.of(
-            new AbstractMap.SimpleEntry<>(File.A, ROOK),
-            new AbstractMap.SimpleEntry<>(File.B, KNIGHT),
-            new AbstractMap.SimpleEntry<>(File.C, BISHOP),
-            new AbstractMap.SimpleEntry<>(File.D, QUEEN),
-            new AbstractMap.SimpleEntry<>(File.E, KING),
-            new AbstractMap.SimpleEntry<>(File.F, BISHOP),
-            new AbstractMap.SimpleEntry<>(File.G, KNIGHT),
-            new AbstractMap.SimpleEntry<>(File.H, ROOK)
-        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        Map<File, PieceType> backRankPieceTypesByFile =
+                Stream.of(
+                                new AbstractMap.SimpleEntry<>(File.A, ROOK),
+                                new AbstractMap.SimpleEntry<>(File.B, KNIGHT),
+                                new AbstractMap.SimpleEntry<>(File.C, BISHOP),
+                                new AbstractMap.SimpleEntry<>(File.D, QUEEN),
+                                new AbstractMap.SimpleEntry<>(File.E, KING),
+                                new AbstractMap.SimpleEntry<>(File.F, BISHOP),
+                                new AbstractMap.SimpleEntry<>(File.G, KNIGHT),
+                                new AbstractMap.SimpleEntry<>(File.H, ROOK))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         Rank whitePawnRank = Rank.TWO;
         Rank whiteBackRank = Rank.ONE;
@@ -114,5 +107,4 @@ public class BoardStateBuilder {
 
         return builder.build();
     }
-
 }

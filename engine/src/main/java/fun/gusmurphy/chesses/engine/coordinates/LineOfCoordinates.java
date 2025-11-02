@@ -13,7 +13,7 @@ public class LineOfCoordinates {
     }
 
     static Optional<LineOfCoordinates> between(Coordinates a, Coordinates b) {
-        if (!a.isDiagonalFrom(b) && !a.sameFileAs(b) && ! a.sameRankAs(b) ) {
+        if (!a.isDiagonalFrom(b) && !a.sameFileAs(b) && !a.sameRankAs(b)) {
             return Optional.empty();
         }
 
@@ -56,5 +56,4 @@ public class LineOfCoordinates {
 
         return a.fileDifferenceTo(b) < 0 ? 1 : -1;
     }
-
 }

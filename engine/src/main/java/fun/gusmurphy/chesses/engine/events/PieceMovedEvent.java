@@ -1,7 +1,7 @@
 package fun.gusmurphy.chesses.engine.events;
 
-import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.Move;
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 
 public class PieceMovedEvent implements BoardStateEvent {
@@ -25,5 +25,4 @@ public class PieceMovedEvent implements BoardStateEvent {
     public Coordinates newCoordinates() {
         return newCoordinates;
     }
-
 }

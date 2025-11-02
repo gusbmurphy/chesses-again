@@ -4,17 +4,16 @@ import com.badlogic.gdx.math.Vector2;
 import fun.gusmurphy.chesses.ChessesGame;
 import fun.gusmurphy.chesses.board.BoardDrawable;
 import fun.gusmurphy.chesses.engine.ChessEngine;
-import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.rules.RuleEvaluation;
 import fun.gusmurphy.chesses.piece.PieceDrawable;
 import fun.gusmurphy.chesses.piece.PieceSelectionListener;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +41,10 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
     }
 
     private void removePiecesToBeRemoved() {
-        List<PieceDrawable> piecesToBeRemoved = pieceDrawables.stream().filter(PieceDrawable::toBeRemoved).collect(Collectors.toList());
+        List<PieceDrawable> piecesToBeRemoved =
+                pieceDrawables.stream()
+                        .filter(PieceDrawable::toBeRemoved)
+                        .collect(Collectors.toList());
 
         // TODO: Why remove these from three different places?
         pieceDrawables.removeAll(piecesToBeRemoved);
@@ -68,7 +70,8 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         stopDraggingPiece(pieceId);
         board.clearHighlights();
 
-        Optional<Coordinates> coordinatesForReleasePosition = board.getCoordinatesForScreenPosition(screenPosition);
+        Optional<Coordinates> coordinatesForReleasePosition =
+                board.getCoordinatesForScreenPosition(screenPosition);
 
         if (!coordinatesForReleasePosition.isPresent()) {
             return;
@@ -78,17 +81,20 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         engine.makeMove(move);
         BoardState newBoardState = engine.currentBoardState();
         board.updateBoardState(newBoardState);
-        pieceDrawables.forEach(pieceDrawable -> {
-            Optional<PieceOnBoard> pieceOnBoard = newBoardState.pieceOnBoardForId(pieceDrawable.pieceId());
+        pieceDrawables.forEach(
+                pieceDrawable -> {
+                    Optional<PieceOnBoard> pieceOnBoard =
+                            newBoardState.pieceOnBoardForId(pieceDrawable.pieceId());
 
-            // TODO: Feels like there's some sort of polymorphism missing here...
-            if (pieceOnBoard.isPresent()) {
-                Coordinates updatedPieceCoordinates = pieceOnBoard.get().coordinates();
-                pieceDrawable.setPositionCenter(board.getScreenPositionForCenterOf(updatedPieceCoordinates));
-            } else {
-                pieceDrawable.markForRemoval();
-            }
-        });
+                    // TODO: Feels like there's some sort of polymorphism missing here...
+                    if (pieceOnBoard.isPresent()) {
+                        Coordinates updatedPieceCoordinates = pieceOnBoard.get().coordinates();
+                        pieceDrawable.setPositionCenter(
+                                board.getScreenPositionForCenterOf(updatedPieceCoordinates));
+                    } else {
+                        pieceDrawable.markForRemoval();
+                    }
+                });
     }
 
     private BoardDrawable setupBoard() {
@@ -101,12 +107,15 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         pieceDrawables = new ArrayList<>();
 
         board.boardState()
-            .coordinateStates()
-            .all()
-            .forEach(coordinateState -> setupPieceDrawableForCoordinateState(coordinateState, board));
+                .coordinateStates()
+                .all()
+                .forEach(
+                        coordinateState ->
+                                setupPieceDrawableForCoordinateState(coordinateState, board));
     }
 
-    private void setupPieceDrawableForCoordinateState(BoardCoordinateState coordinateState, BoardDrawable board) {
+    private void setupPieceDrawableForCoordinateState(
+            BoardCoordinateState coordinateState, BoardDrawable board) {
         if (!coordinateState.piece().isPresent()) {
             return;
         }
@@ -114,7 +123,8 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         Vector2 piecePosition = board.getScreenPositionForCenterOf(coordinateState.coordinates());
 
         Piece piece = coordinateState.piece().get();
-        PieceDrawable pieceDrawable = new PieceDrawable(piece, game.getSpriteBatch(), piecePosition);
+        PieceDrawable pieceDrawable =
+                new PieceDrawable(piece, game.getSpriteBatch(), piecePosition);
 
         pieceDrawable.listenToSelection(this);
         pieceDrawables.add(pieceDrawable);
@@ -124,8 +134,11 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
     private void dragPiece(PieceId pieceId) {
         selectedPieceId = pieceId;
-        PieceDrawable pieceDrawable = pieceDrawables
-            .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
+        PieceDrawable pieceDrawable =
+                pieceDrawables.stream()
+                        .filter(piece -> piece.pieceId() == pieceId)
+                        .findFirst()
+                        .get();
         pieceDrawable.setDragStatus(true);
     }
 
@@ -144,10 +157,11 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
     }
 
     private void bringDrawableForPieceToFront(PieceId pieceId) {
-        PieceDrawable drawable = pieceDrawables.stream()
-            .filter(piece -> piece.pieceId() == pieceId)
-            .findFirst()
-            .get();
+        PieceDrawable drawable =
+                pieceDrawables.stream()
+                        .filter(piece -> piece.pieceId() == pieceId)
+                        .findFirst()
+                        .get();
 
         int selectedDrawableIndex = drawables.indexOf(drawable);
         Collections.swap(drawables, selectedDrawableIndex, drawables.size() - 1);
@@ -155,9 +169,11 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
 
     private void stopDraggingPiece(PieceId pieceId) {
         selectedPieceId = null;
-        PieceDrawable pieceDrawable = pieceDrawables
-            .stream().filter(piece -> piece.pieceId() == pieceId).findFirst().get();
+        PieceDrawable pieceDrawable =
+                pieceDrawables.stream()
+                        .filter(piece -> piece.pieceId() == pieceId)
+                        .findFirst()
+                        .get();
         pieceDrawable.setDragStatus(false);
     }
-
 }

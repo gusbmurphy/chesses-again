@@ -1,12 +1,12 @@
 package fun.gusmurphy.chesses.engine.rules;
 
-import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
+import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.Legality.*;
+
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
-
-import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.Legality.*;
 
 public class KnightMovementRule extends SinglePieceMovementRule {
 
@@ -19,19 +19,20 @@ public class KnightMovementRule extends SinglePieceMovementRule {
 
         Coordinates currentPieceCoordinates = pieceOnBoard.coordinates();
         Coordinates moveCoordinates = move.coordinates();
-        int verticalChangeWithMove = Math.abs(currentPieceCoordinates.rankDifferenceTo(moveCoordinates));
+        int verticalChangeWithMove =
+                Math.abs(currentPieceCoordinates.rankDifferenceTo(moveCoordinates));
 
         if (verticalChangeWithMove > 2 || verticalChangeWithMove == 0) {
             return ILLEGAL;
         }
 
         int requiredHorizontalMove = verticalChangeWithMove == 2 ? 1 : 2;
-        int horizontalChangeWithMove = Math.abs(currentPieceCoordinates.fileDifferenceTo(moveCoordinates));
+        int horizontalChangeWithMove =
+                Math.abs(currentPieceCoordinates.fileDifferenceTo(moveCoordinates));
         if (horizontalChangeWithMove != requiredHorizontalMove) {
             return ILLEGAL;
         }
 
         return LEGAL;
     }
-
 }

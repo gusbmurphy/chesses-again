@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import fun.gusmurphy.chesses.ChessesGame;
 import fun.gusmurphy.chesses.Drawable;
 import fun.gusmurphy.chesses.InputProcessor;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +33,10 @@ public abstract class BaseScreen implements Screen {
 
     private Skin setupSkin() {
         final Skin skin;
-        skin = new Skin(
-            Gdx.files.internal("uiskin.json"),
-            new TextureAtlas(
-                Gdx.files.internal("uiskin.atlas")
-            )
-        );
+        skin =
+                new Skin(
+                        Gdx.files.internal("uiskin.json"),
+                        new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
         return skin;
     }
 
@@ -66,8 +63,7 @@ public abstract class BaseScreen implements Screen {
     }
 
     @Override
-    public void show() {
-    }
+    public void show() {}
 
     @Override
     public void resize(int width, int height) {
@@ -75,19 +71,14 @@ public abstract class BaseScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-    }
+    public void hide() {}
 
     @Override
-    public void dispose() {
-    }
-
+    public void dispose() {}
 }

@@ -1,5 +1,7 @@
 package fun.gusmurphy.chesses.piece;
 
+import static fun.gusmurphy.chesses.board.BoardDrawable.SQUARE_SIZE;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,11 +10,8 @@ import fun.gusmurphy.chesses.Drawable;
 import fun.gusmurphy.chesses.InputProcessor;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static fun.gusmurphy.chesses.board.BoardDrawable.SQUARE_SIZE;
 
 public class PieceDrawable implements Drawable, InputProcessor {
 
@@ -22,7 +21,7 @@ public class PieceDrawable implements Drawable, InputProcessor {
     protected final List<PieceSelectionListener> selectionListeners = new ArrayList<>();
 
     private final Piece piece;
-    private final static float PIECE_TO_SQUARE_SIZE_RATIO = 0.8f;
+    private static final float PIECE_TO_SQUARE_SIZE_RATIO = 0.8f;
     private final SpriteBatch spriteBatch;
     private PieceOnScreenState state;
 
@@ -43,10 +42,7 @@ public class PieceDrawable implements Drawable, InputProcessor {
     }
 
     public void setPositionCenter(Vector2 center) {
-        sprite.setPosition(
-            center.x - sprite.getWidth() / 2,
-            center.y - sprite.getHeight() / 2
-        );
+        sprite.setPosition(center.x - sprite.getWidth() / 2, center.y - sprite.getHeight() / 2);
     }
 
     public PieceId pieceId() {
@@ -79,8 +75,8 @@ public class PieceDrawable implements Drawable, InputProcessor {
 
     private void setSpriteFor(Piece piece) {
         sprite = PieceSprite.spriteFor(piece);
-        sprite.setSize(SQUARE_SIZE * PIECE_TO_SQUARE_SIZE_RATIO, SQUARE_SIZE * PIECE_TO_SQUARE_SIZE_RATIO);
+        sprite.setSize(
+                SQUARE_SIZE * PIECE_TO_SQUARE_SIZE_RATIO, SQUARE_SIZE * PIECE_TO_SQUARE_SIZE_RATIO);
         sprite.setCenter(position.x, position.y);
     }
-
 }

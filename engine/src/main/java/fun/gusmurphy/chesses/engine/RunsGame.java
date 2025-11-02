@@ -6,7 +6,8 @@ import fun.gusmurphy.chesses.engine.rules.RuleEvaluation;
 public interface RunsGame {
 
     BoardState currentBoardState();
-    RuleEvaluation.Legality checkLegalityOf(Move move);
-    void makeMove(Move move);
 
+    RuleEvaluation.Legality checkLegalityOf(Move move);
+
+    void makeMove(Move move);
 }

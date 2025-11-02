@@ -5,7 +5,6 @@ import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,9 +30,9 @@ public class MoveEventDeriver implements DerivesMoveEvents {
 
     private Optional<PieceRemovedEvent> createEventForTakenPiece(Move move, BoardState boardState) {
         BoardCoordinateStates coordinateStates = boardState.coordinateStates();
-        return coordinateStates.forCoordinates(move.coordinates())
-            .flatMap(BoardCoordinateState::piece)
-            .map(occupyingPiece -> new PieceRemovedEvent(occupyingPiece.id()));
+        return coordinateStates
+                .forCoordinates(move.coordinates())
+                .flatMap(BoardCoordinateState::piece)
+                .map(occupyingPiece -> new PieceRemovedEvent(occupyingPiece.id()));
     }
-
 }

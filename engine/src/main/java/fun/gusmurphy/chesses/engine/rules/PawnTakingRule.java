@@ -1,5 +1,7 @@
 package fun.gusmurphy.chesses.engine.rules;
 
+import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.Legality.*;
+
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
@@ -8,8 +10,6 @@ import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.Legality.*;
-
 public class PawnTakingRule extends SinglePieceMovementRule {
 
     public PawnTakingRule() {
@@ -17,8 +17,8 @@ public class PawnTakingRule extends SinglePieceMovementRule {
     }
 
     static RuleEvaluation.Legality legality(BoardState boardState, Move move) {
-        BoardCoordinateState coordinateState = boardState
-            .coordinateStates().forCoordinates(move.coordinates()).get();
+        BoardCoordinateState coordinateState =
+                boardState.coordinateStates().forCoordinates(move.coordinates()).get();
 
         if (coordinateState.isUnoccupied()) {
             return UNCONCERNED;
@@ -38,7 +38,8 @@ public class PawnTakingRule extends SinglePieceMovementRule {
         }
 
         PlayerColor movingPieceColor = movingPiece.color();
-        if (PawnMovementRule.verticalMovementDirectionIsOkayForColor(verticalMovement, movingPieceColor)) {
+        if (PawnMovementRule.verticalMovementDirectionIsOkayForColor(
+                verticalMovement, movingPieceColor)) {
             return LEGAL;
         }
 

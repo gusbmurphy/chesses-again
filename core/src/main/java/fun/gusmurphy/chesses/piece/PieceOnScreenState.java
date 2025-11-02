@@ -17,5 +17,4 @@ public abstract class PieceOnScreenState {
     public abstract void processInput(Vector2 cursorPosition);
 
     public abstract void setDragStatus(boolean isNowDragged);
-
 }

@@ -5,8 +5,8 @@ import java.util.Objects;
 public class PieceId {
 
     /**
-     * The reason behind using a `long` for the ID implementation is that GWT does not
-     * have an equivalent for UUID, oh well!
+     * The reason behind using a `long` for the ID implementation is that GWT does not have an
+     * equivalent for UUID, oh well!
      */
     private final long id;
 
@@ -25,5 +25,4 @@ public class PieceId {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
 }

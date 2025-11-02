@@ -2,7 +2,6 @@ package fun.gusmurphy.chesses.engine.rules;
 
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
-
 import java.util.Arrays;
 
 public class OverridingRule implements MoveRule {

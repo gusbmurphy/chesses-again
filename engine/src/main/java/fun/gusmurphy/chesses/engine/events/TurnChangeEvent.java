@@ -13,5 +13,4 @@ public class TurnChangeEvent implements BoardStateEvent {
     public PlayerColor newTurnColor() {
         return newTurnColor;
     }
-
 }

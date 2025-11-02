@@ -6,7 +6,6 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardStateReducer;
 import fun.gusmurphy.chesses.engine.boardstate.ReducesBoardState;
 import fun.gusmurphy.chesses.engine.events.BoardStateEvent;
 import fun.gusmurphy.chesses.engine.rules.*;
-
 import java.util.Optional;
 
 public class ChessEngine implements RunsGame {
@@ -15,7 +14,8 @@ public class ChessEngine implements RunsGame {
     private final MoveRule moveRule;
     private BoardState boardState;
 
-    public ChessEngine(ReducesBoardState boardStateReducer, MoveRule moveRule, BoardState boardState) {
+    public ChessEngine(
+            ReducesBoardState boardStateReducer, MoveRule moveRule, BoardState boardState) {
         this.boardStateReducer = boardStateReducer;
         this.moveRule = moveRule;
         this.boardState = boardState;
@@ -26,11 +26,7 @@ public class ChessEngine implements RunsGame {
     }
 
     public static ChessEngine defaultEngine(BoardState initialBoardState) {
-        return new ChessEngine(
-            new BoardStateReducer(),
-            MoveRuleSuite.BASIC,
-            initialBoardState
-        );
+        return new ChessEngine(new BoardStateReducer(), MoveRuleSuite.BASIC, initialBoardState);
     }
 
     @Override
@@ -52,10 +48,9 @@ public class ChessEngine implements RunsGame {
         }
 
         for (Optional<BoardStateEvent> event = ruleEvaluation.effects().next();
-             event.isPresent();
-             event = ruleEvaluation.effects().next()) {
+                event.isPresent();
+                event = ruleEvaluation.effects().next()) {
             boardState = boardStateReducer.reduce(boardState, event.get());
         }
     }
-
 }

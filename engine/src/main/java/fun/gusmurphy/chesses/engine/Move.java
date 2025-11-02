@@ -20,5 +20,4 @@ public class Move {
     public Coordinates coordinates() {
         return coordinates;
     }
-
 }

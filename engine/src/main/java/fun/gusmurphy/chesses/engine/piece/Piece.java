@@ -47,12 +47,7 @@ public class Piece {
     }
 
     public Piece afterMove() {
-        return new Piece(
-            this.color,
-            this.type,
-            this.id,
-            true
-        );
+        return new Piece(this.color, this.type, this.id, true);
     }
 
     protected Piece(Piece other) {

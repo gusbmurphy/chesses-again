@@ -3,7 +3,6 @@ package fun.gusmurphy.chesses.engine.rules;
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.events.BoardStateEvent;
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,20 +12,14 @@ public class RuleEvaluation {
     private final Legality legality;
     private final Effects effects;
 
-    private final static RuleEvaluation ILLEGAL_EVALUATION = new RuleEvaluation(
-        Legality.ILLEGAL,
-        Effects.emptyEffects()
-    );
+    private static final RuleEvaluation ILLEGAL_EVALUATION =
+            new RuleEvaluation(Legality.ILLEGAL, Effects.emptyEffects());
 
-    private final static RuleEvaluation LEGAL_EVALUATION_WITH_NO_EFFECTS = new RuleEvaluation(
-        Legality.LEGAL,
-        Effects.emptyEffects()
-    );
+    private static final RuleEvaluation LEGAL_EVALUATION_WITH_NO_EFFECTS =
+            new RuleEvaluation(Legality.LEGAL, Effects.emptyEffects());
 
-    private final static RuleEvaluation UNCONCERNED_EVALUATION = new RuleEvaluation(
-        Legality.UNCONCERNED,
-        Effects.emptyEffects()
-    );
+    private static final RuleEvaluation UNCONCERNED_EVALUATION =
+            new RuleEvaluation(Legality.UNCONCERNED, Effects.emptyEffects());
 
     private RuleEvaluation(Legality legality, Effects effects) {
         this.legality = legality;
@@ -35,17 +28,11 @@ public class RuleEvaluation {
 
     public static RuleEvaluation legalWithMove(Move move) {
         PieceMovedEvent event = new PieceMovedEvent(move.pieceId(), move.coordinates());
-        return new RuleEvaluation(
-            Legality.LEGAL,
-            new Effects(event)
-        );
+        return new RuleEvaluation(Legality.LEGAL, new Effects(event));
     }
 
     public static RuleEvaluation legalWithEffectsFromEvents(BoardStateEvent... events) {
-        return new RuleEvaluation(
-            Legality.LEGAL,
-            new Effects(events)
-        );
+        return new RuleEvaluation(Legality.LEGAL, new Effects(events));
     }
 
     public static RuleEvaluation legalWithNoEffects() {
@@ -69,7 +56,9 @@ public class RuleEvaluation {
     }
 
     public enum Legality {
-        LEGAL, ILLEGAL, UNCONCERNED
+        LEGAL,
+        ILLEGAL,
+        UNCONCERNED
     }
 
     public static class Effects {

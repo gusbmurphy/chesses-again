@@ -1,19 +1,17 @@
 package fun.gusmurphy.chesses.piece;
 
+import static fun.gusmurphy.chesses.engine.PlayerColor.*;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
-import static fun.gusmurphy.chesses.engine.PlayerColor.*;
-
 public class PieceSprite {
 
     public static Sprite spriteFor(Piece piece) {
-        return new Sprite(
-            new Texture(fileNameFor(piece))
-        );
+        return new Sprite(new Texture(fileNameFor(piece)));
     }
 
     private static String fileNameFor(Piece piece) {
@@ -48,5 +46,4 @@ public class PieceSprite {
 
         return fileName;
     }
-
 }

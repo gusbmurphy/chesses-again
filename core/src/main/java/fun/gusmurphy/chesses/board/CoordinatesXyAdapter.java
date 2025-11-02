@@ -1,7 +1,6 @@
 package fun.gusmurphy.chesses.board;
 
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
-
 import java.util.Arrays;
 
 public class CoordinatesXyAdapter {
@@ -20,11 +19,19 @@ public class CoordinatesXyAdapter {
         this.x = x;
         this.y = y;
 
-        coordinates = Arrays.stream(Coordinates.values())
-            .filter(c -> c.file().ordinal() == x)
-            .filter(c -> c.rank().ordinal() == y)
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Couldn't derive board coordinates from (" + x + ", " + y + ")"));
+        coordinates =
+                Arrays.stream(Coordinates.values())
+                        .filter(c -> c.file().ordinal() == x)
+                        .filter(c -> c.rank().ordinal() == y)
+                        .findFirst()
+                        .orElseThrow(
+                                () ->
+                                        new IllegalArgumentException(
+                                                "Couldn't derive board coordinates from ("
+                                                        + x
+                                                        + ", "
+                                                        + y
+                                                        + ")"));
     }
 
     public int x() {
@@ -38,5 +45,4 @@ public class CoordinatesXyAdapter {
     public Coordinates coordinates() {
         return coordinates;
     }
-
 }

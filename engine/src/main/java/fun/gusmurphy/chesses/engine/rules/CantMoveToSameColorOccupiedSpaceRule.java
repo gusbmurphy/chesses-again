@@ -5,14 +5,16 @@ import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.Piece;
-
 import java.util.Optional;
 
 public class CantMoveToSameColorOccupiedSpaceRule implements MoveRule {
     @Override
     public RuleEvaluation evaluate(BoardState boardState, Move move) {
-        Optional<Piece> occupyingPiece = boardState
-            .coordinateStates().forCoordinates(move.coordinates()).flatMap(BoardCoordinateState::piece);
+        Optional<Piece> occupyingPiece =
+                boardState
+                        .coordinateStates()
+                        .forCoordinates(move.coordinates())
+                        .flatMap(BoardCoordinateState::piece);
 
         if (!occupyingPiece.isPresent()) {
             return RuleEvaluation.legalWithNoEffects();

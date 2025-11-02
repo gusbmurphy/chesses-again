@@ -11,10 +11,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fun.gusmurphy.chesses.ChessesGame;
 import fun.gusmurphy.chesses.Drawable;
-import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateStates;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
-
+import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import java.util.Optional;
 
 public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslator {
@@ -28,7 +27,7 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
     private BoardState boardState;
     private Coordinates[] coordinatesToHighlight;
 
-    static private final int BOARD_WIDTH_IN_SQUARES = 8;
+    private static final int BOARD_WIDTH_IN_SQUARES = 8;
     private static final Color HIGHLIGHT_COLOR = new Color(0, 1, 1, 0.5f);
     public static final float SQUARE_SIZE = 40f;
 
@@ -99,10 +98,13 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
         BoardCoordinateStates coordinateStates = boardState.coordinateStates();
         // TODO: Maybe the squares should be able to draw themselves?
         for (Coordinates c : Coordinates.values()) {
-            coordinateStates.forCoordinates(c).ifPresent(boardCoordinateState -> {
-                CoordinatesXyAdapter xyAdapter = new CoordinatesXyAdapter(c);
-                drawSquareAt(xyAdapter.x(), xyAdapter.y());
-            });
+            coordinateStates
+                    .forCoordinates(c)
+                    .ifPresent(
+                            boardCoordinateState -> {
+                                CoordinatesXyAdapter xyAdapter = new CoordinatesXyAdapter(c);
+                                drawSquareAt(xyAdapter.x(), xyAdapter.y());
+                            });
         }
         spriteBatch.end();
     }
@@ -146,5 +148,4 @@ public class BoardDrawable implements Drawable, CoordinateToScreenSpaceTranslato
     private float bottomLeftY() {
         return viewport.getWorldHeight() / 2 - boardSize() / 2;
     }
-
 }

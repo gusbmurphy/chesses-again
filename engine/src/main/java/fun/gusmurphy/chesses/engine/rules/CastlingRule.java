@@ -1,5 +1,7 @@
 package fun.gusmurphy.chesses.engine.rules;
 
+import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*;
+
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
@@ -8,11 +10,8 @@ import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
-
 import java.util.Arrays;
 import java.util.Optional;
-
-import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*;
 
 public class CastlingRule implements MoveRule {
 
@@ -39,7 +38,8 @@ public class CastlingRule implements MoveRule {
             return RuleEvaluation.illegal();
         }
 
-        LineOfCoordinates lineBetweenKingAndRook = relevantRookPosition.lineTo(king.coordinates()).get();
+        LineOfCoordinates lineBetweenKingAndRook =
+                relevantRookPosition.lineTo(king.coordinates()).get();
         if (board.anyPartOfLineIsOccupied(lineBetweenKingAndRook)) {
             return RuleEvaluation.illegal();
         }
@@ -62,9 +62,7 @@ public class CastlingRule implements MoveRule {
     }
 
     private static boolean pieceIsNotValidPairForCastling(Piece piece, Piece king) {
-        return piece.type() != PieceType.ROOK
-            || piece.color() != king.color()
-            || piece.hasMoved();
+        return piece.type() != PieceType.ROOK || piece.color() != king.color() || piece.hasMoved();
     }
 
     private static Coordinates findRelevantRookPosition(Move move) {
