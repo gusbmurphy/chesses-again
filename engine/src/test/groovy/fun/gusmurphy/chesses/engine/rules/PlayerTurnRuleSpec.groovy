@@ -5,6 +5,7 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.events.TurnChangeEvent
 import fun.gusmurphy.chesses.engine.piece.Piece
 
 class PlayerTurnRuleSpec extends MoveRuleSpecification {
@@ -22,7 +23,11 @@ class PlayerTurnRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        evaluationIsLegalWithNoEffects(result)
+        result.legality() == RuleEvaluation.Legality.LEGAL
+
+        and: "there is a turn change event"
+        def turnChangeEvent = result.effects().next().get() as TurnChangeEvent
+        turnChangeEvent.newTurnColor() == color.opposite()
 
         where:
         color << [PlayerColor.WHITE, PlayerColor.BLACK]
