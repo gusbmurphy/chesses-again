@@ -5,7 +5,7 @@ import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysRule
-import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysRule
+import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysWithNoEffectsRule
 import fun.gusmurphy.chesses.engine.doubles.UnconcernedAlwaysRule
 import fun.gusmurphy.chesses.engine.piece.Piece
 import fun.gusmurphy.chesses.engine.piece.PieceType
@@ -15,7 +15,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
     private static final TEST_PIECE = new Piece(PlayerColor.WHITE, PieceType.KING)
     private static final DUMMY_BOARD = new BoardStateBuilder().addPieceAt(TEST_PIECE, Coordinates.A7).build()
     private static final DUMMY_MOVE = new Move(TEST_PIECE.id(), Coordinates.A1)
-    private static final MoveRule ALWAYS_LEGAL_RULE = new LegalAlwaysRule()
+    private static final MoveRule ALWAYS_LEGAL_RULE = new LegalAlwaysWithNoEffectsRule()
     private static final MoveRule ALWAYS_ILLEGAL_RULE = new IllegalAlwaysRule()
 
     def "with no rules, a move is legal"() {
@@ -29,7 +29,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
     def "with just one legal rule, a move is always legal"() {
         given:
-        MoveRuleSuite ruleSuite = new MoveRuleSuite(new LegalAlwaysRule())
+        MoveRuleSuite ruleSuite = new MoveRuleSuite(new LegalAlwaysWithNoEffectsRule())
 
         expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
@@ -47,8 +47,8 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
     def "with two move evaluation rules, a move is legal if both allow it"() {
         given:
-        def ruleOne = new LegalAlwaysRule()
-        def ruleTwo = new LegalAlwaysRule()
+        def ruleOne = new LegalAlwaysWithNoEffectsRule()
+        def ruleTwo = new LegalAlwaysWithNoEffectsRule()
         MoveRuleSuite ruleSuite = new MoveRuleSuite(ruleOne, ruleTwo)
 
         expect:
@@ -73,7 +73,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
 
         and: "a rule that's legal for the piece, and one that's illegal but not concerned with the piece"
-        def legalRule = new LegalAlwaysRule(pieceType)
+        def legalRule = new LegalAlwaysWithNoEffectsRule(pieceType)
         def illegalRule = new IllegalAlwaysRule(notThePieceType)
         def suite = new MoveRuleSuite(legalRule, illegalRule)
 
@@ -90,7 +90,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
 
         and: "a rule that's legal for the piece, and one that's illegal but not concerned with the piece"
-        def legalRule = new LegalAlwaysRule(notThePieceType)
+        def legalRule = new LegalAlwaysWithNoEffectsRule(notThePieceType)
         def illegalRule = new IllegalAlwaysRule(pieceType)
         def suite = new MoveRuleSuite(legalRule, illegalRule)
 
@@ -101,7 +101,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
     def "if a legal rule is overridden by an illegal ruling, we use the illegal ruling"() {
         given:
-        def overriddenRule = new LegalAlwaysRule()
+        def overriddenRule = new LegalAlwaysWithNoEffectsRule()
         def overridingRule = new OverridingRule(new IllegalAlwaysRule(), overriddenRule)
         def suite = new MoveRuleSuite(overriddenRule, overridingRule)
         def piece = new Piece()
@@ -115,7 +115,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
     def "if an illegal rule is overridden by a legal ruling, we use the legal ruling"() {
         given:
         def overriddenRule = new IllegalAlwaysRule()
-        def overridingRule = new OverridingRule(new LegalAlwaysRule(), overriddenRule)
+        def overridingRule = new OverridingRule(new LegalAlwaysWithNoEffectsRule(), overriddenRule)
         def suite = new MoveRuleSuite(overriddenRule, overridingRule)
         def piece = new Piece()
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
@@ -127,7 +127,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
     def "if a legal rule is overridden by an unconcerned ruling, we use the legal ruling"() {
         given:
-        def overriddenRule = new LegalAlwaysRule()
+        def overriddenRule = new LegalAlwaysWithNoEffectsRule()
         def overridingRule = new OverridingRule(new UnconcernedAlwaysRule(), overriddenRule)
         def suite = new MoveRuleSuite(overriddenRule, overridingRule)
         def piece = new Piece()

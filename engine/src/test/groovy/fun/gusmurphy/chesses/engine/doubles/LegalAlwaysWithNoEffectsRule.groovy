@@ -6,15 +6,15 @@ import fun.gusmurphy.chesses.engine.piece.PieceType
 import fun.gusmurphy.chesses.engine.rules.MoveRule
 import fun.gusmurphy.chesses.engine.rules.RuleEvaluation
 
-class LegalAlwaysRule implements MoveRule {
+class LegalAlwaysWithNoEffectsRule implements MoveRule {
 
     private final PieceType relevantPieceType
 
-    LegalAlwaysRule() {
+    LegalAlwaysWithNoEffectsRule() {
         relevantPieceType = null
     }
 
-    LegalAlwaysRule(PieceType relevantPieceType) {
+    LegalAlwaysWithNoEffectsRule(PieceType relevantPieceType) {
         this.relevantPieceType = relevantPieceType
     }
 
