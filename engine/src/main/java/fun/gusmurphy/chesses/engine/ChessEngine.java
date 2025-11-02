@@ -22,7 +22,7 @@ public class ChessEngine implements RunsGame {
     }
 
     public static ChessEngine defaultEngine() {
-        return defaultEngine(BoardStateBuilder.justCastling());
+        return defaultEngine(BoardStateBuilder.defaultBoard());
     }
 
     public static ChessEngine defaultEngine(BoardState initialBoardState) {
