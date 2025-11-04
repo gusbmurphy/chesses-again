@@ -65,7 +65,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         evaluationIsIllegalWithNoEffects(result)
     }
 
-    def "only moves relevant for a the move's piece type are used"() {
+    def "only moves relevant for the move's piece type are used"() {
         given:
         def pieceType = PieceType.PAWN
         def notThePieceType = PieceType.BISHOP
