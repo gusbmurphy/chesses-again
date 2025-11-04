@@ -24,7 +24,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
-        evaluationIsLegalWithNoEffects(result)
+        evaluationIsLegal(result)
     }
 
     def "with just one legal rule, a move is always legal"() {
@@ -33,7 +33,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
-        evaluationIsLegalWithNoEffects(result)
+        evaluationIsLegal(result)
     }
 
     def "with just one illegal rule, a move is always illegal"() {
@@ -53,7 +53,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
-        evaluationIsLegalWithNoEffects(result)
+        evaluationIsLegal(result)
     }
 
     def "with two move evaluation rules, a move is illegal if one does not allow it"() {
@@ -79,7 +79,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
-        evaluationIsLegalWithNoEffects(result)
+        evaluationIsLegal(result)
     }
 
     def "if the second rule says something is illegal, but the first is not relevant to the piece, the move is still illegal"() {
@@ -122,7 +122,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
-        evaluationIsLegalWithNoEffects(result)
+        evaluationIsLegal(result)
     }
 
     def "if a legal rule is overridden by an unconcerned ruling, we use the legal ruling"() {
@@ -135,7 +135,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
         expect:
         def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
-        evaluationIsLegalWithNoEffects(result)
+        evaluationIsLegal(result)
     }
 
     def "if an illegal rule is overridden by a legal ruling, we use the legal ruling"() {

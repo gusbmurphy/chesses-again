@@ -15,6 +15,10 @@ class MoveRuleSpecification extends Specification {
         assert effect.pieceId() == move.pieceId()
     }
 
+    protected static void evaluationIsLegal(RuleEvaluation evaluation) {
+        assert evaluation.legality() == RuleEvaluation.Legality.LEGAL
+    }
+
     protected static void evaluationIsIllegalWithNoEffects(RuleEvaluation evaluation) {
         assert evaluation.legality() == RuleEvaluation.Legality.ILLEGAL
         assert evaluation.effects().areNone()
