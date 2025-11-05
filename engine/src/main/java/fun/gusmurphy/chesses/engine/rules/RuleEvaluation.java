@@ -66,6 +66,18 @@ public class RuleEvaluation {
         return legality;
     }
 
+    public boolean isIllegal() {
+        return legality == Legality.ILLEGAL;
+    }
+
+    public boolean isLegal() {
+        return legality == Legality.LEGAL;
+    }
+
+    public boolean isUnconcerned() {
+        return legality == Legality.UNCONCERNED;
+    }
+
     public Effects effects() {
         return effects;
     }
