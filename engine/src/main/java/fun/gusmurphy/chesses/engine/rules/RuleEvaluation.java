@@ -74,6 +74,10 @@ public class RuleEvaluation {
         return legality == Legality.LEGAL;
     }
 
+    public boolean isNotLegal() {
+        return legality != Legality.LEGAL;
+    }
+
     public boolean isUnconcerned() {
         return legality == Legality.UNCONCERNED;
     }
