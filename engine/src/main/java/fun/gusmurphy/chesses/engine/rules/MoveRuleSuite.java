@@ -23,24 +23,28 @@ public class MoveRuleSuite implements MoveRule {
             return RuleEvaluation.legalWithNoEffects();
         }
 
-        if (anyRelevantRuleSaysMoveIsIllegal(boardState, move)) {
-            return RuleEvaluation.illegal();
+        PieceType relevantPieceType = getTypeOfMovingPiece(boardState, move);
+        RuleEvaluation combinedEvaluation = RuleEvaluation.legalWithNoEffects();
+
+        for (MoveRule rule : rules) {
+            if (!rule.isRelevantForPieceType(relevantPieceType)) {
+                continue;
+            }
+
+            RuleEvaluation thisEvaluation = rule.evaluate(boardState, move);
+
+            if (thisEvaluation.legality() == Legality.ILLEGAL) {
+                Optional<MoveRule> legalOverride =
+                        findOverrideWithLegalRuling(boardState, move, rule);
+                if (!legalOverride.isPresent()) {
+                    combinedEvaluation = combinedEvaluation.combineWith(thisEvaluation);
+                }
+            } else {
+                combinedEvaluation = combinedEvaluation.combineWith(thisEvaluation);
+            }
         }
 
-        return RuleEvaluation.legalWithNoEffects();
-    }
-
-    private boolean anyRelevantRuleSaysMoveIsIllegal(BoardState boardState, Move move) {
-        PieceType pieceType = getTypeOfMovingPiece(boardState, move);
-
-        return Arrays.stream(rules)
-                .anyMatch(rule -> ruleSaysMoveIsIllegal(boardState, move, rule, pieceType));
-    }
-
-    private boolean ruleSaysMoveIsIllegal(
-            BoardState boardState, Move move, MoveRule rule, PieceType pieceType) {
-        return ruleIsRelevantForPieceAndIllegal(boardState, move, rule, pieceType)
-                && noLegalOverrideExistsForRule(boardState, move, rule);
+        return combinedEvaluation;
     }
 
     private Optional<MoveRule> findOverrideWithLegalRuling(

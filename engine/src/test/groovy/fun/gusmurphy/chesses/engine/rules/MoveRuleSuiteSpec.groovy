@@ -4,7 +4,9 @@ import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
+import fun.gusmurphy.chesses.engine.doubles.DummyBoardStateEvent
 import fun.gusmurphy.chesses.engine.doubles.IllegalAlwaysRule
+import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysWithEffectsRule
 import fun.gusmurphy.chesses.engine.doubles.LegalAlwaysWithNoEffectsRule
 import fun.gusmurphy.chesses.engine.doubles.UnconcernedAlwaysRule
 import fun.gusmurphy.chesses.engine.piece.Piece
@@ -54,6 +56,23 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         expect:
         def result = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE)
         evaluationIsLegal(result)
+    }
+
+    def "with two legal rules with effects, the resulting evaluation has the effects of both"() {
+        given:
+        def eventOne = new DummyBoardStateEvent()
+        def eventTwo = new DummyBoardStateEvent()
+        def ruleOne = new LegalAlwaysWithEffectsRule(eventOne, eventTwo)
+        def eventThree = new DummyBoardStateEvent()
+        def ruleTwo = new LegalAlwaysWithEffectsRule(eventThree)
+
+        MoveRuleSuite ruleSuite = new MoveRuleSuite(ruleOne, ruleTwo)
+
+        expect:
+        def resultEffects = ruleSuite.evaluate(DUMMY_BOARD, DUMMY_MOVE).effects()
+        resultEffects.next().get() == eventOne
+        resultEffects.next().get() == eventTwo
+        resultEffects.next().get() == eventThree
     }
 
     def "with two move evaluation rules, a move is illegal if one does not allow it"() {

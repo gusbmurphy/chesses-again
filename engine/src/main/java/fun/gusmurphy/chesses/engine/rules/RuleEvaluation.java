@@ -47,6 +47,21 @@ public class RuleEvaluation {
         return UNCONCERNED_EVALUATION;
     }
 
+    public RuleEvaluation combineWith(RuleEvaluation other) {
+        Effects combinedEffects = effects.combineWith(other.effects);
+
+        Legality newLegality;
+        if (legality == Legality.ILLEGAL || other.legality == Legality.ILLEGAL) {
+            newLegality = Legality.ILLEGAL;
+        } else if (legality == Legality.UNCONCERNED && other.legality == Legality.UNCONCERNED) {
+            newLegality = Legality.UNCONCERNED;
+        } else {
+            newLegality = Legality.LEGAL;
+        }
+
+        return new RuleEvaluation(newLegality, combinedEffects);
+    }
+
     public Legality legality() {
         return legality;
     }
@@ -62,23 +77,28 @@ public class RuleEvaluation {
     }
 
     public static class Effects {
-        private final List<BoardStateEvent> eventList;
+        private final BoardStateEvent[] events;
         private int nextEffectIndex = 0;
 
         private Effects(BoardStateEvent... events) {
-            eventList = new ArrayList<>();
-            eventList.addAll(Arrays.asList(events));
+            this.events = events;
         }
 
         public Optional<BoardStateEvent> next() {
-            if (nextEffectIndex >= eventList.size()) {
+            if (nextEffectIndex >= events.length) {
                 return Optional.empty();
             }
-            return Optional.of(eventList.get(nextEffectIndex++));
+            return Optional.of(events[nextEffectIndex++]);
         }
 
         protected static Effects emptyEffects() {
             return new Effects();
+        }
+
+        protected Effects combineWith(Effects other) {
+            List<BoardStateEvent> allEvents = new ArrayList<>(Arrays.asList(events));
+            allEvents.addAll(new ArrayList<>(Arrays.asList(other.events)));
+            return new Effects(allEvents.toArray(new BoardStateEvent[0]));
         }
 
         public boolean areNone() {
