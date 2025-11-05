@@ -23,7 +23,7 @@ class PlayerTurnRuleSpec extends MoveRuleSpecification {
 
         expect:
         def result = rule.evaluate(board, move)
-        result.legality() == RuleEvaluation.Legality.LEGAL
+        result.isLegal()
 
         and: "there is a turn change event"
         def turnChangeEvent = result.effects().next().get() as TurnChangeEvent

@@ -33,7 +33,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
 
         expect:
         def evaluation = rule.evaluate(board, move)
-        evaluation.legality() == LEGAL
+        evaluation.isLegal()
 
         and:
         def effects = evaluation.effects()
@@ -140,7 +140,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
         def move = new Move(king.id(), moveCoordinates)
 
         expect:
-        rule.evaluate(board, move).legality() == UNCONCERNED
+        rule.evaluate(board, move).isUnconcerned()
 
         where:
         moveCoordinates << [G5, C3, E8]

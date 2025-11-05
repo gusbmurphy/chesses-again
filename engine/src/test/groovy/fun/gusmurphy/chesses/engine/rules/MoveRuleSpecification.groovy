@@ -7,7 +7,7 @@ import spock.lang.Specification
 class MoveRuleSpecification extends Specification {
 
     protected static void evaluationIsLegalAndHasSimpleMoveEffect(RuleEvaluation evaluation, Move move) {
-        assert evaluation.legality() == RuleEvaluation.Legality.LEGAL
+        assert evaluation.isLegal()
 
         def effect = evaluation.effects().next().get()
         assert (effect instanceof PieceMovedEvent)
@@ -16,21 +16,21 @@ class MoveRuleSpecification extends Specification {
     }
 
     protected static void evaluationIsLegal(RuleEvaluation evaluation) {
-        assert evaluation.legality() == RuleEvaluation.Legality.LEGAL
+        assert evaluation.isLegal()
     }
 
     protected static void evaluationIsIllegalWithNoEffects(RuleEvaluation evaluation) {
-        assert evaluation.legality() == RuleEvaluation.Legality.ILLEGAL
+        assert evaluation.isIllegal()
         assert evaluation.effects().areNone()
     }
 
     protected static void evaluationIsLegalWithNoEffects(RuleEvaluation evaluation) {
-        assert evaluation.legality() == RuleEvaluation.Legality.LEGAL
+        assert evaluation.isLegal()
         assert evaluation.effects().areNone()
     }
 
     protected static void evaluationIsUnconcernedWithNoEffects(RuleEvaluation evaluation) {
-        assert evaluation.legality() == RuleEvaluation.Legality.UNCONCERNED
+        assert evaluation.isUnconcerned()
         assert evaluation.effects().areNone()
     }
 

@@ -62,10 +62,6 @@ public class RuleEvaluation {
         return new RuleEvaluation(newLegality, combinedEffects);
     }
 
-    public Legality legality() {
-        return legality;
-    }
-
     public boolean isIllegal() {
         return legality == Legality.ILLEGAL;
     }

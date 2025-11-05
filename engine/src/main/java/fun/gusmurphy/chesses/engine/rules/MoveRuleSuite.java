@@ -1,7 +1,5 @@
 package fun.gusmurphy.chesses.engine.rules;
 
-import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.*;
-
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
@@ -33,7 +31,7 @@ public class MoveRuleSuite implements MoveRule {
 
             RuleEvaluation thisEvaluation = rule.evaluate(boardState, move);
 
-            if (thisEvaluation.legality() == Legality.ILLEGAL) {
+            if (thisEvaluation.isIllegal()) {
                 Optional<MoveRule> legalOverride =
                         findOverrideWithLegalRuling(boardState, move, rule);
                 if (!legalOverride.isPresent()) {
@@ -51,7 +49,7 @@ public class MoveRuleSuite implements MoveRule {
             BoardState boardState, Move move, MoveRule rule) {
         return Arrays.stream(rules)
                 .filter(r -> r.overrides(rule))
-                .filter(r -> r.evaluate(boardState, move).legality() == Legality.LEGAL)
+                .filter(r -> r.evaluate(boardState, move).isLegal())
                 .findAny();
     }
 

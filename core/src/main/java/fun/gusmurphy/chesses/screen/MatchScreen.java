@@ -11,7 +11,6 @@ import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
-import fun.gusmurphy.chesses.engine.rules.RuleEvaluation;
 import fun.gusmurphy.chesses.piece.PieceDrawable;
 import fun.gusmurphy.chesses.piece.PieceSelectionListener;
 import java.util.ArrayList;
@@ -146,9 +145,8 @@ public class MatchScreen extends BaseScreen implements PieceSelectionListener {
         List<Coordinates> coordinatesToHighlight = new ArrayList<>();
         for (Coordinates coordinates : Coordinates.values()) {
             Move possibleMove = new Move(pieceId, coordinates);
-            RuleEvaluation.Legality moveLegality = engine.checkLegalityOf(possibleMove);
 
-            if (moveLegality == RuleEvaluation.Legality.LEGAL) {
+            if (engine.moveIsLegal(possibleMove)) {
                 coordinatesToHighlight.add(coordinates);
             }
         }
