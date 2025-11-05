@@ -60,17 +60,6 @@ public class MoveRuleSuite implements MoveRule {
         return piece.type();
     }
 
-    private static boolean ruleIsRelevantForPieceAndIllegal(
-            BoardState boardState, Move move, MoveRule rule, PieceType pieceType) {
-        return rule.isRelevantForPieceType(pieceType)
-                && rule.evaluate(boardState, move).legality() == Legality.ILLEGAL;
-    }
-
-    private boolean noLegalOverrideExistsForRule(BoardState boardState, Move move, MoveRule rule) {
-        Optional<MoveRule> legalOverride = findOverrideWithLegalRuling(boardState, move, rule);
-        return !legalOverride.isPresent();
-    }
-
     public static final MoveRuleSuite BASIC =
             new MoveRuleSuite(
                     new BishopMovementRule(),
