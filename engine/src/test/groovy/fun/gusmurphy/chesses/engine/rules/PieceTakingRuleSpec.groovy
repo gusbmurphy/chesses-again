@@ -31,18 +31,23 @@ class PieceTakingRuleSpec extends MoveRuleSpecification {
         color << [WHITE, BLACK]
     }
 
-    def "moving a piece to a spot occupied by the SAME color is illegal"() {
+    def "the rule is unconcerned with any other move"() {
         given:
-        def (board, move) = setupBoardAndMoveWithSameColor(color)
+        def movingPiece = new Piece(color)
+        def board = new BoardStateBuilder()
+            .addPieceAt(movingPiece, D4)
+            .build()
+
+        def move = new Move(movingPiece.id(), coordinates)
 
         when:
         def result = rule.evaluate(board, move)
 
         then:
-        result.isIllegal()
+        result.isUnconcerned()
 
         where:
-        color << [WHITE, BLACK]
+        [color, coordinates] << [[WHITE, BLACK], [D5, C2, H1]].combinations()
     }
 
     private static setupBoardAndMoveWithOppositeColors(PlayerColor takingColor) {
@@ -56,19 +61,6 @@ class PieceTakingRuleSpec extends MoveRuleSpecification {
         def move = new Move(movingPiece.id(), D5)
 
         return [board, move, takenPiece]
-    }
-
-    private static setupBoardAndMoveWithSameColor(PlayerColor color) {
-        def movingPiece = new Piece(color)
-        def takenPiece = new Piece(color)
-        def board = new BoardStateBuilder()
-            .addPieceAt(movingPiece, D4)
-            .addPieceAt(takenPiece, D5)
-            .build()
-
-        def move = new Move(movingPiece.id(), D5)
-
-        return [board, move]
     }
 
 }
