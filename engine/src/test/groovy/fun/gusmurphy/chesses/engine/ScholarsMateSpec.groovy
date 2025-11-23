@@ -1,6 +1,5 @@
 package fun.gusmurphy.chesses.engine
 
-import spock.lang.Ignore
 import spock.lang.Specification
 
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
