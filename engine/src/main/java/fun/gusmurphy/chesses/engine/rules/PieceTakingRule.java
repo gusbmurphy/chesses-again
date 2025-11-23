@@ -3,12 +3,23 @@ package fun.gusmurphy.chesses.engine.rules;
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.events.PieceRemovedEvent;
-import fun.gusmurphy.chesses.engine.piece.Piece;
+import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 
+// TODO: This rule is returning illegal when moving to the same space as the same color, what about
+// that other rule?
 public class PieceTakingRule implements MoveRule {
     @Override
     public RuleEvaluation evaluate(BoardState boardState, Move move) {
-        Piece takenPiece = boardState.pieceAtCoordinates(move.coordinates()).get();
-        return RuleEvaluation.legalWithEffectsFromEvents(new PieceRemovedEvent(takenPiece.id()));
+        PieceOnBoard movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
+
+        return boardState
+                .pieceAtCoordinates(move.coordinates())
+                .filter(pieceOnBoard -> pieceOnBoard.color() != movingPiece.color())
+                .map(PieceTakingRule::createLegalTakingEvaluation)
+                .orElseGet(RuleEvaluation::illegal);
+    }
+
+    private static RuleEvaluation createLegalTakingEvaluation(PieceOnBoard pieceOnBoard) {
+        return RuleEvaluation.legalWithEffectsFromEvents(new PieceRemovedEvent(pieceOnBoard.id()));
     }
 }
