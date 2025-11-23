@@ -24,7 +24,6 @@ class ScholarsMateSpec extends Specification {
     static whiteBishop = engine.currentBoardState().pieceAtCoordinates(F1).get()
     static blackRightKnight = engine.currentBoardState().pieceAtCoordinates(G8).get()
 
-    @Ignore
     def "Scholar's Mate"() {
         given:
         // e4 e5
