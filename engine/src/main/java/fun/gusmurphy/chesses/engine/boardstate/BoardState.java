@@ -1,6 +1,7 @@
 package fun.gusmurphy.chesses.engine.boardstate;
 
 import fun.gusmurphy.chesses.engine.File;
+import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.Rank;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
@@ -56,6 +57,11 @@ public class BoardState {
 
     public PlayerColor currentTurnColor() {
         return currentTurnColor;
+    }
+
+    public MoveOnBoard enhanceMove(Move move) {
+        PieceOnBoard movingPiece = pieceOnBoardForId(move.pieceId()).get();
+        return new MoveOnBoard(movingPiece, move.coordinates());
     }
 
     /* TODO: I'm not sure if returning an Optional is right here, we want to be able to account for the given piece

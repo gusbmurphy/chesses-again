@@ -1,9 +1,6 @@
 package fun.gusmurphy.chesses.engine;
 
-import fun.gusmurphy.chesses.engine.boardstate.BoardState;
-import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder;
-import fun.gusmurphy.chesses.engine.boardstate.BoardStateReducer;
-import fun.gusmurphy.chesses.engine.boardstate.ReducesBoardState;
+import fun.gusmurphy.chesses.engine.boardstate.*;
 import fun.gusmurphy.chesses.engine.events.BoardStateEvent;
 import fun.gusmurphy.chesses.engine.rules.*;
 import java.util.Optional;
@@ -36,12 +33,14 @@ public class ChessEngine implements RunsGame {
 
     @Override
     public boolean moveIsLegal(Move move) {
-        return moveRule.evaluate(boardState, move).isLegal();
+        MoveOnBoard moveOnBoard = boardState.enhanceMove(move);
+        return moveRule.evaluate(boardState, moveOnBoard).isLegal();
     }
 
     @Override
     public void makeMove(Move move) {
-        RuleEvaluation ruleEvaluation = moveRule.evaluate(boardState, move);
+        MoveOnBoard moveOnBoard = boardState.enhanceMove(move);
+        RuleEvaluation ruleEvaluation = moveRule.evaluate(boardState, moveOnBoard);
 
         if (ruleEvaluation.isNotLegal()) {
             return;
