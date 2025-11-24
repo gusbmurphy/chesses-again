@@ -1,9 +1,7 @@
 package fun.gusmurphy.chesses.engine.rules;
 
-import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.boardstate.MoveOnBoard;
-import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 import java.util.Arrays;
 import java.util.Optional;
@@ -22,7 +20,7 @@ public class MoveRuleSuite implements MoveRule {
             return RuleEvaluation.legalWithNoEffects();
         }
 
-        PieceType relevantPieceType = getTypeOfMovingPiece(boardState, move);
+        PieceType relevantPieceType = move.pieceOnBoard().type();
         RuleEvaluation combinedEvaluation = RuleEvaluation.legalWithNoEffects();
 
         for (MoveRule rule : rules) {
@@ -52,11 +50,6 @@ public class MoveRuleSuite implements MoveRule {
                 .filter(r -> r.overrides(rule))
                 .filter(r -> r.evaluate(boardState, move).isLegal())
                 .findAny();
-    }
-
-    private static PieceType getTypeOfMovingPiece(BoardState boardState, Move move) {
-        PieceOnBoard piece = boardState.pieceOnBoardForId(move.pieceId()).get();
-        return piece.type();
     }
 
     public static final MoveRuleSuite BASIC =

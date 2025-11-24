@@ -23,7 +23,7 @@ public class CastlingRule implements MoveRule {
             return RuleEvaluation.unconcerned();
         }
 
-        PieceOnBoard king = board.pieceOnBoardForId(move.pieceId()).get();
+        PieceOnBoard king = move.pieceOnBoard();
         if (king.hasMoved()) {
             return RuleEvaluation.illegal();
         }

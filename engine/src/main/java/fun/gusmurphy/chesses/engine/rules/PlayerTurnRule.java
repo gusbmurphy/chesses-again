@@ -5,13 +5,12 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.boardstate.MoveOnBoard;
 import fun.gusmurphy.chesses.engine.events.TurnChangeEvent;
 import fun.gusmurphy.chesses.engine.piece.Piece;
-import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 public class PlayerTurnRule implements MoveRule {
 
     @Override
     public RuleEvaluation evaluate(BoardState boardState, MoveOnBoard move) {
-        Piece piece = boardState.pieceOnBoardForId(move.pieceId()).get();
+        Piece piece = move.pieceOnBoard();
 
         if (piece.color() == boardState.currentTurnColor()) {
             PlayerColor currentTurnColor = boardState.currentTurnColor();
@@ -21,10 +20,5 @@ public class PlayerTurnRule implements MoveRule {
         }
 
         return RuleEvaluation.illegal();
-    }
-
-    @Override
-    public boolean isRelevantForPieceType(PieceType pieceType) {
-        return true;
     }
 }

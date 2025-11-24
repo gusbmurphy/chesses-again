@@ -8,7 +8,7 @@ import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 public class PieceTakingRule implements MoveRule {
     @Override
     public RuleEvaluation evaluate(BoardState boardState, MoveOnBoard move) {
-        PieceOnBoard movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
+        PieceOnBoard movingPiece = move.pieceOnBoard();
 
         return boardState
                 .pieceAtCoordinates(move.coordinates())

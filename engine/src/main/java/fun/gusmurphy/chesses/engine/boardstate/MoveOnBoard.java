@@ -12,4 +12,8 @@ public class MoveOnBoard extends Move {
         super(piece.id(), coordinates);
         this.piece = piece;
     }
+
+    public PieceOnBoard pieceOnBoard() {
+        return piece;
+    }
 }

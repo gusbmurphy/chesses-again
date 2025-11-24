@@ -2,10 +2,10 @@ package fun.gusmurphy.chesses.engine.rules;
 
 import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.Legality.*;
 
-import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardCoordinateState;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.boardstate.MoveOnBoard;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
@@ -16,7 +16,7 @@ public class PawnTakingRule extends SinglePieceMovementRule {
         super(PieceType.PAWN, PawnTakingRule::legality);
     }
 
-    static RuleEvaluation.Legality legality(BoardState boardState, Move move) {
+    static RuleEvaluation.Legality legality(BoardState boardState, MoveOnBoard move) {
         BoardCoordinateState coordinateState =
                 boardState.coordinateStates().forCoordinates(move.coordinates()).get();
 
@@ -24,7 +24,7 @@ public class PawnTakingRule extends SinglePieceMovementRule {
             return UNCONCERNED;
         }
 
-        PieceOnBoard movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
+        PieceOnBoard movingPiece = move.pieceOnBoard();
         Coordinates currentPieceCoordinates = movingPiece.coordinates();
         Coordinates moveCoordinates = move.coordinates();
 

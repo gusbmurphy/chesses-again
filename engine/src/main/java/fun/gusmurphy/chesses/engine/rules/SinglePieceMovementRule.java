@@ -1,6 +1,5 @@
 package fun.gusmurphy.chesses.engine.rules;
 
-import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.boardstate.MoveOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
@@ -36,6 +35,6 @@ abstract class SinglePieceMovementRule implements MoveRule {
 
     @FunctionalInterface
     interface LegalityEvaluation {
-        RuleEvaluation.Legality evaluateLegality(BoardState boardState, Move move);
+        RuleEvaluation.Legality evaluateLegality(BoardState boardState, MoveOnBoard move);
     }
 }
