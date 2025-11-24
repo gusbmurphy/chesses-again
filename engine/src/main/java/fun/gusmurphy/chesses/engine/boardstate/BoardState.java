@@ -61,7 +61,7 @@ public class BoardState {
 
     public MoveOnBoard enhanceMove(Move move) {
         PieceOnBoard movingPiece = pieceOnBoardForId(move.pieceId()).get();
-        return new MoveOnBoard(movingPiece, move.coordinates());
+        return new MoveOnBoard(movingPiece, getStateFor(move.coordinates()));
     }
 
     /* TODO: I'm not sure if returning an Optional is right here, we want to be able to account for the given piece
