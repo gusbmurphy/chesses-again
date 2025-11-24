@@ -3,6 +3,8 @@ package fun.gusmurphy.chesses.engine;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.piece.PieceId;
 
+// TODO: What if there was a decorated move or something that contained the moving piece and the
+// state of the coordinates?
 public class Move {
 
     private final PieceId pieceId;
