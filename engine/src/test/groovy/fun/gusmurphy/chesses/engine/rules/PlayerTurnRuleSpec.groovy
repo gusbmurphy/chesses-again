@@ -19,7 +19,7 @@ class PlayerTurnRuleSpec extends MoveRuleSpecification {
             .build()
 
         MoveRule rule = new PlayerTurnRule()
-        Move move = new Move(piece.id(), Coordinates.A1)
+        Move move = board.enhanceMove(new Move(piece.id(), Coordinates.A1))
 
         expect:
         def result = rule.evaluate(board, move)
@@ -42,7 +42,7 @@ class PlayerTurnRuleSpec extends MoveRuleSpecification {
             .build()
 
         MoveRule rule = new PlayerTurnRule()
-        Move move = new Move(piece.id(), Coordinates.A1)
+        Move move = board.enhanceMove(new Move(piece.id(), Coordinates.A1))
 
         expect:
         def result = rule.evaluate(board, move)

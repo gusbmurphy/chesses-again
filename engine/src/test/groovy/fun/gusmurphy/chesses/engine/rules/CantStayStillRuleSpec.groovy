@@ -24,9 +24,10 @@ class CantStayStillRuleSpec extends MoveRuleSpecification {
         def piece = new Piece(PlayerColor.WHITE, PieceType.PAWN)
         def piecePosition = Coordinates.D5
         def board = new BoardStateBuilder().addPieceAt(piece, piecePosition).build()
+        def move = board.enhanceMove(new Move(piece.id(), piecePosition))
 
         expect:
-        def result = rule.evaluate(board, new Move(piece.id(), piecePosition))
+        def result = rule.evaluate(board, move)
         evaluationIsIllegalWithNoEffects(result)
     }
 
@@ -35,7 +36,7 @@ class CantStayStillRuleSpec extends MoveRuleSpecification {
         def piece = new Piece(PlayerColor.WHITE, PieceType.PAWN)
         def piecePosition = Coordinates.D5
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.A7).build()
-        def move = new Move(piece.id(), piecePosition)
+        def move = board.enhanceMove(new Move(piece.id(), piecePosition))
 
         expect:
         def result = rule.evaluate(board, move)

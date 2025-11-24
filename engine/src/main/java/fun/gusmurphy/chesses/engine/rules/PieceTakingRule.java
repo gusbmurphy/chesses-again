@@ -1,13 +1,13 @@
 package fun.gusmurphy.chesses.engine.rules;
 
-import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.boardstate.MoveOnBoard;
 import fun.gusmurphy.chesses.engine.events.PieceRemovedEvent;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 
 public class PieceTakingRule implements MoveRule {
     @Override
-    public RuleEvaluation evaluate(BoardState boardState, Move move) {
+    public RuleEvaluation evaluate(BoardState boardState, MoveOnBoard move) {
         PieceOnBoard movingPiece = boardState.pieceOnBoardForId(move.pieceId()).get();
 
         return boardState

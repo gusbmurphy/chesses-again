@@ -28,7 +28,7 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends MoveRuleSpecification {
             .addPieceAt(occupyingPiece, Coordinates.B8)
             .build()
 
-        def move = new Move(movingPiece.id(), Coordinates.B8)
+        def move = board.enhanceMove(new Move(movingPiece.id(), Coordinates.B8))
 
         expect:
         def result = rule.evaluate(board, move)
@@ -44,7 +44,7 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends MoveRuleSpecification {
             .addPieceAt(occupyingPiece, Coordinates.B8)
             .build()
 
-        def move = new Move(movingPiece.id(), Coordinates.B8)
+        def move = board.enhanceMove(new Move(movingPiece.id(), Coordinates.B8))
 
         expect:
         def result = rule.evaluate(board, move)
@@ -61,7 +61,7 @@ class CantMoveToSameColorOccupiedSpaceRuleSpec extends MoveRuleSpecification {
             .addPieceAt(occupyingPiece, Coordinates.B8)
             .build()
 
-        def move = new Move(movingPiece.id(), Coordinates.C3)
+        def move = board.enhanceMove(new Move(movingPiece.id(), Coordinates.C3))
 
         expect:
         def result = rule.evaluate(board, move)

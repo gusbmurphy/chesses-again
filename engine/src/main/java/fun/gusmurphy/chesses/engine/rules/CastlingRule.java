@@ -4,6 +4,7 @@ import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*;
 
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.boardstate.MoveOnBoard;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.coordinates.LineOfCoordinates;
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
@@ -17,7 +18,7 @@ public class CastlingRule implements MoveRule {
 
     // TODO: This rule assumes the "regular" board start, is that worth thinking about?
     @Override
-    public RuleEvaluation evaluate(BoardState board, Move move) {
+    public RuleEvaluation evaluate(BoardState board, MoveOnBoard move) {
         if (moveIsNotToAValidCastlingPosition(move)) {
             return RuleEvaluation.unconcerned();
         }

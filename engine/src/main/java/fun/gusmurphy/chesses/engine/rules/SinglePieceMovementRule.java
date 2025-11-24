@@ -2,6 +2,7 @@ package fun.gusmurphy.chesses.engine.rules;
 
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
+import fun.gusmurphy.chesses.engine.boardstate.MoveOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
 abstract class SinglePieceMovementRule implements MoveRule {
@@ -15,7 +16,7 @@ abstract class SinglePieceMovementRule implements MoveRule {
     }
 
     @Override
-    public RuleEvaluation evaluate(BoardState boardState, Move move) {
+    public RuleEvaluation evaluate(BoardState boardState, MoveOnBoard move) {
         RuleEvaluation.Legality legality = evaluation.evaluateLegality(boardState, move);
 
         switch (legality) {

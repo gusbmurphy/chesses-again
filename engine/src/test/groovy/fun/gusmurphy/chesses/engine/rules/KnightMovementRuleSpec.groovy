@@ -33,7 +33,7 @@ class KnightMovementRuleSpec extends MoveRuleSpecification {
         given:
         def piece = new Piece(BLACK, KNIGHT)
         def board = new BoardStateBuilder().addPieceAt(piece, KNIGHT_POSITION).build()
-        def move = new Move(piece.id(), coordinates)
+        def move = board.enhanceMove(new Move(piece.id(), coordinates))
 
         expect:
         def result = KNIGHT_RULE.evaluate(board, move)
@@ -47,9 +47,10 @@ class KnightMovementRuleSpec extends MoveRuleSpecification {
         given:
         def piece = new Piece(BLACK, KNIGHT)
         def board = new BoardStateBuilder().addPieceAt(piece, KNIGHT_POSITION).build()
+        def move = board.enhanceMove(new Move(piece.id(), coordinates as Coordinates))
 
         expect:
-        def result = KNIGHT_RULE.evaluate(board, new Move(piece.id(), coordinates as Coordinates))
+        def result = KNIGHT_RULE.evaluate(board, move)
         evaluationIsIllegalWithNoEffects(result)
 
         where:

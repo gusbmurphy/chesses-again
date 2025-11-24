@@ -33,9 +33,10 @@ class CantMoveThroughPiecesRuleSpec extends MoveRuleSpecification {
             .addPieceAt(movingPiece, E4)
             .addPieceAt(blockingPiece, blockingPosition)
             .build()
+        def move = board.enhanceMove(new Move(movingPiece.id(), moveCoordinates))
 
         expect:
-        def result = rule.evaluate(board, new Move(movingPiece.id(), moveCoordinates))
+        def result = rule.evaluate(board, move)
         evaluationIsIllegalWithNoEffects(result)
 
         where:
@@ -54,7 +55,7 @@ class CantMoveThroughPiecesRuleSpec extends MoveRuleSpecification {
             .addPieceAt(movingPiece, E4)
             .addPieceAt(occupyingPiece, D6)
             .build()
-        def move = new Move(movingPiece.id(), D6)
+        def move = board.enhanceMove(new Move(movingPiece.id(), D6))
 
         expect:
         def result = rule.evaluate(board, move)
@@ -69,7 +70,7 @@ class CantMoveThroughPiecesRuleSpec extends MoveRuleSpecification {
             .addPieceAt(movingPiece, E4)
             .addPieceAt(occupyingPiece, D6)
             .build()
-        def move = new Move(movingPiece.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(movingPiece.id(), moveCoordinates))
 
         expect:
         def result = rule.evaluate(board, move)

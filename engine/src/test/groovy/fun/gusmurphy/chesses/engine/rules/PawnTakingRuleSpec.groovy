@@ -38,7 +38,7 @@ class PawnTakingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(pawn, E6)
             .addPieceAt(otherPiece, moveCoordinates)
             .build()
-        def move = new Move(pawn.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(pawn.id(), moveCoordinates))
 
         expect:
         def result = rule.evaluate(board, move)
@@ -58,7 +58,7 @@ class PawnTakingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(pawn, E6)
             .addPieceAt(otherPiece, moveCoordinates)
             .build()
-        def move = new Move(pawn.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(pawn.id(), moveCoordinates))
 
         expect:
         def result = rule.evaluate(board, move)
@@ -80,7 +80,7 @@ class PawnTakingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(pawn, E6)
             .addPieceAt(otherPiece, moveCoordinates)
             .build()
-        def move = new Move(pawn.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(pawn.id(), moveCoordinates))
 
         expect:
         def result = rule.evaluate(board, move)
@@ -102,7 +102,7 @@ class PawnTakingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(pawn, E6)
             .addPieceAt(otherPiece, moveCoordinates)
             .build()
-        def move = new Move(pawn.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(pawn.id(), moveCoordinates))
 
         expect:
         def result = rule.evaluate(board, move)
@@ -122,7 +122,7 @@ class PawnTakingRuleSpec extends MoveRuleSpecification {
         def board = new BoardStateBuilder()
             .addPieceAt(pawn, E6)
             .build()
-        def move = new Move(pawn.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(pawn.id(), moveCoordinates))
 
         expect:
         def result = rule.evaluate(board, move)

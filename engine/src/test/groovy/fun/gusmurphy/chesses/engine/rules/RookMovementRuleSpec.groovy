@@ -87,7 +87,7 @@ class RookMovementRuleSpec extends MoveRuleSpecification {
     }
 
     private static Move rookMoveTo(Coordinates coordinates) {
-        return new Move(TEST_ROOK.id(), coordinates)
+        return TEST_BOARD.enhanceMove(new Move(TEST_ROOK.id(), coordinates))
     }
 
 }

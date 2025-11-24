@@ -6,14 +6,11 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent
 import fun.gusmurphy.chesses.engine.piece.Piece
-import groovy.transform.stc.ClosureParams
-import groovy.transform.stc.FirstParam
 import spock.lang.PendingFeature
 
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
-import static fun.gusmurphy.chesses.engine.rules.RuleEvaluation.Legality.*
 
 class CastlingRuleSpec extends MoveRuleSpecification {
 
@@ -29,7 +26,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
             finalRookPosition
         ) = colorAndPositions
         def (board, king, rook) = setupBoard(color, kingPosition, rookPosition)
-        def move = new Move(king.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(king.id(), moveCoordinates))
 
         expect:
         def evaluation = rule.evaluate(board, move)
@@ -57,7 +54,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(king, kingPosition)
             .build()
 
-        def move = new Move(king.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(king.id(), moveCoordinates))
 
         expect:
         def evaluation = rule.evaluate(board, move)
@@ -77,7 +74,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(nonRook, rookPosition)
             .build()
 
-        def move = new Move(king.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(king.id(), moveCoordinates))
 
         expect:
         def evaluation = rule.evaluate(board, move)
@@ -97,7 +94,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(rookOfOppositeColor, rookPosition)
             .build()
 
-        def move = new Move(king.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(king.id(), moveCoordinates))
 
         expect:
         def evaluation = rule.evaluate(board, move)
@@ -124,7 +121,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(rook, rookPosition)
             .addPieceAt(someOtherPiece, blockingCoordinates)
             .build()
-        def move = new Move(king.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(king.id(), moveCoordinates))
 
         expect:
         def evaluation = rule.evaluate(board, move)
@@ -137,7 +134,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
     def "the rule is unconcerned with basically any other move"() {
         given:
         def (board, king) = setupBoard(WHITE, E1, A1)
-        def move = new Move(king.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(king.id(), moveCoordinates))
 
         expect:
         rule.evaluate(board, move).isUnconcerned()
@@ -174,7 +171,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(king, kingPosition)
             .addPieceAt(rook, rookPosition)
             .build()
-        def move = new Move(king.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(king.id(), moveCoordinates))
 
         expect:
         evaluationIsIllegalWithNoEffects(rule.evaluate(board, move))
@@ -192,7 +189,7 @@ class CastlingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(king, kingPosition)
             .addPieceAt(rook, rookPosition)
             .build()
-        def move = new Move(king.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(king.id(), moveCoordinates))
 
         expect:
         evaluationIsIllegalWithNoEffects(rule.evaluate(board, move))

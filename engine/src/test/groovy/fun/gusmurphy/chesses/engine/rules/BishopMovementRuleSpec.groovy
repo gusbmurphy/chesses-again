@@ -1,5 +1,6 @@
 package fun.gusmurphy.chesses.engine.rules
 
+import fun.gusmurphy.chesses.engine.boardstate.MoveOnBoard
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
@@ -71,8 +72,9 @@ class BishopMovementRuleSpec extends MoveRuleSpecification {
         PAWN      | false
     }
 
-    private static Move bishopMoveTo(Coordinates coordinates) {
-        return new Move(TEST_BISHOP.id(), coordinates)
+    private static MoveOnBoard bishopMoveTo(Coordinates coordinates) {
+        def move = new Move(TEST_BISHOP.id(), coordinates)
+        return TEST_BOARD.enhanceMove(move)
     }
 
 }

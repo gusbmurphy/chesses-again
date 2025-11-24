@@ -38,7 +38,7 @@ class PieceTakingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(movingPiece, D4)
             .build()
 
-        def move = new Move(movingPiece.id(), coordinates)
+        def move = board.enhanceMove(new Move(movingPiece.id(), coordinates))
 
         when:
         def result = rule.evaluate(board, move)
@@ -58,7 +58,7 @@ class PieceTakingRuleSpec extends MoveRuleSpecification {
             .addPieceAt(takenPiece, D5)
             .build()
 
-        def move = new Move(movingPiece.id(), D5)
+        def move = board.enhanceMove(new Move(movingPiece.id(), D5))
 
         return [board, move, takenPiece]
     }

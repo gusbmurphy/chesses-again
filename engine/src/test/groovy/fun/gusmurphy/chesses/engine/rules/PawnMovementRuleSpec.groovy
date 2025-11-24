@@ -32,7 +32,7 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
         given:
         def pawn = new Piece(color, PAWN)
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
-        def move = new Move(pawn.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(pawn.id(), moveCoordinates))
 
         expect:
         def result = PAWN_RULE.evaluate(board, move)
@@ -48,7 +48,7 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
         given:
         def pawn = new Piece(color, PAWN)
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
-        def move = new Move(pawn.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(pawn.id(), moveCoordinates))
 
         expect:
         def result = PAWN_RULE.evaluate(board, move)
@@ -64,9 +64,10 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
         given:
         def pawn = new Piece(color, PAWN)
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
+        def move = board.enhanceMove(new Move(pawn.id(), moveCoordinates))
 
         expect:
-        def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates))
+        def result = PAWN_RULE.evaluate(board, move)
         evaluationIsIllegalWithNoEffects(result)
 
         where:
@@ -79,13 +80,14 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
         given:
         def pawn = new Piece(color, PAWN).afterMove()
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
+        def move = board.enhanceMove(new Move(pawn.id(), coordinates))
 
         expect:
-        def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), move))
+        def result = PAWN_RULE.evaluate(board, move)
         evaluationIsIllegalWithNoEffects(result)
 
         where:
-        color | move
+        color | coordinates
         WHITE | D6
         BLACK | D2
     }
@@ -94,9 +96,10 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
         given:
         def pawn = new Piece(color as PlayerColor, PAWN)
         def board = new BoardStateBuilder().addPieceAt(pawn, D4).build()
+        def move = board.enhanceMove(new Move(pawn.id(), moveCoordinates as Coordinates))
 
         expect:
-        def result = PAWN_RULE.evaluate(board, new Move(pawn.id(), moveCoordinates as Coordinates))
+        def result = PAWN_RULE.evaluate(board, move)
         evaluationIsIllegalWithNoEffects(result)
 
         where:
@@ -111,7 +114,7 @@ class PawnMovementRuleSpec extends MoveRuleSpecification {
             .addPieceAt(pawn, D4)
             .addPieceAt(otherPiece, D5)
             .build()
-        def move = new Move(pawn.id(), D5)
+        def move = board.enhanceMove(new Move(pawn.id(), D5))
 
         expect:
         def result = PAWN_RULE.evaluate(board, move)

@@ -16,7 +16,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
 
     private static final TEST_PIECE = new Piece(PlayerColor.WHITE, PieceType.KING)
     private static final DUMMY_BOARD = new BoardStateBuilder().addPieceAt(TEST_PIECE, Coordinates.A7).build()
-    private static final DUMMY_MOVE = new Move(TEST_PIECE.id(), Coordinates.A1)
+    private static final DUMMY_MOVE = DUMMY_BOARD.enhanceMove(new Move(TEST_PIECE.id(), Coordinates.A1))
     private static final MoveRule ALWAYS_LEGAL_RULE = new LegalAlwaysWithNoEffectsRule()
     private static final MoveRule ALWAYS_ILLEGAL_RULE = new IllegalAlwaysRule()
 
@@ -90,6 +90,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         def notThePieceType = PieceType.BISHOP
         def piece = new Piece(PlayerColor.WHITE, pieceType)
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+        def move = board.enhanceMove(new Move(piece.id(), Coordinates.E4))
 
         and: "a rule that's legal for the piece, and one that's illegal but not concerned with the piece"
         def legalRule = new LegalAlwaysWithNoEffectsRule(pieceType)
@@ -97,7 +98,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         def suite = new MoveRuleSuite(legalRule, illegalRule)
 
         expect:
-        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        def result = suite.evaluate(board, move)
         evaluationIsLegal(result)
     }
 
@@ -107,6 +108,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         def notThePieceType = PieceType.BISHOP
         def piece = new Piece(PlayerColor.WHITE, pieceType)
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+        def move = board.enhanceMove(new Move(piece.id(), Coordinates.E4))
 
         and: "a rule that's legal for the piece, and one that's illegal but not concerned with the piece"
         def legalRule = new LegalAlwaysWithNoEffectsRule(notThePieceType)
@@ -114,7 +116,7 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         def suite = new MoveRuleSuite(legalRule, illegalRule)
 
         expect:
-        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        def result = suite.evaluate(board, move)
         evaluationIsIllegalWithNoEffects(result)
     }
 
@@ -125,9 +127,10 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         def suite = new MoveRuleSuite(overriddenRule, overridingRule)
         def piece = new Piece()
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+        def move = board.enhanceMove(new Move(piece.id(), Coordinates.E4))
 
         expect:
-        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        def result = suite.evaluate(board, move)
         evaluationIsIllegalWithNoEffects(result)
     }
 
@@ -138,9 +141,10 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         def suite = new MoveRuleSuite(overriddenRule, overridingRule)
         def piece = new Piece()
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+        def move = board.enhanceMove(new Move(piece.id(), Coordinates.E4))
 
         expect:
-        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        def result = suite.evaluate(board, move)
         evaluationIsLegal(result)
     }
 
@@ -151,9 +155,10 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         def suite = new MoveRuleSuite(overriddenRule, overridingRule)
         def piece = new Piece()
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+        def move = board.enhanceMove(new Move(piece.id(), Coordinates.E4))
 
         expect:
-        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        def result = suite.evaluate(board, move)
         evaluationIsLegal(result)
     }
 
@@ -164,9 +169,10 @@ class MoveRuleSuiteSpec extends MoveRuleSpecification {
         def suite = new MoveRuleSuite(overriddenRule, overridingRule)
         def piece = new Piece()
         def board = new BoardStateBuilder().addPieceAt(piece, Coordinates.E6).build()
+        def move = board.enhanceMove(new Move(piece.id(), Coordinates.E4))
 
         expect:
-        def result = suite.evaluate(board, new Move(piece.id(), Coordinates.E4))
+        def result = suite.evaluate(board, move)
         evaluationIsIllegalWithNoEffects(result)
     }
 }

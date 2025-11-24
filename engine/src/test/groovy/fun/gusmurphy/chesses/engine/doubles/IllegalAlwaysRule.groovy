@@ -1,7 +1,7 @@
 package fun.gusmurphy.chesses.engine.doubles
 
 import fun.gusmurphy.chesses.engine.boardstate.BoardState
-import fun.gusmurphy.chesses.engine.Move
+import fun.gusmurphy.chesses.engine.boardstate.MoveOnBoard
 import fun.gusmurphy.chesses.engine.piece.PieceType
 import fun.gusmurphy.chesses.engine.rules.MoveRule
 import fun.gusmurphy.chesses.engine.rules.RuleEvaluation
@@ -19,7 +19,7 @@ class IllegalAlwaysRule implements MoveRule {
     }
 
     @Override
-    RuleEvaluation evaluate(BoardState boardState, Move move) {
+    RuleEvaluation evaluate(BoardState boardState, MoveOnBoard move) {
         return RuleEvaluation.ILLEGAL_EVALUATION
     }
 

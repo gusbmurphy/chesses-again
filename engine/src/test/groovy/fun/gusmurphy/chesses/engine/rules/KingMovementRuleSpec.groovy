@@ -30,7 +30,7 @@ class KingMovementRuleSpec extends MoveRuleSpecification {
         given:
         def king = new Piece(WHITE, KING)
         def board = new BoardStateBuilder().addPieceAt(king, D4).build()
-        def move = new Move(king.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(king.id(), moveCoordinates))
 
         when:
         def result = KING_RULE.evaluate(board, move)
@@ -46,7 +46,7 @@ class KingMovementRuleSpec extends MoveRuleSpecification {
         given:
         def king = new Piece(WHITE, KING)
         def board = new BoardStateBuilder().addPieceAt(king, D4).build()
-        def move = new Move(king.id(), moveCoordinates)
+        def move = board.enhanceMove(new Move(king.id(), moveCoordinates))
 
         when:
         def result = KING_RULE.evaluate(board, move)
