@@ -4,6 +4,7 @@ import fun.gusmurphy.chesses.engine.File;
 import fun.gusmurphy.chesses.engine.Move;
 import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.Rank;
+import fun.gusmurphy.chesses.engine.coordinates.CoordinateDifference;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.coordinates.LineOfCoordinates;
 import fun.gusmurphy.chesses.engine.piece.Piece;
@@ -57,6 +58,18 @@ public class BoardState {
 
     public PlayerColor currentTurnColor() {
         return currentTurnColor;
+    }
+
+    public CoordinateDifference coordinateDifferenceForMove(MoveOnBoard move) {
+        Coordinates movingPieceCoordinates =
+                pieceOnBoardForId(move.pieceId())
+                        .orElseThrow(
+                                () ->
+                                        new IllegalArgumentException(
+                                                "Move must be for a piece on the board"))
+                        .coordinates();
+
+        return new CoordinateDifference(movingPieceCoordinates, move.coordinates());
     }
 
     // TODO: This doesn't feel very good...

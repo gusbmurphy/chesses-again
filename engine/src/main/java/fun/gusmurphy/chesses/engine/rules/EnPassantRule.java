@@ -18,10 +18,8 @@ public class EnPassantRule implements MoveRule {
                 boardState
                         .pieceOnBoardForId(move.pieceId())
                         .orElseThrow(IllegalStateException::new);
-        Coordinates currentPieceCoordinates = movingPiece.coordinates();
 
-        CoordinateDifference difference =
-                new CoordinateDifference(currentPieceCoordinates, coordinatesOfMove);
+        CoordinateDifference difference = boardState.coordinateDifferenceForMove(move);
         if (difference.isNotDiagonal()) {
             return RuleEvaluation.unconcerned();
         }
