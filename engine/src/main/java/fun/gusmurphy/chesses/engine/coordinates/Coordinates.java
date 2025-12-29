@@ -126,9 +126,9 @@ public enum Coordinates {
         return file.toString().substring(0, 1).toLowerCase() + (rank.ordinal() + 1);
     }
 
-    public Coordinates coordinatesTo(int horizontalChange, int verticalChange) {
-        Rank newRank = Rank.values()[this.rank.ordinal() + horizontalChange];
-        File newFile = File.values()[this.file.ordinal() + verticalChange];
+    public Coordinates coordinatesTo(int rankChange, int fileChange) {
+        Rank newRank = Rank.values()[this.rank.ordinal() + rankChange];
+        File newFile = File.values()[this.file.ordinal() + fileChange];
         return Coordinates.with(newFile, newRank);
     }
 }
