@@ -22,10 +22,7 @@ public class EnPassantRule implements MoveRule {
             return RuleEvaluation.unconcerned();
         }
 
-        Optional<PieceOnBoard> enemyPawn =
-                findEnemyPawn(boardState, move.coordinates(), movingPiece);
-
-        return enemyPawn
+        return findEnemyPawn(boardState, move.coordinates(), movingPiece)
                 .map(piece -> createEvaluationWithEffects(move, piece))
                 .orElseGet(RuleEvaluation::unconcerned);
     }
