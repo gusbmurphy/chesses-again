@@ -109,6 +109,8 @@ public enum Coordinates {
         return Math.abs(rankDifferenceTo(other)) - Math.abs(fileDifferenceTo(other)) == 0;
     }
 
+    // TODO: Let's not use "ordinal" here, Joshua Bloch might hear about it and cause serious
+    // physical harm...
     public int rankDifferenceTo(Coordinates other) {
         return this.rank.ordinal() - other.rank.ordinal();
     }
