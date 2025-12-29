@@ -7,7 +7,6 @@ import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateReducer
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
 import fun.gusmurphy.chesses.engine.piece.Piece
-import spock.lang.Ignore
 
 import static fun.gusmurphy.chesses.engine.piece.PieceType.*
 import static fun.gusmurphy.chesses.engine.PlayerColor.*
@@ -32,15 +31,23 @@ class EnPassantRuleSpec extends MoveRuleSpecification {
         resultingBoard.pieceOnBoardForId(takingPawn.id()).orElseThrow().coordinates() == taking.move
 
         where:
-        taking                                                 | taken
-        new PieceParameters(color: WHITE, start: F5, move: E6) | new PieceParameters(color: BLACK, start: E7, move: E5)
-        new PieceParameters(color: WHITE, start: F5, move: G6) | new PieceParameters(color: BLACK, start: G7, move: G5)
-        new PieceParameters(color: BLACK, start: F4, move: E3) | new PieceParameters(color: WHITE, start: E2, move: E4)
-        new PieceParameters(color: BLACK, start: F4, move: G3) | new PieceParameters(color: WHITE, start: G2, move: G4)
+        [taking, taken] << testPieceParameters()
     }
 
-    @Ignore("To be implemented...")
     def "a pawn still can't move diagonally if there's no piece to take"() {
+        given:
+        def (movingPawn, _, engine) = setupEngineAndPawns(taking, taken)
+        def move = new Move(movingPawn.id(), taking.move)
+
+        when: "we don't move the other pawn"
+        engine.makeMove(move)
+
+        then:
+        def resultingBoard = engine.currentBoardState()
+        resultingBoard.pieceOnBoardForId(movingPawn.id()).orElseThrow().coordinates() == taking.start
+
+        where:
+        [taking, taken] << testPieceParameters()
     }
 
     private static class PieceParameters {
@@ -67,9 +74,19 @@ class EnPassantRuleSpec extends MoveRuleSpecification {
             .addPieceAt(takenPawn, taken.start)
             .build()
 
-        def engine = new ChessEngine(new BoardStateReducer(), new EnPassantRule(), board)
+        def rules = new MoveRuleSuite(new EnPassantRule(), new PawnMovementRule())
+        def engine = new ChessEngine(new BoardStateReducer(), rules, board)
 
         return [takingPawn, takenPawn, engine]
+    }
+
+    private static testPieceParameters() {
+        return [
+            [new PieceParameters(color: WHITE, start: F5, move: E6), new PieceParameters(color: BLACK, start: E7, move: E5)],
+            [new PieceParameters(color: WHITE, start: F5, move: G6), new PieceParameters(color: BLACK, start: G7, move: G5)],
+            [new PieceParameters(color: BLACK, start: F4, move: E3), new PieceParameters(color: WHITE, start: E2, move: E4)],
+            [new PieceParameters(color: BLACK, start: F4, move: G3), new PieceParameters(color: WHITE, start: G2, move: G4)]
+        ]
     }
 
 }

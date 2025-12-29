@@ -10,6 +10,7 @@ import fun.gusmurphy.chesses.engine.events.PieceRemovedEvent;
 import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
+import java.util.Optional;
 
 public class EnPassantRule implements MoveRule {
     @Override
@@ -25,20 +26,31 @@ public class EnPassantRule implements MoveRule {
             return RuleEvaluation.unconcerned();
         }
 
+        Optional<PieceOnBoard> enemyPawn =
+                findEnemyPawn(boardState, coordinatesOfMove, movingPiece);
+
+        return enemyPawn
+                .map(piece -> createEvaluationWithEffects(move, piece))
+                .orElseGet(RuleEvaluation::unconcerned);
+    }
+
+    private static RuleEvaluation createEvaluationWithEffects(
+            MoveOnBoard move, PieceOnBoard piece) {
+        return RuleEvaluation.legalWithEffectsFromEvents(
+                new PieceRemovedEvent(piece.id()),
+                new PieceMovedEvent(move.pieceId(), move.coordinates()));
+    }
+
+    private static Optional<PieceOnBoard> findEnemyPawn(
+            BoardState boardState, Coordinates coordinatesOfMove, PieceOnBoard movingPiece) {
         Coordinates possiblePositionOfEnemyPawn =
                 getPossiblePositionOfEnemyPawn(coordinatesOfMove, movingPiece);
-        PieceOnBoard enemyPawn =
-                boardState
-                        .pieceAtCoordinates(possiblePositionOfEnemyPawn)
-                        .orElseThrow(IllegalStateException::new);
-        return RuleEvaluation.legalWithEffectsFromEvents(
-                new PieceRemovedEvent(enemyPawn.id()),
-                new PieceMovedEvent(move.pieceId(), move.coordinates()));
+        return boardState.pieceAtCoordinates(possiblePositionOfEnemyPawn);
     }
 
     private static Coordinates getPossiblePositionOfEnemyPawn(
             Coordinates coordinatesOfMove, Piece movingPiece) {
-        int rankDifferenceToEnemyPawnPosition = movingPiece.color() == PlayerColor.WHITE ? 1 : -1;
+        int rankDifferenceToEnemyPawnPosition = movingPiece.color() == PlayerColor.WHITE ? -1 : 1;
 
         return coordinatesOfMove.coordinatesTo(rankDifferenceToEnemyPawnPosition, 0);
     }
@@ -46,5 +58,10 @@ public class EnPassantRule implements MoveRule {
     @Override
     public boolean isRelevantForPieceType(PieceType pieceType) {
         return pieceType == PieceType.PAWN;
+    }
+
+    @Override
+    public boolean overrides(MoveRule otherRule) {
+        return otherRule instanceof PawnMovementRule;
     }
 }
