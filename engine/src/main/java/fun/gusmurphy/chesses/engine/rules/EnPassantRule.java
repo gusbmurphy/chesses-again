@@ -15,11 +15,7 @@ import java.util.Optional;
 public class EnPassantRule implements MoveRule {
     @Override
     public RuleEvaluation evaluate(BoardState boardState, MoveOnBoard move) {
-        Coordinates coordinatesOfMove = move.coordinates();
-        PieceOnBoard movingPiece =
-                boardState
-                        .pieceOnBoardForId(move.pieceId())
-                        .orElseThrow(IllegalStateException::new);
+        PieceOnBoard movingPiece = move.pieceOnBoard();
 
         CoordinateDifference difference = boardState.coordinateDifferenceForMove(move);
         if (difference.isNotDiagonal()) {
@@ -27,7 +23,7 @@ public class EnPassantRule implements MoveRule {
         }
 
         Optional<PieceOnBoard> enemyPawn =
-                findEnemyPawn(boardState, coordinatesOfMove, movingPiece);
+                findEnemyPawn(boardState, move.coordinates(), movingPiece);
 
         return enemyPawn
                 .map(piece -> createEvaluationWithEffects(move, piece))
