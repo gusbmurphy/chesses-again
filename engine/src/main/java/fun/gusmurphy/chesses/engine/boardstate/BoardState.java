@@ -59,6 +59,7 @@ public class BoardState {
         return currentTurnColor;
     }
 
+    // TODO: This doesn't feel very good...
     public MoveOnBoard enhanceMove(Move move) {
         PieceOnBoard movingPiece = pieceOnBoardForId(move.pieceId()).get();
         return new MoveOnBoard(movingPiece, getStateFor(move.coordinates()));
