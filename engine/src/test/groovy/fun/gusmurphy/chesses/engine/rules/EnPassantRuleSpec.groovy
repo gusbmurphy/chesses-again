@@ -13,18 +13,16 @@ import static fun.gusmurphy.chesses.engine.coordinates.Coordinates.*
 
 class EnPassantRuleSpec extends MoveRuleSpecification {
 
+    private static takingPawn = new Piece(WHITE, PAWN)
+    private static takenPawn = new Piece(BLACK, PAWN)
+    private static board = new BoardStateBuilder()
+        .addPieceAt(takingPawn, F5)
+        .addPieceAt(takenPawn, E7)
+        .build()
+    private static engine = new ChessEngine(new BoardStateReducer(), new EnPassantRule(), board)
+
     def "a pawn can take another that has just taken it's double move by moving to the space behind it"() {
         given:
-        def takingPawn = new Piece(WHITE, PAWN)
-        def takenPawn = new Piece(BLACK, PAWN)
-
-        def board = new BoardStateBuilder()
-            .addPieceAt(takingPawn, F5)
-            .addPieceAt(takenPawn, E7)
-            .build()
-
-        def engine = new ChessEngine(new BoardStateReducer(), new EnPassantRule(), board)
-
         def takenPawnDoubleMove = new Move(takenPawn.id(), E5)
         def takingMove = new Move(takingPawn.id(), E6)
 
