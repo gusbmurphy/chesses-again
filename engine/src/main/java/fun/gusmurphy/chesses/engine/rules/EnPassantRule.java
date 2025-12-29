@@ -7,6 +7,7 @@ import fun.gusmurphy.chesses.engine.coordinates.CoordinateDifference;
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates;
 import fun.gusmurphy.chesses.engine.events.PieceMovedEvent;
 import fun.gusmurphy.chesses.engine.events.PieceRemovedEvent;
+import fun.gusmurphy.chesses.engine.piece.Piece;
 import fun.gusmurphy.chesses.engine.piece.PieceOnBoard;
 import fun.gusmurphy.chesses.engine.piece.PieceType;
 
@@ -24,9 +25,8 @@ public class EnPassantRule implements MoveRule {
             return RuleEvaluation.unconcerned();
         }
 
-        int rankDifferenceToEnemyPawnPosition = movingPiece.color() == PlayerColor.WHITE ? 1 : -1;
         Coordinates possiblePositionOfEnemyPawn =
-                coordinatesOfMove.coordinatesTo(rankDifferenceToEnemyPawnPosition, 0);
+                getPossiblePositionOfEnemyPawn(coordinatesOfMove, movingPiece);
         PieceOnBoard enemyPawn =
                 boardState
                         .pieceAtCoordinates(possiblePositionOfEnemyPawn)
@@ -34,6 +34,13 @@ public class EnPassantRule implements MoveRule {
         return RuleEvaluation.legalWithEffectsFromEvents(
                 new PieceRemovedEvent(enemyPawn.id()),
                 new PieceMovedEvent(move.pieceId(), move.coordinates()));
+    }
+
+    private static Coordinates getPossiblePositionOfEnemyPawn(
+            Coordinates coordinatesOfMove, Piece movingPiece) {
+        int rankDifferenceToEnemyPawnPosition = movingPiece.color() == PlayerColor.WHITE ? 1 : -1;
+
+        return coordinatesOfMove.coordinatesTo(rankDifferenceToEnemyPawnPosition, 0);
     }
 
     @Override
