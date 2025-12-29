@@ -30,6 +30,16 @@ public class EnPassantRule implements MoveRule {
                 .orElseGet(RuleEvaluation::unconcerned);
     }
 
+    @Override
+    public boolean isRelevantForPieceType(PieceType pieceType) {
+        return pieceType == PieceType.PAWN;
+    }
+
+    @Override
+    public boolean overrides(MoveRule otherRule) {
+        return otherRule instanceof PawnMovementRule;
+    }
+
     private static RuleEvaluation createEvaluationWithEffects(
             MoveOnBoard move, PieceOnBoard piece) {
         return RuleEvaluation.legalWithEffectsFromEvents(
@@ -49,15 +59,5 @@ public class EnPassantRule implements MoveRule {
         int rankDifferenceToEnemyPawnPosition = movingPiece.color() == PlayerColor.WHITE ? -1 : 1;
 
         return coordinatesOfMove.coordinatesTo(rankDifferenceToEnemyPawnPosition, 0);
-    }
-
-    @Override
-    public boolean isRelevantForPieceType(PieceType pieceType) {
-        return pieceType == PieceType.PAWN;
-    }
-
-    @Override
-    public boolean overrides(MoveRule otherRule) {
-        return otherRule instanceof PawnMovementRule;
     }
 }
