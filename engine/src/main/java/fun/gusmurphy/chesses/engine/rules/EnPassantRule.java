@@ -1,5 +1,6 @@
 package fun.gusmurphy.chesses.engine.rules;
 
+import fun.gusmurphy.chesses.engine.PlayerColor;
 import fun.gusmurphy.chesses.engine.boardstate.BoardState;
 import fun.gusmurphy.chesses.engine.boardstate.MoveOnBoard;
 import fun.gusmurphy.chesses.engine.coordinates.CoordinateDifference;
@@ -13,11 +14,11 @@ public class EnPassantRule implements MoveRule {
     @Override
     public RuleEvaluation evaluate(BoardState boardState, MoveOnBoard move) {
         Coordinates coordinatesOfMove = move.coordinates();
-        Coordinates currentPieceCoordinates =
+        PieceOnBoard movingPiece =
                 boardState
                         .pieceOnBoardForId(move.pieceId())
-                        .orElseThrow(IllegalStateException::new)
-                        .coordinates();
+                        .orElseThrow(IllegalStateException::new);
+        Coordinates currentPieceCoordinates = movingPiece.coordinates();
 
         CoordinateDifference difference =
                 new CoordinateDifference(currentPieceCoordinates, coordinatesOfMove);
@@ -25,7 +26,9 @@ public class EnPassantRule implements MoveRule {
             return RuleEvaluation.unconcerned();
         }
 
-        Coordinates possiblePositionOfEnemyPawn = coordinatesOfMove.coordinatesTo(1, 0);
+        int rankDifferenceToEnemyPawnPosition = movingPiece.color() == PlayerColor.WHITE ? 1 : -1;
+        Coordinates possiblePositionOfEnemyPawn =
+                coordinatesOfMove.coordinatesTo(rankDifferenceToEnemyPawnPosition, 0);
         PieceOnBoard enemyPawn =
                 boardState
                         .pieceAtCoordinates(possiblePositionOfEnemyPawn)
