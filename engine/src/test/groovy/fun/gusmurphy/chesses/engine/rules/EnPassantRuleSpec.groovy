@@ -17,14 +17,7 @@ class EnPassantRuleSpec extends MoveRuleSpecification {
 
     def "a pawn can take another that has just taken it's double move by moving to the space behind it"() {
         given:
-        def takingPawn = new Piece(taking.color, PAWN)
-        def takenPawn = new Piece(taken.color, PAWN)
-        def board = new BoardStateBuilder()
-            .addPieceAt(takingPawn, taking.start)
-            .addPieceAt(takenPawn, taken.start)
-            .build()
-
-        def engine = new ChessEngine(new BoardStateReducer(), new EnPassantRule(), board)
+        def (takingPawn, takenPawn, engine) = setupEngineAndPawns(taking, taken)
 
         def takenPawnDoubleMove = new Move(takenPawn.id(), taken.move)
         def takingMove = new Move(takingPawn.id(), taking.move)
@@ -64,6 +57,19 @@ class EnPassantRuleSpec extends MoveRuleSpecification {
                 ", move=" + move +
                 '}';
         }
+    }
+
+    private static setupEngineAndPawns(PieceParameters taking, PieceParameters taken) {
+        def takingPawn = new Piece(taking.color, PAWN)
+        def takenPawn = new Piece(taken.color, PAWN)
+        def board = new BoardStateBuilder()
+            .addPieceAt(takingPawn, taking.start)
+            .addPieceAt(takenPawn, taken.start)
+            .build()
+
+        def engine = new ChessEngine(new BoardStateReducer(), new EnPassantRule(), board)
+
+        return [takingPawn, takenPawn, engine]
     }
 
 }
