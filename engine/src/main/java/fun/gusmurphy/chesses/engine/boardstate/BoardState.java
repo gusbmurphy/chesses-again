@@ -43,6 +43,19 @@ public class BoardState {
         }
     }
 
+    protected BoardState movePiece(PieceId pieceId, Coordinates newPosition) {
+        Piece movingPiece = findPieceWithId(pieceId).orElseThrow(UnknownPieceException::new);
+        BoardState newState = copy();
+        newState.pieces.remove(movingPiece);
+        newState.pieces.add(movingPiece.afterMove());
+        newState.coordinatesForPieces.put(pieceId, newPosition);
+        return newState;
+    }
+
+    private Optional<Piece> findPieceWithId(PieceId id) {
+        return pieces.stream().filter(piece -> piece.id() == id).findFirst();
+    }
+
     private BoardState() {
         coordinatesOnBoard = new HashSet<>();
     }
