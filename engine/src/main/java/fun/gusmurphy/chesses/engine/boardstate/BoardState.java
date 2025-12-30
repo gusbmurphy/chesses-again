@@ -60,6 +60,12 @@ public class BoardState {
         return newState;
     }
 
+    protected BoardState changeTurn(PlayerColor newTurnColor) {
+        BoardState newState = copy();
+        newState.currentTurnColor = newTurnColor;
+        return newState;
+    }
+
     private Optional<Piece> findPieceWithId(PieceId id) {
         return pieces.stream().filter(piece -> piece.id() == id).findFirst();
     }

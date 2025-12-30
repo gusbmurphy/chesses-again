@@ -13,7 +13,7 @@ public class BoardStateReducer implements ReducesBoardState {
         } else if (event instanceof PieceRemovedEvent) {
             return handlePieceRemovedEvent((PieceRemovedEvent) event, newBoardState);
         } else if (event instanceof TurnChangeEvent) {
-            handleTurnChangeEvent((TurnChangeEvent) event, newBoardState);
+            return handleTurnChangeEvent((TurnChangeEvent) event, newBoardState);
         }
 
         return newBoardState;
@@ -28,7 +28,7 @@ public class BoardStateReducer implements ReducesBoardState {
         return boardState.removePiece(event.pieceId());
     }
 
-    private static void handleTurnChangeEvent(TurnChangeEvent event, BoardState boardState) {
-        boardState.currentTurnColor = event.newTurnColor();
+    private static BoardState handleTurnChangeEvent(TurnChangeEvent event, BoardState boardState) {
+        return boardState.changeTurn(event.newTurnColor());
     }
 }
