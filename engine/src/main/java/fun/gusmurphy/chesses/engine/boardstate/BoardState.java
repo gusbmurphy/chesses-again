@@ -52,6 +52,14 @@ public class BoardState {
         return newState;
     }
 
+    protected BoardState removePiece(PieceId pieceId) {
+        Piece removedPiece = findPieceWithId(pieceId).orElseThrow(UnknownPieceException::new);
+        BoardState newState = copy();
+        newState.pieces.remove(removedPiece);
+        newState.coordinatesForPieces.remove(removedPiece.id());
+        return newState;
+    }
+
     private Optional<Piece> findPieceWithId(PieceId id) {
         return pieces.stream().filter(piece -> piece.id() == id).findFirst();
     }
