@@ -31,11 +31,16 @@ public class LineOfCoordinates {
         int horizontalChange = getHorizontalChange(a, b);
         int verticalChange = getVerticalChange(a, b);
 
-        Coordinates next = a.coordinatesTo(horizontalChange, verticalChange);
+        // TODO: Probably better to use some sort of stream here...
+        Coordinates next =
+                a.coordinatesTo(horizontalChange, verticalChange)
+                        .orElseThrow(IllegalArgumentException::new);
 
         while (next != b) {
             lineList.add(next);
-            next = next.coordinatesTo(horizontalChange, verticalChange);
+            next =
+                    next.coordinatesTo(horizontalChange, verticalChange)
+                            .orElseThrow(IllegalArgumentException::new);
         }
 
         return lineList;

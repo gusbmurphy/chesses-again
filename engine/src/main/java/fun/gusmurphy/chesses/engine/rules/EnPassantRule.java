@@ -47,15 +47,15 @@ public class EnPassantRule implements MoveRule {
 
     private static Optional<PieceOnBoard> findEnemyPawn(
             BoardState boardState, Coordinates coordinatesOfMove, PieceOnBoard movingPiece) {
-        Coordinates possiblePositionOfEnemyPawn =
-                getPossiblePositionOfEnemyPawn(coordinatesOfMove, movingPiece);
-        return boardState.pieceAtCoordinates(possiblePositionOfEnemyPawn);
+
+        return getPossiblePositionOfEnemyPawn(coordinatesOfMove, movingPiece)
+                .flatMap(boardState::pieceAtCoordinates);
     }
 
-    private static Coordinates getPossiblePositionOfEnemyPawn(
+    private static Optional<Coordinates> getPossiblePositionOfEnemyPawn(
             Coordinates coordinatesOfMove, Piece movingPiece) {
-        int rankDifferenceToEnemyPawnPosition = movingPiece.color() == PlayerColor.WHITE ? -1 : 1;
 
+        int rankDifferenceToEnemyPawnPosition = movingPiece.color() == PlayerColor.WHITE ? -1 : 1;
         return coordinatesOfMove.coordinatesTo(rankDifferenceToEnemyPawnPosition, 0);
     }
 }

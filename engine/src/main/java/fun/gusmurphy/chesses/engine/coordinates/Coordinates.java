@@ -86,7 +86,7 @@ public enum Coordinates {
         return Arrays.stream(values())
                 .filter(coordinates -> coordinates.file == file && coordinates.rank == rank)
                 .findFirst()
-                .get();
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     public File file() {
@@ -109,14 +109,12 @@ public enum Coordinates {
         return Math.abs(rankDifferenceTo(other)) - Math.abs(fileDifferenceTo(other)) == 0;
     }
 
-    // TODO: Let's not use "ordinal" here, Joshua Bloch might hear about it and cause serious
-    // physical harm...
     public int rankDifferenceTo(Coordinates other) {
-        return this.rank.ordinal() - other.rank.ordinal();
+        return this.rank.yValue - other.rank.yValue;
     }
 
     public int fileDifferenceTo(Coordinates other) {
-        return this.file.ordinal() - other.file.ordinal();
+        return this.file.xValue - other.file.xValue;
     }
 
     public Optional<LineOfCoordinates> lineTo(Coordinates other) {
@@ -125,12 +123,20 @@ public enum Coordinates {
 
     @Override
     public String toString() {
-        return file.toString().substring(0, 1).toLowerCase() + (rank.ordinal() + 1);
+        return file.toString().substring(0, 1).toLowerCase() + (rank.yValue + 1);
     }
 
-    public Coordinates coordinatesTo(int rankChange, int fileChange) {
-        Rank newRank = Rank.values()[this.rank.ordinal() + rankChange];
-        File newFile = File.values()[this.file.ordinal() + fileChange];
-        return Coordinates.with(newFile, newRank);
+    public Optional<Coordinates> coordinatesTo(int rankChange, int fileChange) {
+        int y = this.rank.yValue + rankChange;
+        if (y < 0 || y > MAX_Y_VALUE) {
+            return Optional.empty();
+        }
+
+        int x = this.file.xValue + fileChange;
+        if (x < 0 || x > MAX_X_VALUE) {
+            return Optional.empty();
+        }
+
+        return Optional.of(Coordinates.with(File.withXValue(x), Rank.withYValue(y)));
     }
 }
