@@ -14,10 +14,9 @@ import java.util.*;
 
 public class BoardState {
 
-    // TODO: Feels a little bad to make this members `protected`...
-    protected PlayerColor currentTurnColor;
-    protected final Set<Piece> pieces = new HashSet<>();
-    protected final Map<PieceId, Coordinates> coordinatesForPieces = new HashMap<>();
+    private final PlayerColor currentTurnColor;
+    private final Set<Piece> pieces;
+    private final Map<PieceId, Coordinates> coordinatesForPieces;
     private final Set<Coordinates> coordinatesOnBoard;
 
     // TODO: Throw an exception if two pieces are at the same coordinates.
@@ -36,6 +35,8 @@ public class BoardState {
         }
         this.coordinatesOnBoard = coordinatesOnBoard;
 
+        this.pieces = new HashSet<>();
+        this.coordinatesForPieces = new HashMap<>();
         for (Map.Entry<Coordinates, Piece> pieceAtCoordinates : piecesAtCoordinates.entrySet()) {
             Piece piece = pieceAtCoordinates.getValue();
             pieces.add(piece);
@@ -43,44 +44,60 @@ public class BoardState {
         }
     }
 
+    protected BoardState(
+            PlayerColor currentTurnColor,
+            Set<Piece> pieces,
+            Map<PieceId, Coordinates> coordinatesForPieces,
+            Set<Coordinates> coordinatesOnBoard) {
+        this.currentTurnColor = currentTurnColor;
+        this.pieces = pieces;
+        this.coordinatesForPieces = coordinatesForPieces;
+        this.coordinatesOnBoard = coordinatesOnBoard;
+    }
+
     protected BoardState movePiece(PieceId pieceId, Coordinates newPosition) {
         Piece movingPiece = findPieceWithId(pieceId).orElseThrow(UnknownPieceException::new);
-        BoardState newState = copy();
-        newState.pieces.remove(movingPiece);
-        newState.pieces.add(movingPiece.afterMove());
-        newState.coordinatesForPieces.put(pieceId, newPosition);
-        return newState;
+
+        Set<Piece> newPieces = new HashSet<>(pieces);
+        newPieces.remove(movingPiece);
+        newPieces.add(movingPiece.afterMove());
+
+        Map<PieceId, Coordinates> newCoordinatesForPieces = new HashMap<>(coordinatesForPieces);
+        newCoordinatesForPieces.put(pieceId, newPosition);
+
+        return new BoardState(
+                currentTurnColor,
+                newPieces,
+                newCoordinatesForPieces,
+                new HashSet<>(coordinatesOnBoard));
     }
 
     protected BoardState removePiece(PieceId pieceId) {
         Piece removedPiece = findPieceWithId(pieceId).orElseThrow(UnknownPieceException::new);
-        BoardState newState = copy();
-        newState.pieces.remove(removedPiece);
-        newState.coordinatesForPieces.remove(removedPiece.id());
-        return newState;
+
+        Set<Piece> newPieces = new HashSet<>(pieces);
+        newPieces.remove(removedPiece);
+
+        Map<PieceId, Coordinates> newCoordinatesForPieces = new HashMap<>(coordinatesForPieces);
+        newCoordinatesForPieces.remove(removedPiece.id());
+
+        return new BoardState(
+                currentTurnColor,
+                newPieces,
+                newCoordinatesForPieces,
+                new HashSet<>(coordinatesOnBoard));
     }
 
     protected BoardState changeTurn(PlayerColor newTurnColor) {
-        BoardState newState = copy();
-        newState.currentTurnColor = newTurnColor;
-        return newState;
+        return new BoardState(
+                newTurnColor,
+                new HashSet<>(pieces),
+                new HashMap<>(coordinatesForPieces),
+                new HashSet<>(coordinatesOnBoard));
     }
 
     private Optional<Piece> findPieceWithId(PieceId id) {
         return pieces.stream().filter(piece -> piece.id() == id).findFirst();
-    }
-
-    private BoardState() {
-        coordinatesOnBoard = new HashSet<>();
-    }
-
-    protected BoardState copy() {
-        BoardState copy = new BoardState();
-        copy.currentTurnColor = currentTurnColor;
-        copy.pieces.addAll(pieces);
-        copy.coordinatesForPieces.putAll(coordinatesForPieces);
-        copy.coordinatesOnBoard.addAll(coordinatesOnBoard);
-        return copy;
     }
 
     public PlayerColor currentTurnColor() {
