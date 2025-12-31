@@ -18,6 +18,7 @@ public class BoardState {
     private final Set<Piece> pieces;
     private final Map<PieceId, Coordinates> coordinatesForPieces;
     private final Set<Coordinates> coordinatesOnBoard;
+    private final PieceId lastMovedPiece;
 
     // TODO: Throw an exception if two pieces are at the same coordinates.
     protected BoardState(
@@ -42,6 +43,8 @@ public class BoardState {
             pieces.add(piece);
             coordinatesForPieces.put(piece.id(), pieceAtCoordinates.getKey());
         }
+
+        lastMovedPiece = null;
     }
 
     protected BoardState(
@@ -53,6 +56,20 @@ public class BoardState {
         this.pieces = pieces;
         this.coordinatesForPieces = coordinatesForPieces;
         this.coordinatesOnBoard = coordinatesOnBoard;
+        lastMovedPiece = null;
+    }
+
+    protected BoardState(
+            PlayerColor currentTurnColor,
+            Set<Piece> pieces,
+            Map<PieceId, Coordinates> coordinatesForPieces,
+            Set<Coordinates> coordinatesOnBoard,
+            PieceId lastMovedPiece) {
+        this.currentTurnColor = currentTurnColor;
+        this.pieces = pieces;
+        this.coordinatesForPieces = coordinatesForPieces;
+        this.coordinatesOnBoard = coordinatesOnBoard;
+        this.lastMovedPiece = lastMovedPiece;
     }
 
     protected BoardState movePiece(PieceId pieceId, Coordinates newPosition) {
@@ -69,7 +86,8 @@ public class BoardState {
                 currentTurnColor,
                 newPieces,
                 newCoordinatesForPieces,
-                new HashSet<>(coordinatesOnBoard));
+                new HashSet<>(coordinatesOnBoard),
+                pieceId);
     }
 
     protected BoardState removePiece(PieceId pieceId) {
@@ -161,6 +179,14 @@ public class BoardState {
         }
 
         return new BoardCoordinateStates(statesList);
+    }
+
+    public boolean pieceMovedLast(PieceOnBoard otherPawn) {
+        if (lastMovedPiece == null) {
+            return false;
+        }
+
+        return lastMovedPiece == otherPawn.id();
     }
 
     private BoardCoordinateState getStateFor(Coordinates coordinates) {

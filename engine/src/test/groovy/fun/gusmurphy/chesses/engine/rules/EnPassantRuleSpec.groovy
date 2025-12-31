@@ -3,6 +3,7 @@ package fun.gusmurphy.chesses.engine.rules
 import fun.gusmurphy.chesses.engine.ChessEngine
 import fun.gusmurphy.chesses.engine.Move
 import fun.gusmurphy.chesses.engine.PlayerColor
+import fun.gusmurphy.chesses.engine.boardstate.BoardState
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateBuilder
 import fun.gusmurphy.chesses.engine.boardstate.BoardStateReducer
 import fun.gusmurphy.chesses.engine.coordinates.Coordinates
@@ -50,6 +51,32 @@ class EnPassantRuleSpec extends MoveRuleSpecification {
         [taking, taken] << testPieceParameters()
     }
 
+    def "the en passant move can only happen on the very next turn"() {
+        given:
+        def doubleMovePawn = new Piece(BLACK, PAWN)
+        def movingPawn = new Piece(WHITE, PAWN)
+        def someOtherPawn = new Piece(BLACK, PAWN)
+
+        def board = new BoardStateBuilder()
+            .addPieceAt(doubleMovePawn, E7)
+            .addPieceAt(someOtherPawn, H7)
+            .addPieceAt(movingPawn, F4)
+            .build()
+
+        def engine = engineWithLimitedRules(board)
+
+        when:
+        engine.makeMove(new Move(doubleMovePawn.id(), E5))
+        engine.makeMove(new Move(movingPawn.id(), F5))
+        engine.makeMove(new Move(someOtherPawn.id(), H6))
+        engine.makeMove(new Move(movingPawn.id(), E6))
+
+        then: "the last en passant move should not have happened"
+        def finalBoard = engine.currentBoardState()
+        finalBoard.pieceOnBoardForId(doubleMovePawn.id()).isPresent()
+        finalBoard.pieceOnBoardForId(movingPawn.id()).orElseThrow().coordinates() == F5
+    }
+
     private static class PieceParameters {
         PlayerColor color
         Coordinates start
@@ -74,10 +101,15 @@ class EnPassantRuleSpec extends MoveRuleSpecification {
             .addPieceAt(takenPawn, taken.start)
             .build()
 
-        def rules = new MoveRuleSuite(new EnPassantRule(), new PawnMovementRule())
-        def engine = new ChessEngine(new BoardStateReducer(), rules, board)
+        def engine = engineWithLimitedRules(board)
 
         return [takingPawn, takenPawn, engine]
+    }
+
+    private static ChessEngine engineWithLimitedRules(BoardState board) {
+        def rules = new MoveRuleSuite(new EnPassantRule(), new PawnMovementRule())
+        def engine = new ChessEngine(new BoardStateReducer(), rules, board)
+        return engine
     }
 
     private static testPieceParameters() {
