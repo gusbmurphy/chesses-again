@@ -23,7 +23,7 @@ public class EnPassantRule implements MoveRule {
         }
 
         return findEnemyPawn(boardState, move.coordinates(), movingPiece)
-                .filter(otherPawn -> boardState.pieceMovedLast(otherPawn))
+                .filter(boardState::pieceMovedLast)
                 .map(piece -> createEvaluationWithEffects(move, piece))
                 .orElseGet(RuleEvaluation::unconcerned);
     }
